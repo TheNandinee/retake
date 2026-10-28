@@ -1,0 +1,22 @@
+{
+  "name": "E009_vision_v3",
+  "timestamp": "2026-10-28T18:25:29.247135",
+  "git_commit": "c490325",
+  "git_dirty": true,
+  "packages": {
+    "numpy": "2.4.6",
+    "pandas": "3.1.0",
+    "scikit-learn": "1.9.1",
+    "openai": "3.40.0",
+    "huggingface_hub": "2.3.0"
+  },
+  "files": [
+    "botfails_labels.csv",
+    "ledger.jsonl",
+    "signals_BotFails.csv",
+    "signals_vifailback-dataset-lerobot.csv",
+    "vision_check_BotFails.csv",
+    "vision_v2_dev.csv",
+    "vision_v3_dev.csv"
+  ]
+}

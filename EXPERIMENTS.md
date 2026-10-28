@@ -53,3 +53,15 @@ Human review of the contact sheets from E006:
 - soldering ep14: human hand visible in workspace. Model noticed it but didn't treat it as an anomaly → prompt gap.
 - hatchAndProbe ep2: reviewer couldn't judge from 8 frames → needs final-state comparison against a reference.
 **Conclusion:** most errors come from the model not knowing what "correct" looks like for each task → vision v2 adds reference frames from a known-good demo.
+- **Follow-up on pouringCoffee ep19:** spill is NOT present at the start; it occurs during the episode, but is small, off to the side, and doesn't interfere with the task. → A genuine minor spill in an episode the dataset documents as normal. Not claimed as a label error: the authors evidently considered it acceptable.
+- **Product implication:** detections need a severity level (minor / major / critical) so users can set their own tolerance. Planned for vision v3.
+
+## E008 — Vision v2: reference-conditioned audit, dev set · 2026-10-28
+- Each request: 2 frames (start/end) of a known-good expert demo of the same task (dev split only) + 6 episode frames (always includes first and last moments). Prompt adds human-in-workspace rule, viewpoint guidance via the reference, describe-then-decide output.
+- **Same 20 as E006: 70% (was 60%), caught 6/10, false alarms 2/10 (was 4/10)**
+- **20 new dev episodes: 75%, caught 7/10, false alarms 2/10**, so the improvement holds on unseen episodes (no overfitting to the E006 set)
+- **All 40: 72%, caught 13/20, false alarms 4/20.** Cumulative spend $0.066
+- Fixed: setTheTable left/right false alarms; human hand in soldering ep14 now caught as `human_intervention`; minor spill in pouring ep19 no longer flagged (consistent with dataset label)
+- **Remaining error pattern:** tasks whose result isn't visible in the final frame (buttons, hatch/probe). End-state comparison misses mid-task errors (wrong hole, red plug) and wrongly flags correct demos ("start = end, so nothing happened").
+- **Next (v3):** pick episode frames at gripper grasp/release moments from the motion data, so motion tells vision where to look. Add severity levels.
+- Log: `evidence/logs/E008_vision_v2_reference_dev.txt`

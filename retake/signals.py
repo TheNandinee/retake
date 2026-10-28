@@ -40,3 +40,17 @@ def episode_signals(ep, fps, grip_idx):
         "jerk":           float(jerk),
         "track_err":      float(np.abs(a - s).mean()),
     }
+
+def gripper_events(ep, fps, grip_idx):
+    """Times (s) when any gripper closes (grasp) or opens (release)."""
+    ep = ep.sort_values("frame_index")
+    s = to_mat(ep["observation.state"])
+    events = []
+    for i in grip_idx:
+        g = s[:, i % s.shape[1]]
+        g = (g - g.min()) / (np.ptp(g) + 1e-9)
+        is_open = g[0] > 0.5
+        for k, x in enumerate(g):
+            if is_open and x < 0.3: is_open = False; events.append(k / fps)
+            elif not is_open and x > 0.7: is_open = True; events.append(k / fps)
+    return sorted(events)
