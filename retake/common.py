@@ -85,6 +85,7 @@ def contact_sheet(ims, cols=4, cell=(448, 336)):
 def episode_video(repo, path, dataset_rel, ep, cam):
     """Download (once) and return the local mp4 path for one episode (LeRobot v2.x)."""
     info = load_info(Path(path) / dataset_rel)
-    rel = f"{dataset_rel}/" + info["video_path"].format(
+    prefix = "" if str(dataset_rel) in (".", "") else f"{dataset_rel}/"
+    rel = prefix + info["video_path"].format(
         episode_chunk=ep // info.get("chunks_size", 1000), video_key=cam, episode_index=ep)
     return hf_hub_download(repo, rel, repo_type="dataset", local_dir=path)

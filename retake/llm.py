@@ -1,4 +1,4 @@
-import os, io, json, time, base64, hashlib
+import os, io, json, time, base64, hashlib, threading
 from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -17,6 +17,7 @@ BUDGET = float(os.getenv("RETAKE_BUDGET_USD", "3.0"))
 DRY_RUN = os.getenv("RETAKE_DRY_RUN", "0") == "1"
 CACHE = Path("results/llm_cache"); CACHE.mkdir(parents=True, exist_ok=True)
 LEDGER = Path("results/ledger.jsonl")
+_LOCK = threading.Lock()
 
 client = OpenAI(base_url="https://api.tokenfactory.nebius.com/v1/",
                 api_key=os.environ["NEBIUS_API_KEY"])
@@ -52,9 +53,10 @@ def chat(model, messages, max_tokens=600, think=False, tag=""):
     cost = u.prompt_tokens * p_in + u.completion_tokens * p_out
     content = r.choices[0].message.content
 
-    cached.write_text(json.dumps({"model": model, "content": content}))
-    with LEDGER.open("a") as f:
-        f.write(json.dumps({"ts": time.time(), "model": model, "tag": tag,
-                            "in": u.prompt_tokens, "out": u.completion_tokens,
-                            "cost": round(cost, 8), "secs": round(time.time() - t0, 2)}) + "\n")
+    with _LOCK:
+        cached.write_text(json.dumps({"model": model, "content": content}))
+        with LEDGER.open("a") as f:
+            f.write(json.dumps({"ts": time.time(), "model": model, "tag": tag,
+                                "in": u.prompt_tokens, "out": u.completion_tokens,
+                                "cost": round(cost, 8), "secs": round(time.time() - t0, 2)}) + "\n")
     return content
