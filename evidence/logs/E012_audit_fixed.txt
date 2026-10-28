@@ -1,0 +1,16 @@
+[1/4] Motion layer...
+      323 episodes in dataset | auditing 40 across 10 tasks | 2 motion-flagged
+[2/4] Vision layer (nvidia/Nemotron-3.5-Super-VL, 4 parallel, reference=first)...
+      1/40 episodes checked      2/40 episodes checked      3/40 episodes checked      4/40 episodes checked      5/40 episodes checked      6/40 episodes checked      7/40 episodes checked      8/40 episodes checked      9/40 episodes checked      10/40 episodes checked      11/40 episodes checked      12/40 episodes checked      13/40 episodes checked      14/40 episodes checked      15/40 episodes checked      16/40 episodes checked      17/40 episodes checked      18/40 episodes checked      19/40 episodes checked      20/40 episodes checked      21/40 episodes checked      22/40 episodes checked      23/40 episodes checked      24/40 episodes checked      25/40 episodes checked      26/40 episodes checked      27/40 episodes checked      28/40 episodes checked      29/40 episodes checked      30/40 episodes checked      31/40 episodes checked      32/40 episodes checked      33/40 episodes checked      34/40 episodes checked      35/40 episodes checked      36/40 episodes checked      37/40 episodes checked      38/40 episodes checked      39/40 episodes checked      40/40 episodes checked
+[3/4] Verdicts...
+[4/4] Summary (nvidia/Nemotron-3-Ultra-550b-a55b)...
+
+=== Retake audit: kantine/BotFails ===
+Health score: 52.5%  |  clean 21  review 14  retake 5
+Retake issues: {'spill': 3, 'wrong_placement': 2}
+Review issues: {'incomplete': 13, 'none': 1}
+Model cost: $0.0447  ($1.12 per 1,000 episodes)  |  37s
+Report: reports/kantine__BotFails/summary.md
+40 audited episodes with labels | 12 real failures
+  RETAKE list    precision  80% | caught 4/12 | false alarms 1/28
+  RETAKE+REVIEW  precision  53% | caught 10/12 | false alarms 9/28

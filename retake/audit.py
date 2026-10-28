@@ -15,6 +15,12 @@ from retake.llm import chat, spent
 
 JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "nvidia/Nemotron-3-Ultra-550b-a55b")
 LEAK = re.compile(r"\d+\s*[:\-]\s*\d+|anomal|normal test|wrong", re.I)
+
+# Failure types backed by something visible in the frames -> eligible for the RETAKE list.
+# Anything else the vision layer flags (e.g. "incomplete") goes to REVIEW (see E011).
+VISIBLE = {"spill", "dropped_object", "human_intervention", "wrong_object",
+           "wrong_placement", "collision", "wrong_target"}
+
 FEATS = ["duration_s", "idle_ratio", "longest_idle_s", "grip_closes", "jerk", "track_err"]
 MOTION_RULES = [
     ("duration_s_z",     "<", -2.0, "much shorter than other demos of this task - possibly incomplete or cut off"),
@@ -105,12 +111,14 @@ def task_text_for(task_key, m, roots):
             return t
     return task_key.split("::")[0].replace("_", " ")
 
-def pick_reference(task_key, m, exclude, self_key):
+def pick_reference(task_key, m, exclude, self_key, mode="first"):
+    """mode='first': lowest-index demo (E008 setting). mode='typical': most typical motion (E010)."""
     g = m[(m.task_key == task_key) & ~m.key.isin(exclude) & (m.key != self_key)]
     if g.empty:
         return None
     g = g.assign(pref=(~g.dataset.str.endswith("_expert")).astype(int))
-    return g.sort_values(["pref", "motion_score"]).iloc[0]
+    order = ["pref", "episode_index"] if mode == "first" else ["pref", "motion_score"]
+    return g.sort_values(order).iloc[0]
 
 def select(m, limit, exclude, seed=0):
     pool = m[~m.key.isin(exclude)]
@@ -136,6 +144,8 @@ def main():
     ap.add_argument("--exclude", default=None, help="CSV of dataset,episode_index to skip (e.g. a frozen test split)")
     ap.add_argument("--cam", default=None, help="camera key (default: first video feature)")
     ap.add_argument("--vision", choices=["all", "flagged", "none"], default="all")
+    ap.add_argument("--reference", choices=["first", "typical"], default="first",
+                    help="how to pick each task's known-good reference demo")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
@@ -169,7 +179,7 @@ def main():
         try:
             if a.vision == "flagged" and not r.motion_flags:
                 return r.key, {}
-            ref = pick_reference(r.task_key, m, exclude, r.key)
+            ref = pick_reference(r.task_key, m, exclude, r.key, a.reference)
             if ref is None:
                 return r.key, {}
             video = episode_video(a.repo, path, r.dataset, int(r.episode_index), cam)
@@ -182,7 +192,7 @@ def main():
 
     results = {}
     if do_vision:
-        print(f"[2/4] Vision layer ({VISION_MODEL}, {a.workers} parallel)...")
+        print(f"[2/4] Vision layer ({VISION_MODEL}, {a.workers} parallel, reference={a.reference})...")
         with ThreadPoolExecutor(a.workers) as ex:
             futs = [ex.submit(job, r) for _, r in sel.iterrows()]
             for i, f in enumerate(as_completed(futs), 1):
@@ -193,18 +203,25 @@ def main():
     print("[3/4] Verdicts...")
     out_dir = Path(a.out or f"reports/{a.repo.replace('/', '__')}")
     (out_dir / "frames").mkdir(parents=True, exist_ok=True)
+    for old in (out_dir / "frames").glob("*.jpg"):
+        old.unlink()   # don't keep frames from a previous run
     recs = []
     for _, r in sel.iterrows():
         res = results.get(r.key, {})
         v = res.get("vision") or {}
         frames = v.pop("_frames", None)
         anomaly = str(v.get("anomaly")).lower() == "true"
-        status = ("retake" if anomaly else
-                  "review" if (r.motion_flags or "raw" in v or "error" in res) else "clean")
+        ftype = str(v.get("failure_type") or "none")
+        if anomaly and ftype in VISIBLE:
+            status = "retake"            # strong, visible evidence
+        elif anomaly or r.motion_flags or "raw" in v or "error" in res:
+            status = "review"            # uncertain (e.g. "incomplete"), needs a human look
+        else:
+            status = "clean"
         rec = dict(dataset=r.dataset, episode_index=int(r.episode_index), task_key=r.task_key,
-                   task=tasks[r.task_key], status=status, duration_s=round(r.duration_s, 1),
-                   motion_score=round(r.motion_score, 2), motion_flags=r.motion_flags,
-                   failure_type=v.get("failure_type"), reason=v.get("reason"),
+                   task=tasks[r.task_key], status=status, vision_anomaly=anomaly,
+                   duration_s=round(r.duration_s, 1), motion_score=round(r.motion_score, 2),
+                   motion_flags=r.motion_flags, failure_type=v.get("failure_type"), reason=v.get("reason"),
                    evidence_time_s=v.get("evidence_time_s"), confidence=v.get("confidence"),
                    human_in_workspace=v.get("human_in_workspace"), reference=res.get("ref"),
                    error=res.get("error"))
@@ -225,7 +242,8 @@ def main():
         "tasks": int(ep.task_key.nunique()),
         "clean": counts.get("clean", 0), "review": counts.get("review", 0), "retake": counts.get("retake", 0),
         "health_score_pct": round(100 * counts.get("clean", 0) / n, 1) if n else 0,
-        "issue_types": ep[ep.status == "retake"].failure_type.value_counts().to_dict(),
+        "retake_issue_types": ep[ep.status == "retake"].failure_type.value_counts().to_dict(),
+        "review_issue_types": ep[ep.status == "review"].failure_type.fillna("motion_only").value_counts().to_dict(),
         "by_task": by_task,
     }
 
@@ -240,6 +258,7 @@ def main():
     stats.update(model_cost_usd=round(cost, 4),
                  cost_per_1000_episodes_usd=round(1000 * cost / n, 2) if n else None,
                  runtime_s=round(time.time() - t0),
+                 reference_mode=a.reference,
                  models={"vision": VISION_MODEL, "summary": JUDGE_MODEL},
                  generated_at=datetime.datetime.now().isoformat(timespec="seconds"))
 
@@ -252,7 +271,8 @@ def main():
 
     print(f"\n=== Retake audit: {a.repo} ===")
     print(f"Health score: {stats['health_score_pct']}%  |  clean {stats['clean']}  review {stats['review']}  retake {stats['retake']}")
-    print(f"Issue types: {stats['issue_types']}")
+    print(f"Retake issues: {stats['retake_issue_types']}")
+    print(f"Review issues: {stats['review_issue_types']}")
     print(f"Model cost: ${cost:.4f}  (${stats['cost_per_1000_episodes_usd']} per 1,000 episodes)  |  {stats['runtime_s']}s")
     print(f"Report: {out_dir}/summary.md")
 

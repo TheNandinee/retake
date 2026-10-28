@@ -84,3 +84,20 @@ Human review of the contact sheets from E006:
 - **Summary (Ultra) problems:** built a "systematic collection failure" narrative on false alarms; invented a threshold ("makingCoffee > 30 s"); hit the 1,500-token limit so the Caveats section was cut off.
 - **Key product insight:** the re-record list must be high-precision. Missing some failures is acceptable; telling a team to delete good data is not. → Optimize retake-list precision; route uncertain verdicts to "review".
 - Log: `evidence/logs/E010_first_audit_run.txt` · Report: `evidence/snapshots/E010_report_BotFails/`
+
+## E011 — Verdict-rule analysis on saved answers ($0) · 2026-10-28
+- Re-scored the cached vision answers from E008 and E010 under 4 verdict rules
+- **"Visible evidence only" (spill, wrong placement, human, dropped object, wrong object/target, collision) → retake:** E008 precision 100% (9/20 caught, 0 false alarms); E010 precision 50% (3/12, 3/28)
+- "Incomplete" verdicts were right only 9 of 22 times across both runs → never enough on their own for the retake list
+- Adding motion corroboration (short duration) or a confidence ≥ 0.9 filter changed nothing
+- The E008/E010 gap points at the reference-selection change, tested in E012
+- Log: `evidence/logs/E011_verdict_rules.txt`
+
+## E012 — Audit with two-tier verdicts + "first" reference · 2026-10-28
+- Same 40 dev episodes as E010 (same seed); only change from E011's rule: reference = lowest-index expert demo (E008 setting) instead of "most typical motion"
+- **RETAKE list: precision 80% (4/5), caught 4/12, false alarms 1/28** (E010: 40%, 12 false alarms)
+- **RETAKE + REVIEW: caught 10/12 real failures**, 9/28 false alarms, so the review list does its job of surfacing for humans
+- Single-variable comparison with E011: reference choice moved precision 50% → 80%. "first" becomes the default.
+- Health score 52.5% · cost $0.045 ($1.12 per 1,000 episodes) · 37s
+- Caution: precision based on 5 retake verdicts; the defended number will come from the frozen test set
+- Log: `evidence/logs/E012_audit_fixed.txt`
