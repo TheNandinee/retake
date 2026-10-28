@@ -1,0 +1,26 @@
+[project]
+name = "retake"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Nandinee", email = "nandinee.official@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "huggingface-hub>=2.3.0",
+    "numpy>=2.4.6",
+    "openai>=3.40.0",
+    "pandas>=3.1.0",
+    "pillow>=13.0.0",
+    "pyarrow>=26.0.0",
+    "python-dotenv>=1.2.4",
+    "scikit-learn>=1.9.1",
+]
+
+[project.scripts]
+retake = "retake:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
