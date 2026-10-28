@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from huggingface_hub import snapshot_download
 from PIL import Image, ImageDraw
+from huggingface_hub import hf_hub_download
 
 DATA = Path("data")
 
@@ -80,3 +81,10 @@ def contact_sheet(ims, cols=4, cell=(448, 336)):
         d.rectangle([0, 0, 80, 22], fill="black"); d.text((5, 5), f"t={t:.1f}s", fill="yellow")
         sheet.paste(im, ((i % cols) * cell[0], (i // cols) * cell[1]))
     return sheet
+
+def episode_video(repo, path, dataset_rel, ep, cam):
+    """Download (once) and return the local mp4 path for one episode (LeRobot v2.x)."""
+    info = load_info(Path(path) / dataset_rel)
+    rel = f"{dataset_rel}/" + info["video_path"].format(
+        episode_chunk=ep // info.get("chunks_size", 1000), video_key=cam, episode_index=ep)
+    return hf_hub_download(repo, rel, repo_type="dataset", local_dir=path)

@@ -42,3 +42,14 @@ Raw outputs: `evidence/logs/` · Result files: `evidence/snapshots/`
 - Same 20 episodes and settings as E005, clean expert task text for all episodes
 - Result: _fill in after run_
 - Log: `evidence/logs/E006_botfails_vision_clean.txt`
+- **Result: 60% accuracy, 6/10 anomalies caught, 4/10 false alarms.** This is the real, leak-free baseline.
+- Episodes previously "caught" only via leaked notes are now missed (groceries ep5, dish ep7, dish ep12); in dish ep12 the model saw plates left on the table and still judged success.
+- Total spend to date: $0.026
+## E007 — Manual review of vision errors · 2026-10-28
+Human review of the contact sheets from E006:
+- setTheTable expert ep9, ep16: fork IS on the robot's left. **False alarm** caused by camera viewpoint (left/right mirrored).
+- groceriesSorting expert ep17: items are in the correct boxes. **False alarm** (hallucination).
+- pouringCoffee ep19 (documented by dataset authors as a "normal sample"): **a spill is visible.** Either a benchmark label error or a dirty scene left over from earlier spill takes. Both are real data-quality issues.
+- soldering ep14: human hand visible in workspace. Model noticed it but didn't treat it as an anomaly → prompt gap.
+- hatchAndProbe ep2: reviewer couldn't judge from 8 frames → needs final-state comparison against a reference.
+**Conclusion:** most errors come from the model not knowing what "correct" looks like for each task → vision v2 adds reference frames from a known-good demo.

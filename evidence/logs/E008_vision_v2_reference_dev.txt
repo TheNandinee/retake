@@ -1,0 +1,46 @@
+[GOOD][E006-20] domotic_dishTidyUp_expert ep5: anomaly=False type=none human=False | The final arrangement matches the reference end state with no dropped objects, spills, human presence, or dirty scene issues.
+[GOOD][E006-20] domotic_groceriesSorting_expert ep17: anomaly=True type=incomplete human=False | The task is unfinished because not all vegetables are in the pink box and not all sweets are in the yellow box.
+[GOOD][E006-20] domotic_pouringCoffee_expert ep15: anomaly=False type=none human=False | The robot successfully poured coffee into the glass and restored the scene to the reference end state with no spills, dropped objects, or human intervention.
+[GOOD][E006-20] domotic_setTheTable_expert ep3: anomaly=False type=none human=False | The episode ends with all objects correctly arranged matching the reference, and no safety violations or anomalies are present.
+[GOOD][E006-20] domotic_setTheTable_expert ep9: anomaly=False type=none human=False | The episode matches the reference end state exactly with no anomalies.
+[GOOD][E006-20] domotic_setTheTable_expert ep16: anomaly=False type=none human=False | The episode ends with the correct task completion matching the reference, with no drops, spills, human interference, or scene issues.
+[GOOD][E006-20] industrial_robothon_hatchAndProbe_expert ep4: anomaly=True type=incomplete human=False | The final image shows the hatch closed, so the task was not completed as required by the reference end state.
+[GOOD][E006-20] industrial_soldering_expert ep5: anomaly=False type=none human=False | The robot soldered the board and returned the iron to its holder with no spills, drops, human interference, or scene deviations from the reference end state.
+[GOOD][E006-20] industrial_soldering_expert ep8: anomaly=False type=none human=False | The episode matches the reference end state with no anomalies, dropped objects, spills, human intervention, or scene dirtiness.
+[FAIL][E006-20] domotic_dishTidyUp_anomaly ep7: anomaly=False type=none human=False | The robot successfully placed all items into the dish rack in the same arrangement as the reference, with no drops, spills, or human interference.
+[FAIL][E006-20] domotic_dishTidyUp_anomaly ep12: anomaly=True type=incomplete human=False | Not all dishes are stored in the dish rack; several plates and the purple cup remain on the table.
+[FAIL][E006-20] domotic_groceriesSorting_anomaly ep5: anomaly=False type=none human=False | All items are correctly sorted into their designated bins matching the reference final state with no safety violations.
+[FAIL][E006-20] domotic_makingCoffee_anomaly ep7: anomaly=True type=spill human=False | Coffee powder is spilled on the table, violating the cleanliness and task completion requirements.
+[FAIL][E006-20] domotic_pouringCoffee_anomaly ep0: anomaly=True type=spill human=False | Liquid is spilled on the table around the glass, violating the spill criterion.
+[GOOD][E006-20] domotic_pouringCoffee_anomaly ep19: anomaly=False type=none human=False | The episode successfully completes the pouring task with the final state matching the reference and no visible spills, dropped objects, or human interference.
+[FAIL][E006-20] industrial_robothon_hatchAndProbe_anomaly ep2: anomaly=True type=incomplete human=False | The task is unfinished; the probe is still on the box, tension was not measured, and the hatch was not closed.
+[FAIL][E006-20] industrial_robothon_hatchAndProbe_anomaly ep11: anomaly=False type=none human=False | The episode follows the task sequence and ends in a state matching the reference end, with no safety or object anomalies visible.
+[FAIL][E006-20] industrial_robothon_hatchAndProbe_anomaly ep13: anomaly=True type=incomplete human=False | The episode ends in the initial state without completing any task steps, so the final state does not match the reference end.
+[FAIL][E006-20] industrial_soldering_anomaly ep7: anomaly=False type=none human=False | The episode completes the soldering task with the final board and iron placement consistent with the reference end state, with no drops, spills, or human interference.
+[FAIL][E006-20] industrial_soldering_anomaly ep14: anomaly=True type=human_intervention human=True | A human hand enters the workspace to remove the soldering iron from its stand, which violates the no-human rule.
+[FAIL][new-20] domotic_pouringCoffee_anomaly ep8: anomaly=True type=spill human=False | Liquid is visibly spilled on the table next to the cup during the episode.
+[FAIL][new-20] industrial_robothon_hatchAndProbe_anomaly ep9: anomaly=False type=none human=False | The episode starts clean, ends with the probe in the black plug as in the reference, and contains no human hands, drops, spills, or wrong objects.
+[FAIL][new-20] domotic_makingCoffee_anomaly ep9: anomaly=True type=spill human=False | Coffee powder is spilled on the table instead of being placed in the filter, and the task is incomplete.
+[FAIL][new-20] industrial_soldering_anomaly ep9: anomaly=True type=incomplete human=False | The soldering iron is left lying on the workspace instead of in its holder, so the final arrangement differs from the reference end state.
+[FAIL][new-20] industrial_robothon_hatchAndProbe_anomaly ep7: anomaly=False type=none human=False | The episode starts and ends with the hatch closed and robot idle, matching the reference end state, with no human, drops, spills, or wrong objects visible.
+[FAIL][new-20] domotic_setTheTable_anomaly ep6: anomaly=True type=wrong_placement human=False | The knife is incorrectly placed on the left side of the plate instead of the right, while the fork is on the right instead of the left.
+[FAIL][new-20] domotic_vegetablesAndFruitsSorting_anomaly ep17: anomaly=True type=wrong_placement human=False | The red vegetable was placed in the pink box while the reference places it in the green box, so the final arrangement does not match.
+[FAIL][new-20] domotic_vegetablesAndFruitsSorting_anomaly ep8: anomaly=True type=wrong_placement human=False | Vegetables (corn and red pepper) were placed in the pink-marked fruit bin instead of the yellow-marked vegetable bin.
+[FAIL][new-20] domotic_vegetablesAndFruitsSorting_anomaly ep10: anomaly=True type=wrong_placement human=False | The fruits were placed in the yellow-marked box and the pink-marked box remained empty, the opposite of the required sorting and reference end state.
+[FAIL][new-20] industrial_screws_sorting_anomaly ep2: anomaly=False type=none human=False | The final arrangement matches the reference end state with screws in the left bowl and no human present.
+[GOOD][new-20] industrial_robothon_hatchAndProbe_expert ep5: anomaly=False type=none human=False | The episode appears to match the reference end state, but key task objects like the probe and plug are not clearly visible, limiting confidence.
+[GOOD][new-20] industrial_robothon_hatchAndProbe_expert ep0: anomaly=False type=none human=False | The episode matches the reference end state with the robot in the correct final position and no anomalies detected.
+[GOOD][new-20] industrial_robothon_buttons_expert ep2: anomaly=True type=incomplete human=False | The task was not completed: neither the red nor blue button was pressed and the slider was not moved to the top.
+[GOOD][new-20] domotic_pouringCoffee_anomaly ep14: anomaly=False type=none human=False | The final arrangement matches the reference end with no spills, wrong objects, or human interference.
+[GOOD][new-20] domotic_makingCoffee_expert ep2: anomaly=False type=none human=False | The robot scoops powder and moves the spoon to the filter, matching the reference end state with no spills, drops, or human presence.
+[GOOD][new-20] domotic_pouringCoffee_expert ep1: anomaly=False type=none human=False | The episode successfully pours coffee into the cup and returns the pitcher, matching the reference end state with no anomalies.
+[GOOD][new-20] domotic_setTheTable_expert ep1: anomaly=False type=none human=False | The final arrangement matches the reference end state and no safety violations occurred.
+[GOOD][new-20] domotic_groceriesSorting_expert ep3: anomaly=False type=none human=False | All objects are correctly sorted by color sign, no drops or spills, no humans, and the final arrangement matches the reference end.
+[GOOD][new-20] industrial_robothon_buttons_expert ep13: anomaly=True type=incomplete human=False | The robot never moves from its initial pose, so the task of pushing buttons and adjusting the slider is unfinished and the final state does not match the reference end.
+[GOOD][new-20] industrial_screws_sorting_expert ep8: anomaly=False type=none human=False | The screws were moved from the right bowl to the left bowl with no drops, human presence, or scene issues.
+
+Vision v2 (reference-conditioned), DEV only:
+  E006-20    acc  70% | caught 6/10 | false alarms 2/10
+  new-20     acc  75% | caught 7/10 | false alarms 2/10
+  ALL-40     acc  72% | caught 13/20 | false alarms 4/20
+  (E006 baseline on the same 20: 60% | caught 6/10 | false alarms 4/10)
