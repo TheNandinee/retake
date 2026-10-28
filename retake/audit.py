@@ -26,27 +26,27 @@ MOTION_RULES = [
 ]
 
 SUMMARY_PROMPT = """You write the executive summary of an automated quality audit of a robot-demonstration training dataset.
-Audience: the robotics team that collected the data and will train on it. Be concrete and brief.
+Audience: the robotics team that collected the data. Be concrete, brief, and careful: a wrong recommendation could make them delete good data.
 
 AUDIT STATS (JSON):
 {stats}
 
-FLAGGED EPISODES (JSON). status "retake" = the vision check found a problem; "review" = only motion statistics look unusual:
+FLAGGED EPISODES (JSON). status "retake" = strong visual evidence of a problem; "review" = uncertain, needs a human look:
 {findings}
 
-Write Markdown with exactly these sections:
+Write Markdown with exactly these sections, keeping the whole summary under 450 words:
 ## Verdict
-One sentence including the health score.
-## What we found
-Counts by issue type, each with 1-2 concrete example episodes (task + episode number + what happened, taken from the reasons above).
-## Hotspots
-Which tasks have the most problems, and any pattern suggesting a systematic collection issue.
-## Recommended actions
-Which episodes to re-record, which to drop before training, and what to change in the collection process.
+One sentence with the health score. Say episodes were "flagged", never that they "require" anything.
 ## Caveats
-This is an automated audit; the vision layer scored 72% accuracy on a labeled benchmark, so review flagged episodes before deleting data.
+Two sentences: this is an automated audit; on a labeled benchmark the vision layer was right about 72% of the time, so a human should check the flagged frames before any data is deleted or re-recorded.
+## What we found
+Counts by issue type, each with at most 2 concrete examples (task + episode number + what happened, from the reasons above).
+## Hotspots
+Tasks with the most flags. Only call something a systematic collection problem if at least 3 episodes of the same task show the same visible issue (spill, wrong placement, human in workspace, dropped object); otherwise say "no clear systematic pattern".
+## Recommended actions
+Which episodes to re-check first and why. Do not propose new numeric thresholds or rules that are not in the data.
 
-Use ONLY numbers and episodes from the data above. Do not invent anything."""
+Use ONLY numbers and episodes from the data above. Never invent numbers."""
 
 
 def norm_name(name):
@@ -234,7 +234,7 @@ def main():
         ["task_key", "dataset", "episode_index", "status", "failure_type", "reason", "motion_flags", "evidence_time_s"]]
     summary = chat(JUDGE_MODEL, [{"role": "user", "content": SUMMARY_PROMPT.format(
         stats=json.dumps(stats, indent=1), findings=findings.to_json(orient="records"))}],
-        max_tokens=1500, think=False, tag="audit:summary")
+        max_tokens=3000, think=False, tag="audit:summary")
 
     cost = spent() - start_spend
     stats.update(model_cost_usd=round(cost, 4),

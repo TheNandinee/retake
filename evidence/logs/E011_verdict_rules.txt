@@ -1,0 +1,16 @@
+
+results/vision_v2_dev.csv  |  40 episodes, 20 real failures
+  rule                                 precision  caught    false alarms
+  R0 any vision anomaly (current)            76%  13/20      4/20
+  R1 visible evidence only                  100%   9/20      0/20
+  R2 R1 + incomplete if short (z<-1)        100%   9/20      0/20
+  R3 R1 + confidence >= 0.9                 100%   9/20      0/20
+  'incomplete' verdicts: 8, of which correct: 4
+
+reports/kantine__BotFails/episodes.csv  |  40 episodes, 12 real failures
+  rule                                 precision  caught    false alarms
+  R0 any vision anomaly (current)            40%   8/12     12/28
+  R1 visible evidence only                   50%   3/12      3/28
+  R2 R1 + incomplete if short (z<-1)         50%   3/12      3/28
+  R3 R1 + confidence >= 0.9                  50%   3/12      3/28
+  'incomplete' verdicts: 14, of which correct: 5

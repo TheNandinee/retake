@@ -74,3 +74,13 @@ Human review of the contact sheets from E006:
 - **Decision: v2 remains the vision layer. Prompt tuning stops; remaining effort goes to the pipeline.** Severity output is still a good product idea; to be re-added later as a separate change, tested in isolation.
 - Cumulative spend: $0.108
 - Log: `evidence/logs/E009_vision_v3_keyframes_dev.txt`
+
+## E010 — First end-to-end `retake audit` run · 2026-10-28
+- `uv run python -m retake.audit kantine/BotFails --limit 40 --exclude <frozen test split>`, 40 dev episodes stratified across 10 tasks
+- **Runtime 39s, model cost $0.047 → $1.17 per 1,000 episodes** (4 parallel vision calls + 1 Ultra summary)
+- Verdicts vs labels: caught 8/12 failures, **12/28 false alarms** (worse than E008's 4/20)
+- Diagnosis: 14 of 20 "retake" verdicts are `incomplete`, and at least 8 of those are expert demos. "Incomplete" means the model is judging that a result is *absent* from the last frame, which it does unreliably (also seen in E008 for buttons/hatch). Visible-evidence types (spill, wrong placement, human) look much more reliable.
+- Possible extra factor: the reference demo is now chosen by "most typical motion" instead of lowest episode index (E008). Not isolated.
+- **Summary (Ultra) problems:** built a "systematic collection failure" narrative on false alarms; invented a threshold ("makingCoffee > 30 s"); hit the 1,500-token limit so the Caveats section was cut off.
+- **Key product insight:** the re-record list must be high-precision. Missing some failures is acceptable; telling a team to delete good data is not. → Optimize retake-list precision; route uncertain verdicts to "review".
+- Log: `evidence/logs/E010_first_audit_run.txt` · Report: `evidence/snapshots/E010_report_BotFails/`
