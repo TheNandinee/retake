@@ -227,6 +227,8 @@ def main():
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--out", default=None)
     ap.add_argument("--save-all-frames", action="store_true", help="save frame sheets for clean episodes too")
+    ap.add_argument("--remote", action="store_true",
+                    help="read video frames directly from Hugging Face instead of downloading files")
     a = ap.parse_args()
 
     path = DATA / a.repo.replace("/", "__")
@@ -274,9 +276,9 @@ def main():
             ref = pick_reference(r.task_key, m, exclude, r.key, a.reference)
             if ref is None:
                 return r.key, {}
-            video, off = episode_video_seg(a.repo, path, r.dataset, int(r.episode_index), cam)
+            video, off = episode_video_seg(a.repo, path, r.dataset, int(r.episode_index), cam, remote=a.remote)
             ref_video, ref_off = episode_video_seg(a.repo, path, ref.dataset, int(ref.episode_index),
-                                                   cams.get(ref.dataset, cam))
+                                                   cams.get(ref.dataset, cam), remote=a.remote)
             v = audit_episode(video, r.duration_s, tasks[r.task_key], ref_video, ref.duration_s,
                               tag=f"audit:{r.dataset}:{r.episode_index}",
                               video_offset=off, ref_offset=ref_off)

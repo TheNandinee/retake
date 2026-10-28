@@ -117,3 +117,9 @@ Human review of the contact sheets from E006:
 - BotFails regression check: identical verdicts (80% / 4/12 / 1/28)
 - **Remote frame access:** ffmpeg reads frames directly from Hugging Face URLs via range requests: **~4–5 s per frame, no download** (vs 509 s to download one dataset's video). Makes a multi-dataset audit feasible.
 - Logs: `evidence/logs/E014_*`
+
+## E015 — Remote audit (no video download) · 2026-10-28
+- `--remote`: ffmpeg reads frames from Hugging Face URLs; reference frames cached per task
+- 1g0rrr/demo2_frame_holder (never downloaded before): **10 episodes in 66s at 8 workers, 2.4 MB on disk, $0.0112 ($1.12 per 1,000 episodes)**
+- 8 clean, 2 review (incomplete), 0 retake
+- Log: `evidence/logs/E015_remote_audit.txt`

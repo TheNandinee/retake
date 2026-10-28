@@ -7,6 +7,8 @@ from PIL import Image, ImageDraw
 from huggingface_hub import hf_hub_download
 from huggingface_hub import HfApi
 from huggingface_hub.hf_api import RepoFile
+from functools import lru_cache
+from urllib.parse import quote
 
 DATA = Path("data")
 
@@ -52,12 +54,16 @@ def video_for_episode(root, info, ep_idx, key):
     return (root / tmpl.format(video_key=key, chunk_index=c, file_index=f),
             float(row[f"videos/{key}/from_timestamp"]))
 
-
+@lru_cache(maxsize=64)
 def grab_frame(video, t):
-    out = subprocess.run(["ffmpeg", "-loglevel", "error", "-ss", f"{t:.3f}", "-i", str(video),
-                          "-frames:v", "1", "-f", "image2pipe", "-vcodec", "png", "-"],
-                         capture_output=True)
-    return Image.open(io.BytesIO(out.stdout)).convert("RGB") if out.stdout else None
+    """One frame at time t (seconds). `video` can be a local path or an https URL."""
+    for _ in range(2 if str(video).startswith("http") else 1):
+        out = subprocess.run(["ffmpeg", "-loglevel", "error", "-ss", f"{t:.3f}", "-i", str(video),
+                              "-frames:v", "1", "-f", "image2pipe", "-vcodec", "png", "-"],
+                             capture_output=True)
+        if out.stdout:
+            return Image.open(io.BytesIO(out.stdout)).convert("RGB")
+    return None
 
 
 def frame_grid(video, offset, times, cell=(320, 240)):
@@ -105,7 +111,7 @@ def _episodes_meta(root):
         _EPISODES[k] = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
     return _EPISODES[k]
 
-def episode_video_seg(repo, path, dataset_rel, ep, cam):
+def episode_video_seg(repo, path, dataset_rel, ep, cam, remote=False):
     """Return (local_mp4_path, start_offset_seconds) for one episode.
     LeRobot v2.x: one file per episode (offset 0). v3.x: many episodes per file."""
     root = Path(path) / dataset_rel
@@ -129,7 +135,10 @@ def episode_video_seg(repo, path, dataset_rel, ep, cam):
         except KeyError:
             raise KeyError(f"v3 episode columns not found for camera {cam}. "
                            f"Available: {[c for c in eps.columns if c.startswith('videos/')][:8]}")
-    return hf_hub_download(repo, prefix + rel, repo_type="dataset", local_dir=path), offset
+    rel_path = prefix + rel
+    if remote:
+        return f"https://huggingface.co/datasets/{repo}/resolve/main/{quote(rel_path)}", offset
+    return hf_hub_download(repo, rel_path, repo_type="dataset", local_dir=path), offset
 
 def episode_video(repo, path, dataset_rel, ep, cam):
     """Backwards-compatible: path only (used by older scripts, v2 datasets)."""
