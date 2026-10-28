@@ -1,0 +1,5 @@
+BotFails/normal_train/domotic_setTheTable_expert ep7: 35 frames (1.2s)
+state  std per joint: [0. 0. 0. 0. 0. 0.]
+action std per joint: [0. 0. 0. 0. 0. 0.]
+state at start: [ -1.49 189.67 180.26  68.82  -0.53   0.43] | at end: [ -1.49 189.67 180.26  68.82  -0.53   0.43]
+frames: results/inspect_domotic_setTheTable_expert_ep7.jpg

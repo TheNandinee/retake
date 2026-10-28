@@ -123,3 +123,15 @@ Human review of the contact sheets from E006:
 - 1g0rrr/demo2_frame_holder (never downloaded before): **10 episodes in 66s at 8 workers, 2.4 MB on disk, $0.0112 ($1.12 per 1,000 episodes)**
 - 8 clean, 2 review (incomplete), 0 retake
 - Log: `evidence/logs/E015_remote_audit.txt`
+
+## E016 — Integrity layer + corruption benchmark ($0) · 2026-10-28
+- 9 deterministic checks: dropped_frames, timestamp_error, empty_episode, nan_values, dead_sensor, duplicate_episode, length_mismatch (motion data / v3 metadata), frozen_video, black_frames (from frames already grabbed for vision)
+- **Corruption benchmark (injected into real clean BotFails expert data): 30/30 detected for each of 6 motion corruptions; 20/20 for frozen video and black frames**
+- **False positives: 0/20 clean videos; 1/178 clean expert episodes** (setTheTable expert ep7: all 6 joints constant for the whole episode; under investigation in E016b)
+- Log: `evidence/logs/E016_integrity_bench.txt`
+
+## E017 — Integrity scan, community_dataset_v3 (2 sub-datasets) · 2026-10-28
+- `--vision none`: all 133 episodes, 3 s, $0.0023 (summary only)
+- 0 integrity issues; 6 motion-only review flags; health 95.5%
+- BotFails regression with integrity wired in: unchanged (80% / 4/12 / 1/28)
+- Log: `evidence/logs/E017_integrity_scan.txt`

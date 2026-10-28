@@ -1,0 +1,6 @@
+00ri/so100_battery	8
+00ri/so100_battery	19
+00ri/so100_battery	48
+1g0rrr/demo2_frame_holder	9
+1g0rrr/demo2_frame_holder	10
+1g0rrr/demo2_frame_holder	23

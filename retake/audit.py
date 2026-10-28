@@ -14,6 +14,7 @@ from retake.common import (DATA, fetch, fetch_subset, find_roots, load_info, loa
 from retake.signals import episode_signals, gripper_indices
 from retake.vision import audit_episode, VISION_MODEL
 from retake.llm import chat, spent, STATS
+from retake.integrity import check_dataset, check_frames
 
 JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "nvidia/Nemotron-3-Ultra-550b-a55b")
 LEAK = re.compile(r"\d+\s*[:\-]\s*\d+|anomal|normal test|wrong", re.I)
@@ -41,7 +42,8 @@ AUDIT STATS (JSON):
 {stats}
 
 FLAGGED EPISODES (JSON). status "retake" = visible evidence of a problem in the frames; "review" = unconfirmed, needs a human look.
-Each episode has an "id" - refer to episodes ONLY by that exact id.
+Each episode has an "id" - refer to episodes ONLY by that exact id. Failure types frozen_video, black_frames, dropped_frames, duplicate_episode, dead_sensor, empty_episode,
+nan_values, length_mismatch and timestamp_error come from deterministic code checks: they are certain facts, not AI judgments.
 {findings}
 
 Write Markdown with exactly these four sections, under 400 words in total:
@@ -109,10 +111,12 @@ def motion_table(path, only=None):
         gidx = gripper_indices(info)
         roots[rel] = (root, info, read_tasks(root))
         grp = group_name(rel, root)
+        integ = check_dataset(df, info, root)
         for ep_idx, ep in df.groupby("episode_index"):
             r = episode_signals(ep, info["fps"], gidx)
             ti = int(ep["task_index"].iloc[0]) if "task_index" in ep else 0
-            r.update(dataset=rel, episode_index=int(ep_idx), task_index=ti, task_key=f"{grp}::{ti}")
+            r.update(dataset=rel, episode_index=int(ep_idx), task_index=ti, task_key=f"{grp}::{ti}",
+                     integrity=integ.get(int(ep_idx), []))
             rows.append(r)
     m = pd.DataFrame(rows)
     for f in FEATS:
@@ -311,19 +315,25 @@ def main():
         frames = v.pop("_frames", None)
         anomaly = str(v.get("anomaly")).lower() == "true"
         ftype = str(v.get("failure_type") or "none")
-        if anomaly and ftype in VISIBLE:
-            status = "retake"
-        elif anomaly or r.motion_flags or "raw" in v or "error" in res:
+        integ = list(r.integrity) + check_frames(frames or [], moving=r.idle_ratio < 0.9)
+        hard = [i for i in integ if i[2]]
+        reason = v.get("reason")
+        if hard:
+            status, issue, reason = "retake", hard[0][0], hard[0][1]          # certain: code check
+        elif anomaly and ftype in VISIBLE:
+            status, issue = "retake", ftype                                  # visible evidence
+        elif anomaly or integ or r.motion_flags or "raw" in v or "error" in res:
             status = "review"
+            issue = (ftype if anomaly else integ[0][0] if integ else
+                     "motion_only" if r.motion_flags else "vision_error")
         else:
-            status = "clean"
-        issue = ftype if anomaly else ("motion_only" if r.motion_flags else
-                                       "vision_error" if ("raw" in v or "error" in res) else "none")
+            status, issue = "clean", "none"
         rec = dict(id=episode_id(r.dataset, r.episode_index), dataset=r.dataset,
                    episode_index=int(r.episode_index), task_key=r.task_key, task=tasks[r.task_key],
                    camera=cams.get(r.dataset), status=status, vision_anomaly=anomaly, failure_type=issue,
+                   integrity=[f"{t}: {d}" for t, d, _ in integ],
                    duration_s=round(r.duration_s, 1), motion_score=round(r.motion_score, 2),
-                   motion_flags=r.motion_flags, reason=v.get("reason"),
+                   motion_flags=r.motion_flags, reason=reason,
                    evidence_time_s=v.get("evidence_time_s"), confidence=v.get("confidence"),
                    human_in_workspace=v.get("human_in_workspace"), reference=res.get("ref"),
                    error=res.get("error"))
@@ -350,7 +360,7 @@ def main():
 
     print(f"[4/4] Summary ({JUDGE_MODEL})...")
     findings = ep[ep.status != "clean"].head(40)[
-        ["id", "status", "failure_type", "reason", "motion_flags", "evidence_time_s"]]
+        ["id", "status", "failure_type", "reason", "integrity", "motion_flags", "evidence_time_s"]]
     prose, leftover = write_summary(stats, findings.to_json(orient="records"))
     if prose:
         body = prose if "## Recommended actions" not in prose else \
@@ -369,7 +379,8 @@ def main():
                  models={"vision": VISION_MODEL, "summary": JUDGE_MODEL},
                  generated_at=datetime.datetime.now().isoformat(timespec="seconds"))
 
-    ep.assign(motion_flags=ep.motion_flags.apply("; ".join)).to_csv(out_dir / "episodes.csv", index=False)
+    ep.assign(motion_flags=ep.motion_flags.apply("; ".join),
+              integrity=ep.integrity.apply("; ".join)).to_csv(out_dir / "episodes.csv", index=False)
     (out_dir / "report.json").write_text(json.dumps({"stats": stats, "episodes": recs}, indent=1, default=str))
     (out_dir / "summary.md").write_text(f"# Retake audit: {stats['dataset']}\n\n" + body)
     for s, fname in [("retake", "retake_list.txt"), ("review", "review_list.txt"), ("clean", "clean_episodes.txt")]:
