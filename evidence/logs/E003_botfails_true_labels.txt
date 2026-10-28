@@ -1,0 +1,17 @@
+Label values seen: [0, 1]
+144 labeled episodes | with anomaly: 108 | without: 36
+
+Anomaly duration (s): {'count': 144.0, 'mean': 13.94, 'std': 11.94, 'min': 0.0, '25%': 2.35, '50%': 13.37, '75%': 19.92, 'max': 53.73}
+                                    dataset  episode_index  n_frames  anomaly_frames  any_anomaly  first_anomaly_s  last_anomaly_s
+0  BotFails/test/domotic_dishTidyUp_anomaly              0      2090               0            0              NaN             NaN
+1  BotFails/test/domotic_dishTidyUp_anomaly              1      2090               0            0              NaN             NaN
+2  BotFails/test/domotic_dishTidyUp_anomaly              2      2090               0            0              NaN             NaN
+3  BotFails/test/domotic_dishTidyUp_anomaly              3      2090               0            0              NaN             NaN
+4  BotFails/test/domotic_dishTidyUp_anomaly              4      2090               0            0              NaN             NaN
+5  BotFails/test/domotic_dishTidyUp_anomaly              5      2090             671            1        47.300000       69.633333
+6  BotFails/test/domotic_dishTidyUp_anomaly              6      2090            1612            1        15.933333       69.633333
+7  BotFails/test/domotic_dishTidyUp_anomaly              7      2090            1111            1        32.633333       69.633333
+8  BotFails/test/domotic_dishTidyUp_anomaly              8      2090            1438            1        21.733333       69.633333
+9  BotFails/test/domotic_dishTidyUp_anomaly              9      2090            1455            1        21.166667       69.633333
+
+Relabeled signals file: failures=108 good=215

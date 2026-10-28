@@ -7,25 +7,32 @@ from PIL import Image, ImageDraw
 
 DATA = Path("data")
 
+
+# ---------- datasets ----------
 def fetch(repo_id, patterns=None):
     local = DATA / repo_id.replace("/", "__")
     snapshot_download(repo_id=repo_id, repo_type="dataset",
                       local_dir=local, allow_patterns=patterns)
     return local
 
+
 def find_roots(path):
     """A download can contain several LeRobot datasets; each has meta/info.json."""
     return sorted({p.parent.parent for p in Path(path).rglob("meta/info.json")})
 
+
 def load_info(root):
     return json.loads((Path(root) / "meta" / "info.json").read_text())
+
 
 def load_frames(root):
     files = sorted((Path(root) / "data").rglob("*.parquet"))
     return pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
 
+
 def to_mat(col):
     return np.stack(col.to_numpy()).astype(float)
+
 
 # ---------- video ----------
 def video_for_episode(root, info, ep_idx, key):
@@ -42,11 +49,13 @@ def video_for_episode(root, info, ep_idx, key):
     return (root / tmpl.format(video_key=key, chunk_index=c, file_index=f),
             float(row[f"videos/{key}/from_timestamp"]))
 
+
 def grab_frame(video, t):
     out = subprocess.run(["ffmpeg", "-loglevel", "error", "-ss", f"{t:.3f}", "-i", str(video),
                           "-frames:v", "1", "-f", "image2pipe", "-vcodec", "png", "-"],
                          capture_output=True)
     return Image.open(io.BytesIO(out.stdout)).convert("RGB") if out.stdout else None
+
 
 def frame_grid(video, offset, times, cell=(320, 240)):
     """3x3 grid of frames, each stamped with its episode-relative timestamp."""
@@ -59,3 +68,15 @@ def frame_grid(video, offset, times, cell=(320, 240)):
         d.rectangle([0, 0, 70, 22], fill="black"); d.text((5, 5), f"t={t:.1f}s", fill="yellow")
         grid.paste(im, ((i % 3) * cell[0], (i // 3) * cell[1]))
     return grid
+
+
+def contact_sheet(ims, cols=4, cell=(448, 336)):
+    """ims: list of (t, PIL.Image). Returns one image with timestamps, for human review."""
+    rows = (len(ims) + cols - 1) // cols
+    sheet = Image.new("RGB", (cell[0] * cols, cell[1] * rows), "black")
+    for i, (t, im) in enumerate(ims):
+        im = im.resize(cell)
+        d = ImageDraw.Draw(im)
+        d.rectangle([0, 0, 80, 22], fill="black"); d.text((5, 5), f"t={t:.1f}s", fill="yellow")
+        sheet.paste(im, ((i % cols) * cell[0], (i // cols) * cell[1]))
+    return sheet

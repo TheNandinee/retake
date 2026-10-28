@@ -1,50 +1,82 @@
-import os, sys, json, re, base64, io
+import os, json, re, sys
 import pandas as pd
-from dotenv import load_dotenv
-from openai import OpenAI
-from retake.common import DATA, find_roots, load_info, load_frames, video_for_episode, frame_grid
+from huggingface_hub import hf_hub_download
+from retake.common import DATA, load_info, grab_frame, contact_sheet
+from retake.llm import chat, img_url
 
-load_dotenv()
-client = OpenAI(base_url="https://api.tokenfactory.nebius.com/v1/", api_key=os.environ["NEBIUS_API_KEY"])
-MODEL = os.environ["VISION_MODEL"]
+REPO, N = "kantine/BotFails", int(sys.argv[1]) if len(sys.argv) > 1 else 10
+path = DATA / REPO.replace("/", "__")
+MODEL = os.environ.get("VISION_MODEL", "nvidia/Nemotron-3.5-Super-VL")
+CAM = "observation.images.logitech_1"
+os.makedirs("results/frames", exist_ok=True)
 
-PROMPT = """You are auditing a robot demonstration for a training dataset.
-Task instruction: "{task}"
-The image is a 3x3 grid of frames in time order (left-to-right, top-to-bottom), each stamped with its time.
+sig = pd.read_csv("results/signals_BotFails.csv")
+sample = pd.concat([sig[sig.fail == 1].sample(N, random_state=0),
+                    sig[sig.fail == 0].sample(N, random_state=0)])
+
+
+def task_text(root, task_index=0):
+    """Always use the EXPERT folder's task description.
+    Anomaly folders' task fields describe the anomalies (label leakage), so never send them."""
+    expert_name = root.name.replace("_anomaly", "_expert")
+    expert_root = path / "BotFails" / "normal_train" / expert_name
+    p = expert_root / "meta" / "tasks.jsonl"
+    if p.exists():
+        return json.loads(p.read_text().splitlines()[0])["task"]
+    return expert_name.replace("_expert", "").replace("_", " ")
+
+
+PROMPT = """You are auditing a robot demonstration before it is used to train a robot.
+Task: "{task}"
+Below are 8 frames in time order, each labeled with its time in seconds.
+Look for anything that goes wrong: dropped or knocked-over objects, missed grasps, wrong object,
+collisions, spills, objects left in the wrong place, or the task not being completed.
 Answer ONLY with JSON:
-{{"task_completed": true|false, "matches_instruction": true|false,
-  "failure_type": "none|missed_grasp|dropped_object|regrasp|wrong_object|incomplete|collision|other",
-  "evidence_time_s": number|null, "confidence": 0-1, "reason": "one sentence"}}"""
+{{"anomaly": true|false, "task_completed": true|false,
+  "failure_type": "none|dropped_object|missed_grasp|wrong_object|collision|spill|wrong_placement|incomplete|other",
+  "evidence_time_s": number|null, "confidence": 0.0-1.0, "reason": "one short sentence"}}"""
 
-def ask(grid, task):
-    buf = io.BytesIO(); grid.save(buf, format="JPEG", quality=85)
-    b64 = base64.b64encode(buf.getvalue()).decode()
-    r = client.chat.completions.create(model=MODEL, temperature=0, max_tokens=400, messages=[{
-        "role": "user", "content": [
-            {"type": "text", "text": PROMPT.format(task=task)},
-            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{b64}"}}]}])
-    txt = r.choices[0].message.content
-    m = re.search(r"\{.*\}", txt, re.S)
-    return json.loads(m.group()) if m else {"raw": txt}
-
-repo, n = sys.argv[1], int(sys.argv[2]) if len(sys.argv) > 2 else 10
-sig = pd.read_csv("results/signals.csv")
-sample = pd.concat([sig[sig.fail == 1].sample(n, random_state=0), sig[sig.fail == 0].sample(n, random_state=0)])
-path = DATA / repo.replace("/", "__")
 out = []
 for _, row in sample.iterrows():
-    root = path / row.dataset; info = load_info(root)
-    cam = next(k for k in info["features"] if k.startswith("observation.images."))
-    video, off = video_for_episode(root, info, int(row.episode_index), cam)
-    times = [row.duration_s * i / 8 for i in range(9)]
-    grid = frame_grid(video, off, times)
-    grid.save(f"results/grid_{row.dataset.replace('/', '_')}_{int(row.episode_index)}.jpg")
-    task = "complete the manipulation task"  # TODO: map task_index -> text from meta/tasks
-    v = ask(grid, task); v.update(episode=int(row.episode_index), fail=int(row.fail))
-    out.append(v); print(v)
+    root = path / row.dataset
+    info = load_info(root)
+    ep = int(row.episode_index)
+    rel = f"{row.dataset}/" + info["video_path"].format(
+        episode_chunk=ep // info.get("chunks_size", 1000), video_key=CAM, episode_index=ep)
+    video = hf_hub_download(REPO, rel, repo_type="dataset", local_dir=path)
+
+    # identical frames + prompt as the first run, so every call is a free cache hit
+    times = [row.duration_s * (i + 0.5) / 8 for i in range(8)]
+    task = task_text(root, 0)
+    if re.search(r"\d+\s*[:\-]\s*\d+|anomal|normal test|wrong", task, re.I):
+        raise SystemExit(f"LEAK GUARD: task text looks like label notes -> {task!r}")
+    content = [{"type": "text", "text": PROMPT.format(task=task)}]
+    ims = []
+    for t in times:
+        im = grab_frame(video, t)
+        if im is None: continue
+        ims.append((t, im))
+        content += [{"type": "text", "text": f"t={t:.1f}s"},
+                    {"type": "image_url", "image_url": {"url": img_url(im.resize((448, 336)))}}]
+
+    sheet_path = f"results/frames/{row.dataset.split('/')[-1]}_ep{ep}.jpg"
+    contact_sheet(ims).save(sheet_path)
+
+    ans = chat(MODEL, [{"role": "user", "content": content}], max_tokens=300, think=False,
+               tag=f"vision:{row.dataset}:{ep}")
+    m = re.search(r"\{.*\}", ans or "", re.S)
+    v = json.loads(m.group()) if m else {"raw": ans}
+    v.update(dataset=row.dataset, episode_index=ep, fail=int(row.fail), task=task, frames=sheet_path)
+    out.append(v)
+    print(f"[{'FAIL' if row.fail else 'GOOD'}] {row.dataset.split('/')[-1]} ep{ep}: "
+          f"anomaly={v.get('anomaly')} type={v.get('failure_type')} conf={v.get('confidence')} | {v.get('reason')}")
+    print(f"      task given to model: {task}")
+    print(f"      frames: {sheet_path}")
 
 res = pd.DataFrame(out)
-res.to_csv("results/vision_check.csv", index=False)
-if "task_completed" in res:
-    acc = ((res.task_completed == False) == (res.fail == 1)).mean()
-    print(f"\nVision accuracy on {len(res)} episodes: {acc:.0%}")
+res.to_csv("results/vision_check_BotFails.csv", index=False)
+if "anomaly" in res:
+    pred = res.anomaly.astype(str).str.lower().eq("true")
+    acc = (pred == (res.fail == 1)).mean()
+    tp = (pred & (res.fail == 1)).sum(); fp = (pred & (res.fail == 0)).sum()
+    print(f"\nVision accuracy: {acc:.0%} | caught {tp}/{(res.fail == 1).sum()} failures | false alarms {fp}/{(res.fail == 0).sum()}")

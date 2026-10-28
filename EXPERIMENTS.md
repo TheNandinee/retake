@@ -31,3 +31,14 @@ Raw outputs: `evidence/logs/` · Result files: `evidence/snapshots/`
 
 ---
 <!-- Next: E003 learned signal model (held-out tasks), E004 true BotFails labels, E005 vision on BotFails -->
+
+## ⚠️ E005 INVALIDATED — label leakage · 2026-10-28
+- Found on inspection: for anomaly-folder episodes, the "task" text sent to the model came from the dataset's anomaly-folder metadata, which **describes the recorded anomalies and their episode ranges** (e.g. "5:9 put items in the wrong box").
+- The model was therefore primed on what to look for in anomaly episodes but not in expert episodes. **E005's 65% accuracy is invalid.**
+- Fix: task text now always comes from the matching expert folder, plus a guard that aborts if label-like text reaches the prompt.
+- Side benefit: those metadata notes document the anomaly type per episode range, so they become ground truth for grading failure-type classification, never shown to the model.
+
+## E006 — Vision layer on BotFails, leak-free re-run · 2026-10-28
+- Same 20 episodes and settings as E005, clean expert task text for all episodes
+- Result: _fill in after run_
+- Log: `evidence/logs/E006_botfails_vision_clean.txt`

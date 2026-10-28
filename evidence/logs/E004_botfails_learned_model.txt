@@ -1,0 +1,3 @@
+results/signals_BotFails.csv  | 323 episodes, 108 failures, 10 tasks
+  all motion signals             AUROC 0.558   (held-out TASKS)
+  WITHOUT duration               AUROC 0.538   (held-out TASKS)

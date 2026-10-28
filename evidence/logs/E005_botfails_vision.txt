@@ -1,0 +1,22 @@
+[FAIL] industrial_robothon_hatchAndProbe_anomaly ep11: anomaly=True type=other conf=0.9 | The robot left the task incomplete; the hatch remains open and no tension measurement or probe placement occurred.
+[FAIL] domotic_groceriesSorting_anomaly ep5: anomaly=True type=wrong_placement conf=0.9 | The robot places the orange crescent into the green-labeled right box, which is the wrong box according to the task description.
+[FAIL] industrial_robothon_hatchAndProbe_anomaly ep2: anomaly=False type=none conf=0.9 | The robot is manipulating the laptop within the black box without any visible drops, collisions, or placement errors in the provided frames.
+[FAIL] domotic_dishTidyUp_anomaly ep7: anomaly=True type=wrong_placement conf=0.95 | Plates are placed in the dish rack standing vertically rather than stored flat as shown in the reference task description.
+[FAIL] domotic_pouringCoffee_anomaly ep0: anomaly=True type=spill conf=1.0 | Coffee is poured beside the cup and spills onto the table instead of into it.
+[FAIL] industrial_soldering_anomaly ep7: anomaly=False type=none conf=1.0 | The robot successfully moved the soldering iron from its base over the circuit board and back to the base, matching the described task sequence without errors.
+[FAIL] industrial_soldering_anomaly ep14: anomaly=False type=none conf=0.9 | Robot moves soldering iron to base, user hand appears briefly without collision, task sequence completes.
+[FAIL] domotic_dishTidyUp_anomaly ep12: anomaly=True type=wrong_placement conf=0.95 | The purple cup is placed on the table instead of being stored in the dish rack.
+[FAIL] domotic_makingCoffee_anomaly ep7: anomaly=True type=spill conf=1.0 | Coffee grounds spill onto the table while the robot moves the container.
+[FAIL] industrial_robothon_hatchAndProbe_anomaly ep13: anomaly=True type=wrong_object conf=0.8 | The robot probes the silver hole instead of the required black hole, indicating a wrong-object interaction.
+[GOOD] domotic_pouringCoffee_anomaly ep19: anomaly=True type=spill conf=0.9 | The robot spilled liquid on the table while pouring.
+[GOOD] domotic_groceriesSorting_expert ep17: anomaly=True type=wrong_object conf=0.9 | The robot places vegetables (banana and lime) into the box labeled with a yellow sign, which should contain only sweets, and places a chocolate bar in the yellow box instead of a sweet, misclassifying the items.
+[GOOD] domotic_setTheTable_expert ep9: anomaly=True type=wrong_placement conf=0.9 | The knife is placed to the left of the plate and the fork to the right, which is the reverse of the required arrangement.
+[GOOD] industrial_soldering_expert ep5: anomaly=False type=none conf=0.95 | The robot successfully positions the soldering iron on the board, indicating the soldering task is completed without errors.
+[GOOD] industrial_soldering_expert ep8: anomaly=False type=none conf=0.9 | Robot positions soldering iron on board and cleans tip, with no drops, collisions, or errors observed.
+[GOOD] domotic_pouringCoffee_expert ep15: anomaly=False type=none conf=0.9 | The robot successfully pours coffee from the pitcher into the cup and then places the pitcher back down.
+[GOOD] domotic_setTheTable_expert ep16: anomaly=True type=wrong_placement conf=0.9 | The knife is placed on the left side of the plate instead of the right, and the pink fork is on the right instead of the left.
+[GOOD] industrial_robothon_hatchAndProbe_expert ep4: anomaly=False type=none conf=1.0 | The robot successfully completes all task steps: opening the hatch, grabbing the probe, measuring tension, placing it in the black plug, and closing the hatch.
+[GOOD] domotic_dishTidyUp_expert ep5: anomaly=False type=none conf=0.95 | The robot successfully moved all dishes into the rack without dropping, colliding, or misplacing any objects.
+[GOOD] domotic_setTheTable_expert ep3: anomaly=False type=none conf=1.0 | The robot successfully placed the plate in the center, glass in front, fork on the left, and knife on the right, completing the table setting task.
+
+Vision accuracy: 65% | caught 7/10 failures | false alarms 4/10

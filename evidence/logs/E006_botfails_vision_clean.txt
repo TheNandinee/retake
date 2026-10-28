@@ -1,0 +1,62 @@
+[FAIL] industrial_robothon_hatchAndProbe_anomaly ep11: anomaly=True type=incomplete conf=0.9 | The robot repeatedly moves around the probe and laptop but never visibly opens the hatch, grabs the probe, measures tension, inserts it into the black plug, or closes the hatch within the provided frames.
+      task given to model: open the hatch, grab the probe, measure tension, place the probe in the black plug, close the hatch
+      frames: results/frames/industrial_robothon_hatchAndProbe_anomaly_ep11.jpg
+[FAIL] domotic_groceriesSorting_anomaly ep5: anomaly=False type=none conf=0.95 | All vegetables are in the pink-sign box and sweets in the yellow-sign box with no errors.
+      task given to model: sorting groceries, vegetables in the box with a pink sign and sweets in the box with the yellow sign
+      frames: results/frames/domotic_groceriesSorting_anomaly_ep5.jpg
+[FAIL] industrial_robothon_hatchAndProbe_anomaly ep2: anomaly=True type=incomplete conf=0.9 | The robot never releases the probe or places it into the black plug, leaving the task unfinished.
+      task given to model: open the hatch, grab the probe, measure tension, place the probe in the black plug, close the hatch
+      frames: results/frames/industrial_robothon_hatchAndProbe_anomaly_ep2.jpg
+[FAIL] domotic_dishTidyUp_anomaly ep7: anomaly=False type=none conf=1.0 | The robot successfully placed all cups, the whisk, and all plates into the dish rack without dropping or misplacing anything.
+      task given to model: store dishes in a dish rack
+      frames: results/frames/domotic_dishTidyUp_anomaly_ep7.jpg
+[FAIL] domotic_pouringCoffee_anomaly ep0: anomaly=True type=spill conf=0.9 | The robot pours coffee but misses the cup, spilling liquid onto the table.
+      task given to model: pouring coffe in a cup
+      frames: results/frames/domotic_pouringCoffee_anomaly_ep0.jpg
+[FAIL] industrial_soldering_anomaly ep7: anomaly=False type=none conf=0.9 | The soldering iron contacts the board and appears to complete the task without any dropped objects or collisions.
+      task given to model: soldering a part on an electronic board
+      frames: results/frames/industrial_soldering_anomaly_ep7.jpg
+[FAIL] industrial_soldering_anomaly ep14: anomaly=True type=incomplete conf=0.9 | The soldering iron touches the board but no solder wire is applied and no joint is formed before the video ends.
+      task given to model: soldering a part on an electronic board
+      frames: results/frames/industrial_soldering_anomaly_ep14.jpg
+[FAIL] domotic_dishTidyUp_anomaly ep12: anomaly=False type=none conf=0.9 | The robot successfully stores all three cups in the dish rack and places the green plates on the table without any errors.
+      task given to model: store dishes in a dish rack
+      frames: results/frames/domotic_dishTidyUp_anomaly_ep12.jpg
+[FAIL] domotic_makingCoffee_anomaly ep7: anomaly=True type=spill conf=0.95 | Coffee powder spilled onto the table and was never transferred to the filter.
+      task given to model: making coffee: take some coffee powder with the spoon and pour it into the filter of the coffee machine
+      frames: results/frames/domotic_makingCoffee_anomaly_ep7.jpg
+[FAIL] industrial_robothon_hatchAndProbe_anomaly ep13: anomaly=True type=incomplete conf=0.95 | The robot arm moves around but never opens the hatch, grabs the probe, measures tension, places the probe in the black plug, or closes the hatch.
+      task given to model: open the hatch, grab the probe, measure tension, place the probe in the black plug, close the hatch
+      frames: results/frames/industrial_robothon_hatchAndProbe_anomaly_ep13.jpg
+[GOOD] domotic_pouringCoffee_anomaly ep19: anomaly=True type=spill conf=0.9 | Coffee spilled on the table outside the target cup during pouring.
+      task given to model: pouring coffe in a cup
+      frames: results/frames/domotic_pouringCoffee_anomaly_ep19.jpg
+[GOOD] domotic_groceriesSorting_expert ep17: anomaly=True type=wrong_object conf=0.9 | The robot places vegetables (banana and lime) into the box labeled with a yellow sign, which should contain only sweets, and places a chocolate bar in the yellow box instead of a sweet, misclassifying the items.
+      task given to model: sorting groceries, vegetables in the box with a pink sign and sweets in the box with the yellow sign
+      frames: results/frames/domotic_groceriesSorting_expert_ep17.jpg
+[GOOD] domotic_setTheTable_expert ep9: anomaly=True type=wrong_placement conf=0.9 | The knife is placed to the left of the plate and the fork to the right, which is the reverse of the required arrangement.
+      task given to model: Set the table: one glass, one plate, one fork and one knife. Fork on the left of the plate and knife on the right
+      frames: results/frames/domotic_setTheTable_expert_ep9.jpg
+[GOOD] industrial_soldering_expert ep5: anomaly=False type=none conf=0.95 | The robot successfully positions the soldering iron on the board, indicating the soldering task is completed without errors.
+      task given to model: soldering a part on an electronic board
+      frames: results/frames/industrial_soldering_expert_ep5.jpg
+[GOOD] industrial_soldering_expert ep8: anomaly=False type=none conf=0.9 | Robot positions soldering iron on board and cleans tip, with no drops, collisions, or errors observed.
+      task given to model: soldering a part on an electronic board
+      frames: results/frames/industrial_soldering_expert_ep8.jpg
+[GOOD] domotic_pouringCoffee_expert ep15: anomaly=False type=none conf=0.9 | The robot successfully pours coffee from the pitcher into the cup and then places the pitcher back down.
+      task given to model: pouring coffe in a cup
+      frames: results/frames/domotic_pouringCoffee_expert_ep15.jpg
+[GOOD] domotic_setTheTable_expert ep16: anomaly=True type=wrong_placement conf=0.9 | The knife is placed on the left side of the plate instead of the right, and the pink fork is on the right instead of the left.
+      task given to model: Set the table: one glass, one plate, one fork and one knife. Fork on the left of the plate and knife on the right
+      frames: results/frames/domotic_setTheTable_expert_ep16.jpg
+[GOOD] industrial_robothon_hatchAndProbe_expert ep4: anomaly=False type=none conf=1.0 | The robot successfully completes all task steps: opening the hatch, grabbing the probe, measuring tension, placing it in the black plug, and closing the hatch.
+      task given to model: open the hatch, grab the probe, measure tension, place the probe in the black plug, close the hatch
+      frames: results/frames/industrial_robothon_hatchAndProbe_expert_ep4.jpg
+[GOOD] domotic_dishTidyUp_expert ep5: anomaly=False type=none conf=0.95 | The robot successfully moved all dishes into the rack without dropping, colliding, or misplacing any objects.
+      task given to model: store dishes in a dish rack
+      frames: results/frames/domotic_dishTidyUp_expert_ep5.jpg
+[GOOD] domotic_setTheTable_expert ep3: anomaly=False type=none conf=1.0 | The robot successfully placed the plate in the center, glass in front, fork on the left, and knife on the right, completing the table setting task.
+      task given to model: Set the table: one glass, one plate, one fork and one knife. Fork on the left of the plate and knife on the right
+      frames: results/frames/domotic_setTheTable_expert_ep3.jpg
+
+Vision accuracy: 60% | caught 6/10 failures | false alarms 4/10
