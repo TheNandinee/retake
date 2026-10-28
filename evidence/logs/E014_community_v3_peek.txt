@@ -1,0 +1,41 @@
+Top level: 492 entries (488 folders)  [0s]
+   DIR  00ri
+   DIR  1909398036ljy
+   DIR  1g0rrr
+   DIR  1lyz123576
+   DIR  1zzx23
+   DIR  356c
+   DIR  7jep7
+   DIR  AK51
+   DIR  AMRUBARD
+   DIR  ANRedlich
+   DIR  Aadhavan
+   DIR  Aaron757
+   found root: 00ri/so100_battery  [1s]
+   found root: 1909398036ljy/so100_test  [2s]
+   found root: 1g0rrr/demo2_frame_holder  [2s]
+   found root: 1lyz123576/so101_test-1  [3s]
+   found root: 1zzx23/so100_three_cameras_dataset  [3s]
+
+=== 00ri/so100_battery ===
+   version: v3.0 | fps: 30 | episodes: 50 | robot: so100
+   video_path: videos/{video_key}/chunk-{chunk_index:03d}/file-{file_index:03d}.mp4
+   cameras: ['observation.images.wrist', 'observation.images.top']
+=== 1909398036ljy/so100_test ===
+   version: v3.0 | fps: 30 | episodes: 40 | robot: so100
+   video_path: videos/{video_key}/chunk-{chunk_index:03d}/file-{file_index:03d}.mp4
+   cameras: ['observation.images.wrist', 'observation.images.side']
+=== 1g0rrr/demo2_frame_holder ===
+   version: v3.0 | fps: 30 | episodes: 83 | robot: sam_two
+   video_path: videos/{video_key}/chunk-{chunk_index:03d}/file-{file_index:03d}.mp4
+   cameras: ['observation.images.top', 'observation.images.side', 'observation.images.wrist']
+=== 1lyz123576/so101_test-1 ===
+   version: v3.0 | fps: 30 | episodes: 35 | robot: so101
+   video_path: videos/{video_key}/chunk-{chunk_index:03d}/file-{file_index:03d}.mp4
+   cameras: ['observation.images.top', 'observation.images.front_side']
+=== 1zzx23/so100_three_cameras_dataset ===
+   version: v3.0 | fps: 30 | episodes: 2 | robot: so100
+   video_path: videos/{video_key}/chunk-{chunk_index:03d}/file-{file_index:03d}.mp4
+   cameras: ['observation.images.wrist', 'observation.images.top']
+
+Done in 7s

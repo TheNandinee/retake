@@ -5,6 +5,8 @@ import pandas as pd
 from huggingface_hub import snapshot_download
 from PIL import Image, ImageDraw
 from huggingface_hub import hf_hub_download
+from huggingface_hub import HfApi
+from huggingface_hub.hf_api import RepoFile
 
 DATA = Path("data")
 
@@ -82,10 +84,53 @@ def contact_sheet(ims, cols=4, cell=(448, 336)):
         sheet.paste(im, ((i % cols) * cell[0], (i // cols) * cell[1]))
     return sheet
 
-def episode_video(repo, path, dataset_rel, ep, cam):
-    """Download (once) and return the local mp4 path for one episode (LeRobot v2.x)."""
-    info = load_info(Path(path) / dataset_rel)
+def fetch_subset(repo, subdir, include_videos=False):
+    """Download meta/ and data/ (optionally videos/) of ONE sub-dataset,
+    without listing the whole repo (listing a huge repo is what hung before)."""
+    local = DATA / repo.replace("/", "__")
+    entries = HfApi().list_repo_tree(repo, repo_type="dataset", path_in_repo=subdir, recursive=True)
+    for f in entries:
+        if not isinstance(f, RepoFile):
+            continue
+        p = "/" + f.path
+        if "/meta/" in p or "/data/" in p or (include_videos and "/videos/" in p):
+            hf_hub_download(repo, f.path, repo_type="dataset", local_dir=local)
+    return local
+
+_EPISODES = {}
+def _episodes_meta(root):
+    k = str(root)
+    if k not in _EPISODES:
+        files = sorted((Path(root) / "meta" / "episodes").rglob("*.parquet"))
+        _EPISODES[k] = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
+    return _EPISODES[k]
+
+def episode_video_seg(repo, path, dataset_rel, ep, cam):
+    """Return (local_mp4_path, start_offset_seconds) for one episode.
+    LeRobot v2.x: one file per episode (offset 0). v3.x: many episodes per file."""
+    root = Path(path) / dataset_rel
+    info = load_info(root)
     prefix = "" if str(dataset_rel) in (".", "") else f"{dataset_rel}/"
-    rel = prefix + info["video_path"].format(
-        episode_chunk=ep // info.get("chunks_size", 1000), video_key=cam, episode_index=ep)
-    return hf_hub_download(repo, rel, repo_type="dataset", local_dir=path)
+    tmpl = info["video_path"]
+    if "episode_index" in tmpl:
+        rel = tmpl.format(episode_chunk=ep // info.get("chunks_size", 1000), video_key=cam, episode_index=ep)
+        offset = 0.0
+    else:
+        eps = _episodes_meta(root)
+        rows = eps[eps.episode_index == ep]
+        if rows.empty:
+            raise KeyError(f"episode {ep} not in meta/episodes of {dataset_rel}")
+        row = rows.iloc[0]
+        try:
+            rel = tmpl.format(video_key=cam,
+                              chunk_index=int(row[f"videos/{cam}/chunk_index"]),
+                              file_index=int(row[f"videos/{cam}/file_index"]))
+            offset = float(row[f"videos/{cam}/from_timestamp"])
+        except KeyError:
+            raise KeyError(f"v3 episode columns not found for camera {cam}. "
+                           f"Available: {[c for c in eps.columns if c.startswith('videos/')][:8]}")
+    return hf_hub_download(repo, prefix + rel, repo_type="dataset", local_dir=path), offset
+
+def episode_video(repo, path, dataset_rel, ep, cam):
+    """Backwards-compatible: path only (used by older scripts, v2 datasets)."""
+    return episode_video_seg(repo, path, dataset_rel, ep, cam)[0]

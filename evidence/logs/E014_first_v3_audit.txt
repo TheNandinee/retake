@@ -1,0 +1,15 @@
+Fetching metadata + motion data for 00ri/so100_battery ...
+[1/4] Motion layer...
+      50 episodes | auditing 10 across 1 task groups | 0 motion-flagged
+[2/4] Vision layer (nvidia/Nemotron-3.5-Super-VL, 4 parallel, reference=first)...
+      1/10 episodes checked      2/10 episodes checked      3/10 episodes checked      4/10 episodes checked      5/10 episodes checked      6/10 episodes checked      7/10 episodes checked      8/10 episodes checked      9/10 episodes checked      10/10 episodes checked
+[3/4] Verdicts...
+[4/4] Summary (nvidia/Nemotron-3-Ultra-550b-a55b)...
+
+=== Retake audit: lerobot/community_dataset_v3 [00ri/so100_battery] ===
+Health score: 100.0%  |  clean 10  review 0  retake 0
+Retake issues: {}
+Review issues: {}
+Summary rule violations left after retry: 0
+Model cost: $0.0106  ($1.06 per 1,000 episodes)  |  11s
+Report: reports/community_test/summary.md

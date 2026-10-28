@@ -108,3 +108,12 @@ Human review of the contact sheets from E006:
 - **Result: 0 rule violations after retry; verdicts unchanged (retake precision 80%, 4/12, 1/28).** Only recurring issue reported: pouringCoffee spill ×3 (visible evidence).
 - Bug found: cost-per-1,000 reported as $0.10 on a fully cached run. Fixed: cache hits are counted, and no per-1,000 figure is reported unless the run was uncached. True figure: $1.12 per 1,000 episodes (E012).
 - Log: `evidence/logs/E013_summary_guardrails.txt`
+
+## E014 — LeRobot v3 support + remote frame access · 2026-10-28
+- `lerobot/community_dataset_v3`: 488 contributor folders, all sub-datasets LeRobot **v3.0** (many episodes per video file), varied robots (so100, so101, sam_two) and camera names. Previous pipeline would have silently fallen back to motion-only.
+- Added: targeted per-sub-dataset fetch (listing the whole repo hung for 30+ min), v3 episode offsets from `meta/episodes`, `tasks.parquet` support, per-path task groups (contributors reuse dataset names), third-person camera preference.
+- **Offset verification (00ri/so100_battery, 50 episodes, 2 cameras): video segment length vs motion length max |diff| 0.00s; offsets monotonic.**
+- First v3 audit: 10 episodes, 0 errors, all clean, $0.0106 ($1.06 per 1,000 episodes, consistent with BotFails' $1.12)
+- BotFails regression check: identical verdicts (80% / 4/12 / 1/28)
+- **Remote frame access:** ffmpeg reads frames directly from Hugging Face URLs via range requests: **~4–5 s per frame, no download** (vs 509 s to download one dataset's video). Makes a multi-dataset audit feasible.
+- Logs: `evidence/logs/E014_*`

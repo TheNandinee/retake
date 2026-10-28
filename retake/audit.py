@@ -2,25 +2,27 @@
 
 Usage:
   uv run python -m retake.audit kantine/BotFails --limit 40 --exclude evidence/splits/botfails_TEST_frozen.csv
+  uv run python -m retake.audit lerobot/community_dataset_v3 --subset 00ri/so100_battery --limit 10 --out reports/community_test
 """
 import os, re, json, time, argparse, datetime
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import pandas as pd
 
-from retake.common import DATA, fetch, find_roots, load_info, load_frames, episode_video, contact_sheet
+from retake.common import (DATA, fetch, fetch_subset, find_roots, load_info, load_frames,
+                           episode_video_seg, contact_sheet)
 from retake.signals import episode_signals, gripper_indices
 from retake.vision import audit_episode, VISION_MODEL
 from retake.llm import chat, spent, STATS
 
 JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "nvidia/Nemotron-3-Ultra-550b-a55b")
 LEAK = re.compile(r"\d+\s*[:\-]\s*\d+|anomal|normal test|wrong", re.I)
+PAIRED = re.compile(r"_(anomaly|expert)$")
 
 # Failure types backed by something visible in the frames -> eligible for the RETAKE list.
-# Anything else the vision layer flags (e.g. "incomplete") goes to REVIEW (see E011/E012).
 VISIBLE = {"spill", "dropped_object", "human_intervention", "wrong_object",
            "wrong_placement", "collision", "wrong_target"}
-SYSTEMATIC_MIN = 3   # retake episodes with the same visible issue in one task before we call it a pattern
+SYSTEMATIC_MIN = 3
 
 FEATS = ["duration_s", "idle_ratio", "longest_idle_s", "grip_closes", "jerk", "track_err"]
 MOTION_RULES = [
@@ -62,33 +64,55 @@ BANNED = re.compile(r"systematic|procedural|protocol|delet|requir", re.I)
 
 
 def norm_name(name):
-    return re.sub(r"_(anomaly|expert)$", "", name)
+    return PAIRED.sub("", name)
+
+def group_name(rel, root):
+    """Paired expert/anomaly folders (BotFails style) share a task group; otherwise use the full path,
+    because different contributors can use the same dataset name."""
+    return norm_name(root.name) if PAIRED.search(root.name) else rel
 
 def read_tasks(root):
-    p, out = root / "meta" / "tasks.jsonl", {}
-    if p.exists():
-        for line in p.read_text().splitlines():
+    out = {}
+    pj, pq = root / "meta" / "tasks.jsonl", root / "meta" / "tasks.parquet"
+    if pj.exists():
+        for line in pj.read_text().splitlines():
             if line.strip():
                 d = json.loads(line); out[int(d["task_index"])] = d["task"]
+    elif pq.exists():
+        t = pd.read_parquet(pq).reset_index()
+        tcol = next((c for c in t.columns if c != "task_index" and t[c].dtype == object), None)
+        if tcol and "task_index" in t:
+            out = {int(i): str(s) for i, s in zip(t["task_index"], t[tcol])}
     return out
 
 def episode_id(dataset, ep_idx):
-    stem = Path(dataset).name if dataset not in (".", "") else "episode"
-    return f"{stem} ep{int(ep_idx)}"
+    if dataset in (".", ""):
+        name = "episode"
+    elif PAIRED.search(Path(dataset).name):
+        name = Path(dataset).name
+    else:
+        name = dataset
+    return f"{name} ep{int(ep_idx)}"
 
-def motion_table(path):
+def safe_filename(s):
+    return re.sub(r"[^\w.-]+", "_", s)
+
+def motion_table(path, only=None):
     rows, roots = [], {}
     for root in find_roots(path):
+        rel = str(root.relative_to(path))
+        if only and rel not in only:
+            continue
         if not list((root / "data").rglob("*.parquet")):
             continue
         info, df = load_info(root), load_frames(root)
-        gidx, rel = gripper_indices(info), str(root.relative_to(path))
+        gidx = gripper_indices(info)
         roots[rel] = (root, info, read_tasks(root))
+        grp = group_name(rel, root)
         for ep_idx, ep in df.groupby("episode_index"):
             r = episode_signals(ep, info["fps"], gidx)
             ti = int(ep["task_index"].iloc[0]) if "task_index" in ep else 0
-            r.update(dataset=rel, episode_index=int(ep_idx), task_index=ti,
-                     task_key=f"{norm_name(root.name)}::{ti}")
+            r.update(dataset=rel, episode_index=int(ep_idx), task_index=ti, task_key=f"{grp}::{ti}")
             rows.append(r)
     m = pd.DataFrame(rows)
     for f in FEATS:
@@ -111,7 +135,7 @@ def motion_table(path):
     return m, roots
 
 def task_text_for(task_key, m, roots):
-    ti, cands = int(task_key.split("::")[1]), []
+    ti, cands = int(task_key.split("::")[-1]), []
     for rel in m[m.task_key == task_key].dataset.unique():
         tasks = roots[rel][2]
         if ti in tasks:
@@ -119,7 +143,7 @@ def task_text_for(task_key, m, roots):
     for _, t in sorted(cands):
         if not LEAK.search(t):
             return t
-    return task_key.split("::")[0].replace("_", " ")
+    return task_key.split("::")[0].split("/")[-1].replace("_", " ")
 
 def pick_reference(task_key, m, exclude, self_key, mode="first"):
     """mode='first': lowest-index demo (E008/E012 setting). mode='typical': most typical motion (E010)."""
@@ -147,7 +171,6 @@ def select(m, limit, exclude, seed=0):
     return pd.DataFrame(picked)
 
 def compute_hotspots(ep):
-    """Facts decided by code, not by the LLM."""
     out = []
     for t, d in ep.groupby("task_key"):
         rt, rv = d[d.status == "retake"], d[d.status == "review"]
@@ -174,7 +197,6 @@ def hotspots_md(hs):
     return "\n".join(lines) + "\n\n"
 
 def write_summary(stats, findings_json):
-    """Ultra writes the prose; code validates it and retries once on rule violations."""
     msgs = [{"role": "user", "content": SUMMARY_PROMPT.format(stats=json.dumps(stats, indent=1),
                                                               findings=findings_json)}]
     text = chat(JUDGE_MODEL, msgs, max_tokens=3000, think=False, tag="audit:summary")
@@ -195,58 +217,75 @@ def write_summary(stats, findings_json):
 def main():
     ap = argparse.ArgumentParser(description="Retake: audit a LeRobot dataset for bad demonstrations")
     ap.add_argument("repo")
+    ap.add_argument("--subset", default=None,
+                    help="comma-separated sub-dataset paths inside the repo (e.g. 00ri/so100_battery)")
     ap.add_argument("--limit", type=int, default=0, help="max episodes to audit (0 = all)")
     ap.add_argument("--exclude", default=None, help="CSV of dataset,episode_index to skip (e.g. a frozen test split)")
-    ap.add_argument("--cam", default=None, help="camera key (default: first video feature)")
+    ap.add_argument("--cam", default=None, help="camera key (default: prefer top/front/side/high, else first)")
     ap.add_argument("--vision", choices=["all", "flagged", "none"], default="all")
-    ap.add_argument("--reference", choices=["first", "typical"], default="first",
-                    help="how to pick each task's known-good reference demo")
+    ap.add_argument("--reference", choices=["first", "typical"], default="first")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--save-all-frames", action="store_true", help="save frame sheets for clean episodes too")
     a = ap.parse_args()
 
     path = DATA / a.repo.replace("/", "__")
-    if not list(path.rglob("*.parquet")):
+    only = [s.strip().strip("/") for s in a.subset.split(",")] if a.subset else None
+    if only:
+        for s in only:
+            print(f"Fetching metadata + motion data for {s} ...")
+            fetch_subset(a.repo, s)
+    elif not list(path.rglob("*.parquet")):
         print("Fetching metadata + motion data (no videos)...")
         fetch(a.repo, ["*.md", "meta/**", "**/meta/**", "data/**", "**/data/**"])
     start_spend, t0 = spent(), time.time()
 
     print("[1/4] Motion layer...")
-    m, roots = motion_table(path)
+    m, roots = motion_table(path, only)
+    if m.empty:
+        raise SystemExit("No episodes found - check --subset paths.")
     exclude = set()
     if a.exclude:
         e = pd.read_csv(a.exclude)
         exclude = set(e.dataset + ":" + e.episode_index.astype(str))
     sel = select(m, a.limit, exclude)
-    print(f"      {len(m)} episodes in dataset | auditing {len(sel)} across {sel.task_key.nunique()} tasks "
+    print(f"      {len(m)} episodes | auditing {len(sel)} across {sel.task_key.nunique()} task groups "
           f"| {sum(len(f) > 0 for f in sel.motion_flags)} motion-flagged")
 
-    info0 = next(iter(roots.values()))[1]
-    cams = [k for k, v in info0["features"].items() if v.get("dtype") == "video"]
-    cam = a.cam or (cams[0] if cams else None)
-    v3_layout = "episode_index" not in info0.get("video_path", "")
-    do_vision = a.vision != "none" and cam is not None and not v3_layout
-    if v3_layout:
-        print("      NOTE: LeRobot v3 video layout not supported yet -> motion-only audit")
+    def camera_for(info):
+        cams = [k for k, v in info["features"].items() if v.get("dtype") == "video"]
+        if a.cam and a.cam in cams:
+            return a.cam
+        for pref in ("top", "front", "high", "side"):     # third-person views show the scene best
+            for c in cams:
+                if pref in c.split(".")[-1]:
+                    return c
+        return cams[0] if cams else None
+    cams = {rel: camera_for(info) for rel, (_, info, _) in roots.items()}
     tasks = {k: task_text_for(k, m, roots) for k in sel.task_key.unique()}
 
     def job(r):
         try:
             if a.vision == "flagged" and not r.motion_flags:
                 return r.key, {}
+            cam = cams.get(r.dataset)
+            if cam is None:
+                return r.key, {"error": "no video feature"}
             ref = pick_reference(r.task_key, m, exclude, r.key, a.reference)
             if ref is None:
                 return r.key, {}
-            video = episode_video(a.repo, path, r.dataset, int(r.episode_index), cam)
-            ref_video = episode_video(a.repo, path, ref.dataset, int(ref.episode_index), cam)
+            video, off = episode_video_seg(a.repo, path, r.dataset, int(r.episode_index), cam)
+            ref_video, ref_off = episode_video_seg(a.repo, path, ref.dataset, int(ref.episode_index),
+                                                   cams.get(ref.dataset, cam))
             v = audit_episode(video, r.duration_s, tasks[r.task_key], ref_video, ref.duration_s,
-                              tag=f"audit:{r.dataset}:{r.episode_index}")
+                              tag=f"audit:{r.dataset}:{r.episode_index}",
+                              video_offset=off, ref_offset=ref_off)
             return r.key, {"vision": v, "ref": ref.key}
         except Exception as ex:
-            return r.key, {"error": str(ex)[:200]}
+            return r.key, {"error": f"{type(ex).__name__}: {str(ex)[:200]}"}
 
     results = {}
-    if do_vision:
+    if a.vision != "none":
         print(f"[2/4] Vision layer ({VISION_MODEL}, {a.workers} parallel, reference={a.reference})...")
         with ThreadPoolExecutor(a.workers) as ex:
             futs = [ex.submit(job, r) for _, r in sel.iterrows()]
@@ -254,6 +293,9 @@ def main():
                 k, out = f.result(); results[k] = out
                 print(f"      {i}/{len(futs)} episodes checked", end="\r")
         print()
+        errs = [o["error"] for o in results.values() if "error" in o]
+        if errs:
+            print(f"      WARNING: {len(errs)} episodes failed in the vision layer. First error: {errs[0]}")
 
     print("[3/4] Verdicts...")
     out_dir = Path(a.out or f"reports/{a.repo.replace('/', '__')}")
@@ -277,14 +319,14 @@ def main():
                                        "vision_error" if ("raw" in v or "error" in res) else "none")
         rec = dict(id=episode_id(r.dataset, r.episode_index), dataset=r.dataset,
                    episode_index=int(r.episode_index), task_key=r.task_key, task=tasks[r.task_key],
-                   status=status, vision_anomaly=anomaly, failure_type=issue,
+                   camera=cams.get(r.dataset), status=status, vision_anomaly=anomaly, failure_type=issue,
                    duration_s=round(r.duration_s, 1), motion_score=round(r.motion_score, 2),
                    motion_flags=r.motion_flags, reason=v.get("reason"),
                    evidence_time_s=v.get("evidence_time_s"), confidence=v.get("confidence"),
                    human_in_workspace=v.get("human_in_workspace"), reference=res.get("ref"),
                    error=res.get("error"))
-        if frames and status != "clean":
-            fn = rec["id"].replace(" ", "_") + ".jpg"
+        if frames and (status != "clean" or a.save_all_frames):
+            fn = safe_filename(rec["id"]) + ".jpg"
             contact_sheet(frames, cols=3).save(out_dir / "frames" / fn)
             rec["frames"] = f"frames/{fn}"
         recs.append(rec)
@@ -294,8 +336,9 @@ def main():
     counts = ep.status.value_counts().to_dict()
     hs = compute_hotspots(ep)
     stats = {
-        "dataset": a.repo, "audited_episodes": n, "episodes_in_dataset": len(m),
-        "tasks": int(ep.task_key.nunique()),
+        "dataset": a.repo + (f" [{a.subset}]" if a.subset else ""),
+        "audited_episodes": n, "episodes_in_scope": len(m),
+        "task_groups": int(ep.task_key.nunique()),
         "clean": counts.get("clean", 0), "review": counts.get("review", 0), "retake": counts.get("retake", 0),
         "health_score_pct": round(100 * counts.get("clean", 0) / n, 1) if n else 0,
         "retake_issue_types": ep[ep.status == "retake"].failure_type.value_counts().to_dict(),
@@ -326,12 +369,12 @@ def main():
 
     ep.assign(motion_flags=ep.motion_flags.apply("; ".join)).to_csv(out_dir / "episodes.csv", index=False)
     (out_dir / "report.json").write_text(json.dumps({"stats": stats, "episodes": recs}, indent=1, default=str))
-    (out_dir / "summary.md").write_text(f"# Retake audit: {a.repo}\n\n" + body)
+    (out_dir / "summary.md").write_text(f"# Retake audit: {stats['dataset']}\n\n" + body)
     for s, fname in [("retake", "retake_list.txt"), ("review", "review_list.txt"), ("clean", "clean_episodes.txt")]:
         (out_dir / fname).write_text("\n".join(ep[ep.status == s].apply(
             lambda x: f"{x.dataset}\t{x.episode_index}", axis=1)) + "\n")
 
-    print(f"\n=== Retake audit: {a.repo} ===")
+    print(f"\n=== Retake audit: {stats['dataset']} ===")
     print(f"Health score: {stats['health_score_pct']}%  |  clean {stats['clean']}  review {stats['review']}  retake {stats['retake']}")
     print(f"Retake issues: {stats['retake_issue_types']}")
     print(f"Review issues: {stats['review_issue_types']}")
