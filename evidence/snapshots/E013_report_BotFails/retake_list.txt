@@ -1,0 +1,5 @@
+BotFails/normal_train/domotic_vegetablesAndFruitsSorting_expert	15
+BotFails/test/domotic_pouringCoffee_anomaly	5
+BotFails/test/domotic_pouringCoffee_anomaly	10
+BotFails/test/domotic_vegetablesAndFruitsSorting_anomaly	10
+BotFails/test/domotic_pouringCoffee_anomaly	1

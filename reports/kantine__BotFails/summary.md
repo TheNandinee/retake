@@ -1,35 +1,32 @@
 # Retake audit: kantine/BotFails
 
 ## Verdict
-The dataset health score is 52.5% based on 40 audited episodes (21 clean, 14 flagged for review, 5 flagged for retake).
+The audited 40-episode sample (12.4% of 323) scored 52.5% health: 21 clean, 14 flagged for review, and 5 flagged for retake.
 
 ## Caveats
-This is an automated audit; on a labeled benchmark the vision layer agreed with human labels 72% of the time. A human should verify the flagged frames before any data is deleted or re-recorded.
+This is an automated audit; on a labeled benchmark the vision layer agreed with human labels about 72% of the time. A human should check the flagged frames before any episode is removed or re-recorded.
 
 ## What we found
-**Retake (5 episodes):** 3 spills, 2 wrong placements.
-*   *domotic_pouringCoffee::0, test ep. 5:* Dark liquid spilled on table at 17.9s.
-*   *domotic_vegetablesAndFruitsSorting::0, normal_train ep. 15:* Pink box holds vegetables; yellow box holds vegetables, contradicting reference state.
-*   *domotic_pouringCoffee::0, test ep. 10:* Liquid spilled and cup knocked over at 23.9s.
-*   *domotic_vegetablesAndFruitsSorting::0, test ep. 10:* Fruits placed in green vegetable box instead of pink fruit box.
-*   *domotic_pouringCoffee::0, test ep. 1:* Liquid spilled on table during pouring at 17.9s.
+**Retake (5 episodes)**
+- Spill (3): `domotic_pouringCoffee_anomaly ep1` (liquid spilled on table at 17.9s), `domotic_pouringCoffee_anomaly ep10` (liquid spilled and cup knocked over at 23.9s).
+- Wrong placement (2): `domotic_vegetablesAndFruitsSorting_expert ep15` (vegetables in pink fruit box at 39.0s), `domotic_vegetablesAndFruitsSorting_anomaly ep10` (fruits placed in green vegetable box at 39.0s).
 
-**Review (14 episodes):** 13 incomplete, 1 false positive.
-*   *domotic_makingCoffee::0, normal_train ep. 2:* Robot never transferred coffee powder into filter.
-*   *industrial_robothon_buttons::0, normal_train ep. 11:* Episode ends in start state; slider not moved, no button pushes.
-*   *domotic_makingCoffee::0, test ep. 12:* Powder not transferred; spoon left on table (motion: +4.0 SD duration).
-*   *industrial_screws_sorting::0, test ep. 4:* Final state matches reference, but episode much shorter than typical (-2.2 SD).
-*   *industrial_soldering::0, normal_train ep. 6:* Soldering iron never moves to board.
+**Review (14 episodes, unconfirmed — possible issues)**
+- Incomplete (13): `domotic_makingCoffee_expert ep2` (no coffee powder transferred at 34.1s), `industrial_robothon_buttons_expert ep11` (slider not moved, no button pushes at 29.3s).
+- Motion only (1): `industrial_screws_sorting_anomaly ep4` (final state matches reference but duration much shorter than typical, -2.2 sd).
 
 ## Hotspots
-*   **domotic_pouringCoffee::0 (3 retake, all spill):** Systematic collection problem—every audited anomaly episode shows a spill.
-*   **domotic_vegetablesAndFruitsSorting::0 (2 retake, both wrong_placement):** No clear systematic pattern (only 2 matching retake episodes).
-*   **domotic_makingCoffee::0 (4 review, all incomplete):** Systematic collection problem—4 episodes show missing powder transfer step.
-*   **industrial_robothon_buttons::0 (3 review, all incomplete):** Systematic collection problem—3 episodes end without slider/button manipulation.
+- **domotic_pouringCoffee**: 3 retake, 0 review (of 4 audited) - possible recurring issue: **spill** in 3 episodes
+- **domotic_vegetablesAndFruitsSorting**: 2 retake, 1 review (of 4 audited)
+- **domotic_makingCoffee**: 0 retake, 3 review (of 4 audited)
+- **industrial_robothon_buttons**: 0 retake, 3 review (of 4 audited)
+- **industrial_screws_sorting**: 0 retake, 2 review (of 4 audited)
+- **domotic_dishTidyUp**: 0 retake, 1 review (of 4 audited)
+- **domotic_groceriesSorting**: 0 retake, 1 review (of 4 audited)
+- **domotic_setTheTable**: 0 retake, 1 review (of 4 audited)
+- **industrial_robothon_hatchAndProbe**: 0 retake, 1 review (of 4 audited)
+- **industrial_soldering**: 0 retake, 1 review (of 4 audited)
+- Review flags are unconfirmed and are not, on their own, evidence of a problem with the data.
 
 ## Recommended actions
-1.  **Re-check the 3 `domotic_pouringCoffee` retake episodes (test ep. 1, 5, 10)** first: consistent visual evidence of spills makes these high-confidence deletes or re-records.
-2.  **Re-check the 4 `domotic_makingCoffee` review episodes (normal_train ep. 2, 13; test ep. 12; anomaly ep. 12)** next: unanimous "incomplete" flags across splits suggest a procedural gap in the demonstration script.
-3.  **Re-check the 3 `industrial_robothon_buttons` review episodes (normal_train ep. 11, 14; test ep. 8)**: consistent failure to manipulate slider/buttons indicates a possible task definition or execution issue.
-4.  **Verify the 2 `domotic_vegetablesAndFruitsSorting` retake episodes (normal_train ep. 15; test ep. 10)** for box-label confusion.
-5.  **Inspect `industrial_screws_sorting` test ep. 4**: flagged "review/none" but duration is -2.2 SD; confirm if episode was truncated.
+Check retake episodes first due to visible evidence: the three `domotic_pouringCoffee` spill episodes (`anomaly ep1`, `anomaly ep5`, `anomaly ep10`) and the two `domotic_vegetablesAndFruitsSorting` wrong-placement episodes (`expert ep15`, `anomaly ep10`). Then review the incomplete episodes, prioritizing `domotic_makingCoffee_expert ep2` and `industrial_robothon_buttons_expert ep11` (both show unfinished tasks at ~30s), and `industrial_screws_sorting_anomaly ep4` for the motion-only timing anomaly.

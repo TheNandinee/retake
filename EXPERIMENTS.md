@@ -101,3 +101,10 @@ Human review of the contact sheets from E006:
 - Health score 52.5% · cost $0.045 ($1.12 per 1,000 episodes) · 37s
 - Caution: precision based on 5 retake verdicts; the defended number will come from the frozen test set
 - Log: `evidence/logs/E012_audit_fixed.txt`
+
+## E013 — Summary guardrails: code decides facts, LLM writes prose · 2026-10-28
+- Problem (E012): Ultra ignored prompt rules, calling "review" flags a "systematic collection problem", citing a duplicate episode, mislabeling a motion-only flag as "false positive"
+- Fix: (1) Hotspots computed in Python; a "possible recurring issue" requires 3+ retake episodes with the same visible issue in one task. (2) Validator scans Ultra's text for banned claims (systematic / procedural / protocol / delete / require) → one retry with offending lines quoted → remaining lines removed. (3) Unique episode ids. (4) Motion-only flags labeled `motion_only`.
+- **Result: 0 rule violations after retry; verdicts unchanged (retake precision 80%, 4/12, 1/28).** Only recurring issue reported: pouringCoffee spill ×3 (visible evidence).
+- Bug found: cost-per-1,000 reported as $0.10 on a fully cached run. Fixed: cache hits are counted, and no per-1,000 figure is reported unless the run was uncached. True figure: $1.12 per 1,000 episodes (E012).
+- Log: `evidence/logs/E013_summary_guardrails.txt`

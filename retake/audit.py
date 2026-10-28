@@ -11,15 +11,16 @@ import pandas as pd
 from retake.common import DATA, fetch, find_roots, load_info, load_frames, episode_video, contact_sheet
 from retake.signals import episode_signals, gripper_indices
 from retake.vision import audit_episode, VISION_MODEL
-from retake.llm import chat, spent
+from retake.llm import chat, spent, STATS
 
 JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "nvidia/Nemotron-3-Ultra-550b-a55b")
 LEAK = re.compile(r"\d+\s*[:\-]\s*\d+|anomal|normal test|wrong", re.I)
 
 # Failure types backed by something visible in the frames -> eligible for the RETAKE list.
-# Anything else the vision layer flags (e.g. "incomplete") goes to REVIEW (see E011).
+# Anything else the vision layer flags (e.g. "incomplete") goes to REVIEW (see E011/E012).
 VISIBLE = {"spill", "dropped_object", "human_intervention", "wrong_object",
            "wrong_placement", "collision", "wrong_target"}
+SYSTEMATIC_MIN = 3   # retake episodes with the same visible issue in one task before we call it a pattern
 
 FEATS = ["duration_s", "idle_ratio", "longest_idle_s", "grip_closes", "jerk", "track_err"]
 MOTION_RULES = [
@@ -31,28 +32,33 @@ MOTION_RULES = [
     ("track_err_z",      ">",  3.0, "commanded and actual motion diverge - possible collision or blocked arm"),
 ]
 
-SUMMARY_PROMPT = """You write the executive summary of an automated quality audit of a robot-demonstration training dataset.
-Audience: the robotics team that collected the data. Be concrete, brief, and careful: a wrong recommendation could make them delete good data.
+SUMMARY_PROMPT = """You write part of the summary of an automated quality audit of a robot-demonstration training dataset.
+Audience: the robotics team that collected the data. Be concrete, brief, and careful: a wrong recommendation could make them throw away good data.
 
 AUDIT STATS (JSON):
 {stats}
 
-FLAGGED EPISODES (JSON). status "retake" = strong visual evidence of a problem; "review" = uncertain, needs a human look:
+FLAGGED EPISODES (JSON). status "retake" = visible evidence of a problem in the frames; "review" = unconfirmed, needs a human look.
+Each episode has an "id" - refer to episodes ONLY by that exact id.
 {findings}
 
-Write Markdown with exactly these sections, keeping the whole summary under 450 words:
+Write Markdown with exactly these four sections, under 400 words in total:
 ## Verdict
-One sentence with the health score. Say episodes were "flagged", never that they "require" anything.
+One sentence with the health score and the counts. Episodes are "flagged", never "required" to do anything.
 ## Caveats
-Two sentences: this is an automated audit; on a labeled benchmark the vision layer was right about 72% of the time, so a human should check the flagged frames before any data is deleted or re-recorded.
+Two sentences: this is an automated audit; on a labeled benchmark the vision layer agreed with human labels about 72% of the time, so a human should check the flagged frames before any episode is removed or re-recorded.
 ## What we found
-Counts by issue type, each with at most 2 concrete examples (task + episode number + what happened, from the reasons above).
-## Hotspots
-Tasks with the most flags. Only call something a systematic collection problem if at least 3 episodes of the same task show the same visible issue (spill, wrong placement, human in workspace, dropped object); otherwise say "no clear systematic pattern".
+First the retake flags grouped by issue type, at most 2 example ids each with what happened. Then the review flags grouped by issue type, at most 2 example ids each. Review flags are unconfirmed: describe them as "possible", never as facts.
 ## Recommended actions
-Which episodes to re-check first and why. Do not propose new numeric thresholds or rules that are not in the data.
+Which episode ids a human should check first and why. Retake episodes first, then review episodes.
 
-Use ONLY numbers and episodes from the data above. Never invent numbers."""
+Rules:
+- Do NOT write a Hotspots section; it is generated separately from the data.
+- Never use these words: systematic, procedural, protocol, delete, require.
+- Do not draw conclusions about how the data was collected.
+- Use only numbers and ids that appear in the data above."""
+
+BANNED = re.compile(r"systematic|procedural|protocol|delet|requir", re.I)
 
 
 def norm_name(name):
@@ -65,6 +71,10 @@ def read_tasks(root):
             if line.strip():
                 d = json.loads(line); out[int(d["task_index"])] = d["task"]
     return out
+
+def episode_id(dataset, ep_idx):
+    stem = Path(dataset).name if dataset not in (".", "") else "episode"
+    return f"{stem} ep{int(ep_idx)}"
 
 def motion_table(path):
     rows, roots = [], {}
@@ -112,7 +122,7 @@ def task_text_for(task_key, m, roots):
     return task_key.split("::")[0].replace("_", " ")
 
 def pick_reference(task_key, m, exclude, self_key, mode="first"):
-    """mode='first': lowest-index demo (E008 setting). mode='typical': most typical motion (E010)."""
+    """mode='first': lowest-index demo (E008/E012 setting). mode='typical': most typical motion (E010)."""
     g = m[(m.task_key == task_key) & ~m.key.isin(exclude) & (m.key != self_key)]
     if g.empty:
         return None
@@ -135,6 +145,51 @@ def select(m, limit, exclude, seed=0):
             break
         i += 1
     return pd.DataFrame(picked)
+
+def compute_hotspots(ep):
+    """Facts decided by code, not by the LLM."""
+    out = []
+    for t, d in ep.groupby("task_key"):
+        rt, rv = d[d.status == "retake"], d[d.status == "review"]
+        if rt.empty and rv.empty:
+            continue
+        types = rt.failure_type.value_counts()
+        sys_issue = types.index[0] if len(types) and types.iloc[0] >= SYSTEMATIC_MIN else None
+        out.append({"task": t.split("::")[0], "audited": len(d), "retake": len(rt), "review": len(rv),
+                    "retake_types": {k: int(v) for k, v in types.items()},
+                    "possible_systematic_issue": sys_issue})
+    return sorted(out, key=lambda h: (-h["retake"], -h["review"]))
+
+def hotspots_md(hs):
+    lines = ["## Hotspots"]
+    for h in hs:
+        s = f"- **{h['task']}**: {h['retake']} retake, {h['review']} review (of {h['audited']} audited)"
+        if h["possible_systematic_issue"]:
+            k = h["possible_systematic_issue"]
+            s += f" - possible recurring issue: **{k}** in {h['retake_types'][k]} episodes"
+        lines.append(s)
+    if not any(h["possible_systematic_issue"] for h in hs):
+        lines.append(f"- No clear recurring pattern: no task has {SYSTEMATIC_MIN}+ retake episodes with the same visible issue.")
+    lines.append("- Review flags are unconfirmed and are not, on their own, evidence of a problem with the data.")
+    return "\n".join(lines) + "\n\n"
+
+def write_summary(stats, findings_json):
+    """Ultra writes the prose; code validates it and retries once on rule violations."""
+    msgs = [{"role": "user", "content": SUMMARY_PROMPT.format(stats=json.dumps(stats, indent=1),
+                                                              findings=findings_json)}]
+    text = chat(JUDGE_MODEL, msgs, max_tokens=3000, think=False, tag="audit:summary")
+    if not text:
+        return None, []
+    bad = [l.strip() for l in text.splitlines() if BANNED.search(l)]
+    if bad:
+        msgs += [{"role": "assistant", "content": text},
+                 {"role": "user", "content": "These lines break the rules (banned words or unsupported conclusions):\n"
+                  + "\n".join(f"- {b}" for b in bad) + "\nRewrite the full summary without them, same four sections."}]
+        text = chat(JUDGE_MODEL, msgs, max_tokens=3000, think=False, tag="audit:summary-retry") or text
+        bad = [l.strip() for l in text.splitlines() if BANNED.search(l)]
+        if bad:
+            text = "\n".join(l for l in text.splitlines() if not BANNED.search(l))
+    return text, bad
 
 
 def main():
@@ -204,7 +259,7 @@ def main():
     out_dir = Path(a.out or f"reports/{a.repo.replace('/', '__')}")
     (out_dir / "frames").mkdir(parents=True, exist_ok=True)
     for old in (out_dir / "frames").glob("*.jpg"):
-        old.unlink()   # don't keep frames from a previous run
+        old.unlink()
     recs = []
     for _, r in sel.iterrows():
         res = results.get(r.key, {})
@@ -213,21 +268,23 @@ def main():
         anomaly = str(v.get("anomaly")).lower() == "true"
         ftype = str(v.get("failure_type") or "none")
         if anomaly and ftype in VISIBLE:
-            status = "retake"            # strong, visible evidence
+            status = "retake"
         elif anomaly or r.motion_flags or "raw" in v or "error" in res:
-            status = "review"            # uncertain (e.g. "incomplete"), needs a human look
+            status = "review"
         else:
             status = "clean"
-        rec = dict(dataset=r.dataset, episode_index=int(r.episode_index), task_key=r.task_key,
-                   task=tasks[r.task_key], status=status, vision_anomaly=anomaly,
+        issue = ftype if anomaly else ("motion_only" if r.motion_flags else
+                                       "vision_error" if ("raw" in v or "error" in res) else "none")
+        rec = dict(id=episode_id(r.dataset, r.episode_index), dataset=r.dataset,
+                   episode_index=int(r.episode_index), task_key=r.task_key, task=tasks[r.task_key],
+                   status=status, vision_anomaly=anomaly, failure_type=issue,
                    duration_s=round(r.duration_s, 1), motion_score=round(r.motion_score, 2),
-                   motion_flags=r.motion_flags, failure_type=v.get("failure_type"), reason=v.get("reason"),
+                   motion_flags=r.motion_flags, reason=v.get("reason"),
                    evidence_time_s=v.get("evidence_time_s"), confidence=v.get("confidence"),
                    human_in_workspace=v.get("human_in_workspace"), reference=res.get("ref"),
                    error=res.get("error"))
         if frames and status != "clean":
-            stem = Path(r.dataset).name if r.dataset not in (".", "") else "ep"
-            fn = f"{stem}_ep{int(r.episode_index)}.jpg"
+            fn = rec["id"].replace(" ", "_") + ".jpg"
             contact_sheet(frames, cols=3).save(out_dir / "frames" / fn)
             rec["frames"] = f"frames/{fn}"
         recs.append(rec)
@@ -235,36 +292,41 @@ def main():
 
     n = len(ep)
     counts = ep.status.value_counts().to_dict()
-    by_task = {t: {"audited": len(d), "retake": int((d.status == "retake").sum()),
-                   "review": int((d.status == "review").sum())} for t, d in ep.groupby("task_key")}
+    hs = compute_hotspots(ep)
     stats = {
         "dataset": a.repo, "audited_episodes": n, "episodes_in_dataset": len(m),
         "tasks": int(ep.task_key.nunique()),
         "clean": counts.get("clean", 0), "review": counts.get("review", 0), "retake": counts.get("retake", 0),
         "health_score_pct": round(100 * counts.get("clean", 0) / n, 1) if n else 0,
         "retake_issue_types": ep[ep.status == "retake"].failure_type.value_counts().to_dict(),
-        "review_issue_types": ep[ep.status == "review"].failure_type.fillna("motion_only").value_counts().to_dict(),
-        "by_task": by_task,
+        "review_issue_types": ep[ep.status == "review"].failure_type.value_counts().to_dict(),
+        "hotspots": hs,
     }
 
     print(f"[4/4] Summary ({JUDGE_MODEL})...")
     findings = ep[ep.status != "clean"].head(40)[
-        ["task_key", "dataset", "episode_index", "status", "failure_type", "reason", "motion_flags", "evidence_time_s"]]
-    summary = chat(JUDGE_MODEL, [{"role": "user", "content": SUMMARY_PROMPT.format(
-        stats=json.dumps(stats, indent=1), findings=findings.to_json(orient="records"))}],
-        max_tokens=3000, think=False, tag="audit:summary")
+        ["id", "status", "failure_type", "reason", "motion_flags", "evidence_time_s"]]
+    prose, leftover = write_summary(stats, findings.to_json(orient="records"))
+    if prose:
+        body = prose if "## Recommended actions" not in prose else \
+            prose.replace("## Recommended actions", hotspots_md(hs) + "## Recommended actions", 1)
+        if "## Hotspots" not in body:
+            body += "\n\n" + hotspots_md(hs)
+    else:
+        body = "_summary not generated (dry run?)_\n\n" + hotspots_md(hs)
 
     cost = spent() - start_spend
     stats.update(model_cost_usd=round(cost, 4),
-                 cost_per_1000_episodes_usd=round(1000 * cost / n, 2) if n else None,
-                 runtime_s=round(time.time() - t0),
-                 reference_mode=a.reference,
+                 cost_per_1000_episodes_usd=(round(1000 * cost / n, 2) if n and STATS["cache_hits"] == 0 else None),
+                 fresh_model_calls=STATS["fresh_calls"], cached_model_calls=STATS["cache_hits"],
+                 runtime_s=round(time.time() - t0), reference_mode=a.reference,
+                 summary_rule_violations_removed=len(leftover),
                  models={"vision": VISION_MODEL, "summary": JUDGE_MODEL},
                  generated_at=datetime.datetime.now().isoformat(timespec="seconds"))
 
     ep.assign(motion_flags=ep.motion_flags.apply("; ".join)).to_csv(out_dir / "episodes.csv", index=False)
     (out_dir / "report.json").write_text(json.dumps({"stats": stats, "episodes": recs}, indent=1, default=str))
-    (out_dir / "summary.md").write_text(f"# Retake audit: {a.repo}\n\n" + (summary or "_summary not generated (dry run?)_"))
+    (out_dir / "summary.md").write_text(f"# Retake audit: {a.repo}\n\n" + body)
     for s, fname in [("retake", "retake_list.txt"), ("review", "review_list.txt"), ("clean", "clean_episodes.txt")]:
         (out_dir / fname).write_text("\n".join(ep[ep.status == s].apply(
             lambda x: f"{x.dataset}\t{x.episode_index}", axis=1)) + "\n")
@@ -273,7 +335,12 @@ def main():
     print(f"Health score: {stats['health_score_pct']}%  |  clean {stats['clean']}  review {stats['review']}  retake {stats['retake']}")
     print(f"Retake issues: {stats['retake_issue_types']}")
     print(f"Review issues: {stats['review_issue_types']}")
-    print(f"Model cost: ${cost:.4f}  (${stats['cost_per_1000_episodes_usd']} per 1,000 episodes)  |  {stats['runtime_s']}s")
+    print(f"Summary rule violations left after retry: {len(leftover)}")
+    if STATS["cache_hits"]:
+        print(f"Model cost this run: ${cost:.4f}  ({STATS['cache_hits']} answers reused from cache, "
+              f"so no per-1,000 figure; full-run cost measured in E012: $1.12 per 1,000 episodes)  |  {stats['runtime_s']}s")
+    else:
+        print(f"Model cost: ${cost:.4f}  (${stats['cost_per_1000_episodes_usd']} per 1,000 episodes)  |  {stats['runtime_s']}s")
     print(f"Report: {out_dir}/summary.md")
 
 if __name__ == "__main__":

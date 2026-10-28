@@ -18,6 +18,7 @@ DRY_RUN = os.getenv("RETAKE_DRY_RUN", "0") == "1"
 CACHE = Path("results/llm_cache"); CACHE.mkdir(parents=True, exist_ok=True)
 LEDGER = Path("results/ledger.jsonl")
 _LOCK = threading.Lock()
+STATS = {"fresh_calls": 0, "cache_hits": 0}
 
 client = OpenAI(base_url="https://api.tokenfactory.nebius.com/v1/",
                 api_key=os.environ["NEBIUS_API_KEY"])
@@ -36,6 +37,8 @@ def chat(model, messages, max_tokens=600, think=False, tag=""):
                                     sort_keys=True).encode()).hexdigest()
     cached = CACHE / f"{key}.json"
     if cached.exists():
+        with _LOCK:
+            STATS["cache_hits"] += 1
         return json.loads(cached.read_text())["content"]
 
     if DRY_RUN:
@@ -54,6 +57,7 @@ def chat(model, messages, max_tokens=600, think=False, tag=""):
     content = r.choices[0].message.content
 
     with _LOCK:
+        STATS["fresh_calls"] += 1
         cached.write_text(json.dumps({"model": model, "content": content}))
         with LEDGER.open("a") as f:
             f.write(json.dumps({"ts": time.time(), "model": model, "tag": tag,
