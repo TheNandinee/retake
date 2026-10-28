@@ -4,7 +4,7 @@ import numpy as np
 from retake.common import to_mat, _episodes_meta
 
 HARD = {"frozen_video", "black_frames", "duplicate_episode", "empty_episode", "nan_values",
-        "dead_sensor", "length_mismatch", "timestamp_error", "dropped_frames"}
+        "dead_sensor", "no_motion", "length_mismatch", "timestamp_error", "dropped_frames"}
 
 def _joint_names(info):
     names = info["features"]["observation.state"].get("names")
@@ -57,7 +57,9 @@ def check_dataset(df, info, root=None):
         med = np.median(np.stack(list(stds.values())), axis=0)
         for e, sd in stds.items():
             dead = [j for j in range(len(sd)) if sd[j] < 1e-6 and med[j] > 1e-3]
-            if dead:
+            if dead and len(dead) == len(sd):
+                res[e].append(("no_motion", "robot never moves: every joint is constant for the whole episode", True))
+            elif dead:
                 jn = [str(names[j]) if names and j < len(names) else f"joint {j}" for j in dead]
                 res[e].append(("dead_sensor", f"{', '.join(jn)} never changes (moves in other episodes)", True))
 

@@ -135,3 +135,10 @@ Human review of the contact sheets from E006:
 - 0 integrity issues; 6 motion-only review flags; health 95.5%
 - BotFails regression with integrity wired in: unchanged (80% / 4/12 / 1/28)
 - Log: `evidence/logs/E017_integrity_scan.txt`
+
+## E016b — The "false positive" was real: motionless expert demo · 2026-10-28
+- Investigated the 1/178 flag from E016: BotFails setTheTable **expert** ep7
+- **35 frames (1.2 s); state and action standard deviation exactly 0.0 on all 6 joints; frames show the robot never moves.** An accidental start/stop recording saved as an expert demonstration.
+- → Integrity layer false positives on clean expert data: **0/178**. This is a genuine broken episode in a published benchmark's expert set, found by a deterministic check.
+- Label improved: all-joints-constant is now reported as `no_motion` ("robot never moves") rather than `dead_sensor`
+- Log: `evidence/logs/E016b_setTheTable_ep7.txt`

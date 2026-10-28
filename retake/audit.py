@@ -42,7 +42,7 @@ AUDIT STATS (JSON):
 {stats}
 
 FLAGGED EPISODES (JSON). status "retake" = visible evidence of a problem in the frames; "review" = unconfirmed, needs a human look.
-Each episode has an "id" - refer to episodes ONLY by that exact id. Failure types frozen_video, black_frames, dropped_frames, duplicate_episode, dead_sensor, empty_episode,
+Each episode has an "id" - refer to episodes ONLY by that exact id. Failure types frozen_video, black_frames, dropped_frames, duplicate_episode, dead_sensor, no_motion, empty_episode, 
 nan_values, length_mismatch and timestamp_error come from deterministic code checks: they are certain facts, not AI judgments.
 {findings}
 
