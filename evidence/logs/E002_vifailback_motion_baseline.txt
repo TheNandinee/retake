@@ -1,0 +1,13 @@
+  .: 1000 episodes
+
+1000 episodes | failures: 848 | good: 152  -> results/signals_vifailback-dataset-lerobot.csv
+
+AUROC  (0.5 = coin flip, >=0.70 = useful, <0.5 = useful if flipped)
+  signal                raw  per-task z
+  duration_s          0.133       0.095
+  idle_ratio          0.624       0.691
+  longest_idle_s      0.475       0.449
+  grip_closes         0.322       0.308
+  jerk                0.393       0.350
+  track_err           0.440       0.325
+  COMBO (max |z|)                 0.402

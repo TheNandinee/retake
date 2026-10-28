@@ -1,0 +1,32 @@
+  BotFails/normal_train/domotic_dishTidyUp_expert: 20 episodes
+  BotFails/normal_train/domotic_groceriesSorting_expert: 20 episodes
+  BotFails/normal_train/domotic_makingCoffee_expert: 20 episodes
+  BotFails/normal_train/domotic_pouringCoffee_expert: 20 episodes
+  BotFails/normal_train/domotic_setTheTable_expert: 18 episodes
+  BotFails/normal_train/domotic_vegetablesAndFruitsSorting_expert: 20 episodes
+  BotFails/normal_train/industrial_robothon_buttons_expert: 15 episodes
+  BotFails/normal_train/industrial_robothon_hatchAndProbe_expert: 10 episodes
+  BotFails/normal_train/industrial_screws_sorting_expert: 20 episodes
+  BotFails/normal_train/industrial_soldering_expert: 15 episodes
+  BotFails/test/domotic_dishTidyUp_anomaly: 15 episodes
+  BotFails/test/domotic_groceriesSorting_anomaly: 10 episodes
+  BotFails/test/domotic_makingCoffee_anomaly: 15 episodes
+  BotFails/test/domotic_pouringCoffee_anomaly: 20 episodes
+  BotFails/test/domotic_setTheTable_anomaly: 15 episodes
+  BotFails/test/domotic_vegetablesAndFruitsSorting_anomaly: 20 episodes
+  BotFails/test/industrial_robothon_buttons_anomaly: 10 episodes
+  BotFails/test/industrial_robothon_hatchAndProbe_anomaly: 15 episodes
+  BotFails/test/industrial_screws_sorting_anomaly: 10 episodes
+  BotFails/test/industrial_soldering_anomaly: 15 episodes
+
+323 episodes | failures: 145 | good: 178  -> results/signals_BotFails.csv
+
+AUROC  (0.5 = coin flip, >=0.70 = useful, <0.5 = useful if flipped)
+  signal                raw  per-task z
+  duration_s          0.460       0.343
+  idle_ratio          0.517       0.471
+  longest_idle_s      0.521       0.517
+  grip_closes         0.506       0.533
+  jerk                0.463       0.491
+  track_err           0.485       0.485
+  COMBO (max |z|)                 0.598
