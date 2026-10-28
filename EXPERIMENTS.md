@@ -65,3 +65,12 @@ Human review of the contact sheets from E006:
 - **Remaining error pattern:** tasks whose result isn't visible in the final frame (buttons, hatch/probe). End-state comparison misses mid-task errors (wrong hole, red plug) and wrongly flags correct demos ("start = end, so nothing happened").
 - **Next (v3):** pick episode frames at gripper grasp/release moments from the motion data, so motion tells vision where to look. Add severity levels.
 - Log: `evidence/logs/E008_vision_v2_reference_dev.txt`
+
+## E009 — Vision v3: gripper-event keyframes + severity, dev set · 2026-10-28 · ❌ REGRESSION
+- Changed two things at once (a methodology mistake): episode frames chosen just after gripper grasp/release events, AND a revised prompt (mid-task target checks, "start = end is normal", severity levels)
+- **ALL-40: 55% (v2: 72%), caught 9/20 (v2: 13), false alarms 7/20 (v2: 4).** Worse on both.
+- Buttons and hatch tasks (the target of the change) did not improve
+- Likely cause: post-grasp frames are often occluded by the arm, and the evenly spaced coverage of the episode is lost. Not isolated, because two variables changed.
+- **Decision: v2 remains the vision layer. Prompt tuning stops; remaining effort goes to the pipeline.** Severity output is still a good product idea; to be re-added later as a separate change, tested in isolation.
+- Cumulative spend: $0.108
+- Log: `evidence/logs/E009_vision_v3_keyframes_dev.txt`
