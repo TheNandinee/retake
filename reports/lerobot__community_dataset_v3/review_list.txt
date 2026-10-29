@@ -1,0 +1,3 @@
+00ri/so100_battery	8
+00ri/so100_battery	19
+00ri/so100_battery	48

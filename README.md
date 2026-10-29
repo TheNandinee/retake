@@ -1,5 +1,7 @@
 # Retake
 
+[![tests](https://github.com/TheNandinee/retake/actions/workflows/tests.yml/badge.svg)](https://github.com/TheNandinee/retake/actions/workflows/tests.yml) [![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE) [![demo](https://img.shields.io/badge/demo-live-brightgreen)](https://thenandinee.github.io/retake/) ![python](https://img.shields.io/badge/python-3.11%2B-blue)
+
 **Every robot demo needs an alibi.**
 
 Retake audits robot-learning datasets episode by episode and returns a trustworthy re-record list, with evidence for every flag. Robot companies pay for hours of demonstrations and then train on them blind; bad demos silently make the robot worse. Retake finds them before training does.
@@ -90,6 +92,14 @@ The cheapest tier is deterministic code: integrity and motion checks run on ever
 
 Requires Python 3.11+, [`uv`](https://docs.astral.sh/uv/), and `ffmpeg`.
 
+Try it without cloning:
+
+```bash
+uvx --from git+https://github.com/TheNandinee/retake retake audit lerobot/community_dataset_v3 --subset 00ri/so100_battery --vision none --no-fixes
+```
+
+Or set it up locally:
+
 ```bash
 git clone https://github.com/TheNandinee/retake && cd retake
 uv sync
@@ -99,7 +109,7 @@ cp .env.example .env          # add your Nebius Token Factory API key
 Audit 10 episodes of a community dataset, reading video remotely (about 1¢):
 
 ```bash
-uv run python -m retake.audit lerobot/community_dataset_v3 \
+uv run retake audit lerobot/community_dataset_v3 \
   --subset 00ri/so100_battery --limit 10 --remote --out reports/my_first_audit
 open reports/my_first_audit/summary.md
 ```
@@ -107,7 +117,7 @@ open reports/my_first_audit/summary.md
 Integrity-only scan with no model calls (free):
 
 ```bash
-uv run python -m retake.audit lerobot/community_dataset_v3 --subset 00ri/so100_battery --vision none
+uv run retake audit lerobot/community_dataset_v3 --subset 00ri/so100_battery --vision none
 ```
 
 Output: `report.json`, `episodes.csv`, `summary.md`, `retake_list.txt`, `review_list.txt`, `clean_episodes.txt`, and a frame sheet for every flagged episode.
@@ -118,7 +128,7 @@ Useful flags: `--remote` (no video download), `--limit N`, `--workers N`, `--vis
 
 ```bash
 # Frozen test set (E022)
-uv run python -m retake.audit kantine/BotFails --only evidence/splits/botfails_TEST_frozen.csv --remote --workers 8 --out reports/botfails_TEST
+uv run retake audit kantine/BotFails --only evidence/splits/botfails_TEST_frozen.csv --remote --workers 8 --out reports/botfails_TEST
 uv run python -m scripts.06_eval_audit reports/botfails_TEST/episodes.csv
 
 # Integrity corruption benchmark (E016–E020)
@@ -147,6 +157,24 @@ reports/          generated audit reports
 docs/             the demo site (GitHub Pages)
 EXPERIMENTS.md    every experiment, including the ones that failed
 ```
+
+## Use the results in training
+
+`clean_episodes.txt` lists the episodes that passed every check, and `retake_list.txt` the ones to re-record or drop. Pass the clean episode indices to your training data loader, e.g. LeRobot's `LeRobotDataset(repo_id, episodes=[...])`, so that bad demos never reach the model.
+
+## Roadmap
+
+- **Measure the training impact:** train the same policy on the raw and the cleaned dataset, and report the difference in success rate.
+- **Continuous auditing:** run Retake automatically on every new recording session, before data reaches training.
+- **LeRobot integration:** a check that runs right after `lerobot-record`, before pushing to the Hub.
+- **Human-in-the-loop labels:** every confirmed or rejected flag becomes a labeled example of a real robot-data failure, improving the detectors over time.
+- **Private datasets at scale:** run inside a team's own cloud, with data never leaving it.
+
+## Acknowledgements
+
+- [BotFails](https://huggingface.co/datasets/kantine/BotFails) (labeled robot failures) and [ViFailback](https://huggingface.co/datasets/sii-rhos-ai/vifailback-dataset-lerobot), used for evaluation
+- [`lerobot/community_dataset_v3`](https://huggingface.co/datasets/lerobot/community_dataset_v3) and its 488 contributors
+- NVIDIA Nemotron models served on Nebius Token Factory; search by Tavily
 
 ## License
 
