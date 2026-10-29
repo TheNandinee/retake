@@ -134,11 +134,12 @@ def build():
             f'<h1>Every robot demo needs an alibi.</h1>'
             f'<p>Robot companies pay for hours of demonstrations and train on them blind. Retake audits robot datasets '
             f'episode by episode and returns a trustworthy re-record list with evidence for every flag.</p>'
+            f'<p style="font-size:15px;color:#a9a59b">Built with NVIDIA Nemotron 3.5 Super VL and Nemotron 3 Ultra on Nebius Token Factory · Physical AI track</p>'
             f'<div class="tiles">{tile(SCAN["datasets"], "datasets scanned")}{tile(SCAN["episodes"], "episodes")}'
-            f'{tile(SCAN["hours"] + " h", "of robot data")}{tile(SCAN["dup_pct"], "of episodes are exact copies")}'
-            f'{tile(SCAN["broken"], "objectively broken episodes")}{tile("$0", "model spend for the scan")}</div>'
+            f'{tile(SCAN["hours"] + " h", "of robot data")}{tile(SCAN["dup_pct"], "of episodes are exact motion duplicates")}'
+            f'{tile(SCAN["broken"], "objectively broken episodes")}{tile("$0", "model spend for the scan")}{tile("100%", "retake precision on a frozen test set (13/13)")}</div>'
             f'<nav><a href="#found">What we found</a><a href="#proof">Proof</a><a href="#live">Live report</a>'
-            f'<a href="#how">How it works</a><a href="botfails_test.html">Test-set report</a></nav></div></header>')
+            f'<a href="#how">How it works</a><a href="botfails_test.html">Test-set report</a><a href="https://github.com/TheNandinee/retake">GitHub</a></nav></div></header>')
 
     rows = "".join(f"<tr><td>{esc(n)}</td><td class='num'>{c}</td></tr>" for n, c in ISSUES)
     ex = ""
@@ -153,7 +154,7 @@ def build():
              f'<p class="lead">We scanned every sub-dataset of <code>lerobot/community_dataset_v3</code> '
              f'({SCAN["datasets"]} datasets from {SCAN["contributors"]} contributors) on a laptop overnight. '
              f'Every finding below comes from a deterministic check, involves no AI judgment, and was verified by hand.</p>'
-             f'<p class="big"><b>{SCAN["dup_pct"]} of all episodes ({SCAN["dup_copies"]}) are exact copies</b> of episodes '
+             f'<p class="big"><b>{SCAN["dup_pct"]} of all episodes ({SCAN["dup_copies"]}) are exact motion duplicates</b> (every joint, every frame) of episodes '
              f'elsewhere in the collection. {SCAN["cross_contrib"]} duplicated recordings span different contributors, and '
              f'{SCAN["reupload_pairs"]} dataset pairs are at least 80% the same recordings. In a pretraining mix, duplicates '
              f'silently over-weight some demos and leak between train and test splits.</p>'

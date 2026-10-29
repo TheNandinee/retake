@@ -3,7 +3,7 @@
 Retake scanned all 1,754 datasets in `lerobot/community_dataset_v3`: 72,356 episodes,
 364.6 hours of robot data from 488 contributors. On a laptop, overnight, $0 model spend.
 
-- **7.1% of episodes (5,125) are exact copies** of episodes elsewhere in the collection.
+- **7.1% of episodes (5,125) are exact motion duplicates** (every joint, every frame) of episodes elsewhere in the collection.
   777 duplicated recordings span different contributors.
   e.g. `Dangvi/soarm100_data` ep0 == `s20000s/soarm100_data` ep0 (max difference 0.000000)
 - **763 episodes (1.05%) are objectively broken:** 338 empty fragments, 219 where the robot
