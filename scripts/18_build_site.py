@@ -178,7 +178,11 @@ def build():
              f'<p class="big"><b>{SCAN["dup_pct"]} of all episodes ({SCAN["dup_copies"]}) are exact motion duplicates</b> (every joint, every frame) of episodes '
              f'elsewhere in the collection. {SCAN["cross_contrib"]} duplicated recordings span different contributors, and '
              f'{SCAN["reupload_pairs"]} dataset pairs are at least 80% the same recordings. In a pretraining mix, duplicates '
-             f'silently over-weight some demos and leak between train and test splits.</p>'
+             f'silently over-weight some demos and leak between train and test splits. '
+             f'That is roughly 26 hours of duplicated robot data (≈ 5,125 episodes × 18.1 s average).</p>'
+             f'<p class="big"><b>Reviewing all 364.6 hours by hand would take about 365 person-hours.</b> '
+             f'Retake\'s integrity layer scanned it for $0; running the vision layer on all 72,356 episodes '
+             f'would cost about $80 at the measured $1.10 per 1,000 episodes.</p>'
              f'<p class="big"><b>{SCAN["broken"]} episodes ({SCAN["broken_pct"]}) are objectively broken:</b></p>'
              f'<table><tr><th>Issue</th><th style="text-align:right">Episodes</th></tr>{rows}</table>'
              f'<h3>Verified examples</h3><div class="grid">{ex}</div></div></section>')

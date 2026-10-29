@@ -13,6 +13,7 @@ Retake audits robot-learning datasets episode by episode and returns a trustwort
 We scanned **all 1,754 sub-datasets of [`lerobot/community_dataset_v3`](https://huggingface.co/datasets/lerobot/community_dataset_v3)**: 72,356 episodes, **364.6 hours of robot data**, from 488 contributors. It ran overnight on a laptop with **$0 in model spend**.
 
 - **7.1% of all episodes (5,125) are exact motion duplicates** (every joint, every frame) of episodes elsewhere in the collection. 777 duplicated recordings span *different contributors*, and 97 dataset pairs are at least 80% the same recordings. Example: `Dangvi/soarm100_data` ep0 and `s20000s/soarm100_data` ep0 are identical to 0.000000 across 426 frames.
+- **Scale:** that is roughly 26 hours of duplicated robot data (≈ 5,125 episodes × 18.1 s average). Reviewing all 364.6 hours by hand would take about 365 person-hours; Retake's integrity layer scanned it for $0, and its vision layer would cost about $80 for all 72,356 episodes (measured $1.10 per 1,000).
 - **763 episodes (1.05%) are objectively broken:**
 
 | Issue | Episodes |
