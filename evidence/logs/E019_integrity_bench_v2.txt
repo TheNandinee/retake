@@ -1,0 +1,16 @@
+=== Motion-data corruptions (each injected into a real clean dataset) ===
+  dropped_frames     detected 30/30
+  empty_episode      detected 30/30
+  nan_values         detected 30/30
+  dead_sensor        detected 30/30
+  timestamp_error    detected 30/30
+  duplicate_episode  detected 30/30
+
+=== False positives on untouched clean data (178 expert episodes) ===
+  episodes with a hard integrity issue: 1/178
+    domotic_setTheTable_expert ep7: [('no_motion', 'robot never moves: every joint is constant for the whole episode', True)]
+
+=== Frame corruptions (real frames from downloaded expert videos) ===
+  clean videos falsely flagged: 0/20
+  frozen_video  detected 20/20
+  black_frames  detected 20/20

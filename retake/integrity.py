@@ -37,15 +37,18 @@ def check_episode(ep, fps):
 def check_dataset(df, info, root=None):
     """All motion-data checks for every episode of one dataset. Returns {episode_index: [issues]}."""
     fps, names = info["fps"], _joint_names(info)
-    res, hashes, stds = {}, {}, {}
+    res, hashes, s_std, a_std = {}, {}, {}, {}
     for ep_idx, ep in df.groupby("episode_index"):
         e = int(ep_idx)
         ep = ep.sort_values("frame_index")
         res[e] = check_episode(ep, fps)
         s = to_mat(ep["observation.state"])
+        a = to_mat(ep["action"]) if "action" in ep else None
         if np.isfinite(s).all() and len(s) >= 10:
             hashes.setdefault(hashlib.md5(np.round(s, 4).tobytes()).hexdigest(), []).append(e)
-            stds[e] = s.std(axis=0)
+            s_std[e] = s.std(axis=0)
+            if a is not None and a.shape == s.shape and np.isfinite(a).all():
+                a_std[e] = a.std(axis=0)
 
     for eps in hashes.values():
         if len(eps) > 1:
@@ -53,15 +56,24 @@ def check_dataset(df, info, root=None):
                 res[e].append(("duplicate_episode",
                                f"motion identical to episode(s) {[x for x in eps if x != e][:5]}", True))
 
-    if len(stds) >= 5:
-        med = np.median(np.stack(list(stds.values())), axis=0)
-        for e, sd in stds.items():
-            dead = [j for j in range(len(sd)) if sd[j] < 1e-6 and med[j] > 1e-3]
-            if dead and len(dead) == len(sd):
+    if s_std:
+        med_s = np.median(np.stack(list(s_std.values())), axis=0)
+        med_a = np.median(np.stack(list(a_std.values())), axis=0) if a_std else None
+        for e, sd in s_std.items():
+            if (sd < 1e-6).all():
                 res[e].append(("no_motion", "robot never moves: every joint is constant for the whole episode", True))
-            elif dead:
+                continue
+            if len(s_std) < 5 or e not in a_std or med_a is None:
+                continue
+            ad = a_std[e]
+            # Dead = sensor reading frozen WHILE the robot was commanded to move that joint.
+            # A joint that is simply not used (idle arm, unused wrist) has a constant command too -> not flagged.
+            dead = [j for j in range(len(sd))
+                    if sd[j] < 1e-6 and med_s[j] > 1e-3 and ad[j] > max(1e-3, 0.1 * med_a[j])]
+            if dead:
                 jn = [str(names[j]) if names and j < len(names) else f"joint {j}" for j in dead]
-                res[e].append(("dead_sensor", f"{', '.join(jn)} never changes (moves in other episodes)", True))
+                res[e].append(("dead_sensor",
+                               f"{', '.join(jn)} reading never changes although the robot was commanded to move it", True))
 
     if root is not None and "episode_index" not in info.get("video_path", ""):
         try:

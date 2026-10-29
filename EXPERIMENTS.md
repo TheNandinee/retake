@@ -142,3 +142,19 @@ Human review of the contact sheets from E006:
 - → Integrity layer false positives on clean expert data: **0/178**. This is a genuine broken episode in a published benchmark's expert set, found by a deterministic check.
 - Label improved: all-joints-constant is now reported as `no_motion` ("robot never moves") rather than `dead_sensor`
 - Log: `evidence/logs/E016b_setTheTable_ep7.txt`
+
+## E018 — Full integrity scan: lerobot/community_dataset_v3 · 2026-10-29
+- Overnight, resumable, laptop, 2 workers: **1,754 of 1,755 sub-datasets scanned** (1 skipped: no `observation.state` column), 488 contributors, **72,356 episodes, 38.1M frames, 364.6 hours of robot data, $0 model spend**
+- v1 results: 3,277 episodes (4.53%) with a hard issue, dominated by `dead_sensor` (2,668)
+- **Diagnosis: v1 `dead_sensor` was over-flagging.** Flagged joints were mostly `left_*`/`right_*` on two-arm robots: an idle arm legitimately reads constant. A constant reading is not a broken sensor.
+- Log: `evidence/logs/E018_community_scan_report.txt`
+
+## E019 — Sharper dead-sensor definition + local re-scan · 2026-10-29
+- New rule: a sensor is dead only if its **reading is frozen while the robot is commanded to move that joint** (state constant, action varying). Idle joints have both constant and are no longer flagged.
+- Corruption benchmark unchanged: dead_sensor 30/30; all other types 30/30 or 20/20; false positives on clean expert data 1/178 (the known motionless ep7, a true positive)
+- Local re-scan of all 1,754 datasets (no network): **156 s**
+- **v2 results: 1,221 of 72,356 episodes (1.69%) with a hard issue; 219 of 1,754 datasets (12.5%)**
+  - dead_sensor 514 (23 datasets) · empty_episode 338 (111) · no_motion 219 (96) · duplicate_episode (within dataset) 138 (8) · length_mismatch 71 (34) · timestamp_error 15 (4)
+- **Duplicates across datasets: 4,509 recordings appear in 2+ datasets → 5,049 extra copies (7.0% of all episodes); 777 span different contributors; 97 dataset pairs are ≥80% identical recordings**
+- Status: findings NOT yet verified by eye (Phase 4 in progress)
+- Logs: `evidence/logs/E019_*`
