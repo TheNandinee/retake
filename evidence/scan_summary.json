@@ -5,16 +5,16 @@
  "hours": 364.6,
  "contributors": 488,
  "hard_issues_by_type": {
-  "dead_sensor": 514,
   "empty_episode": 338,
   "no_motion": 219,
   "duplicate_episode": 138,
   "length_mismatch": 71,
+  "dead_sensor": 56,
   "timestamp_error": 15
  },
- "episodes_with_hard_issue": 1221,
- "datasets_with_hard_issue": 219,
- "cross_dataset_duplicate_recordings": 4509,
+ "episodes_with_hard_issue": 763,
+ "datasets_with_hard_issue": 209,
+ "cross_dataset_duplicate_recordings": 4585,
  "cross_contributor_duplicate_recordings": 777,
  "reupload_dataset_pairs": [
   [
@@ -470,7 +470,7 @@
   [
    "samanthalhy/so100_herding_2",
    "samanthalhy/so100_herding_3",
-   290
+   366
   ],
   [
    "samanthalhy/so100_test_3",

@@ -158,3 +158,20 @@ Human review of the contact sheets from E006:
 - **Duplicates across datasets: 4,509 recordings appear in 2+ datasets → 5,049 extra copies (7.0% of all episodes); 777 span different contributors; 97 dataset pairs are ≥80% identical recordings**
 - Status: findings NOT yet verified by eye (Phase 4 in progress)
 - Logs: `evidence/logs/E019_*`
+
+## E020 — Dead-sensor rule v3 + visual verification of scan findings · 2026-10-29
+- Visual check of v2 `dead_sensor` flags: hamidkaloorazi bimanual ep0 shows the flagged LEFT arm idle in all frames while the right arm folds cloth; so101_test ep91's flagged wrist roll had 0.35° of commanded jitter. **Both were idle joints, not dead sensors → v2 still over-flagged.**
+- v3 rule: commanded RANGE in the episode must be ≥ 20% of the joint's 90th-percentile range across the dataset (jitter on idle arms excluded)
+- Benchmark: dead_sensor 30/30, all other types 30/30 / 20/20; clean false positives 1/178 (the known true-positive ep7)
+- **Final scan (v3): 763 of 72,356 episodes (1.05%) with a hard issue, in 209 of 1,754 datasets (11.9%)**
+  - empty_episode 338 · no_motion 219 · duplicate_episode (within dataset) 138 · length_mismatch 71 · dead_sensor 56 · timestamp_error 15
+- **Duplicates across datasets: 4,585 recordings in 2+ datasets → 5,125 extra copies (7.1% of episodes); 777 span different contributors; 97 dataset pairs ≥80% identical**
+- **Verified examples:**
+  - no_motion: 1g0rrr/demo2_frames_grab ep11, 23.9 s, all joints constant, arm static in frames while the scene changes around it
+  - empty_episode: 7jep7/rook_to_d4_v5 ep4, 1 frame
+  - dead_sensor: Arururu12/UR5e_Gello_Cube_bin_v3 ep1, 6 arm joints frozen for 52 s while commanded up to 0.31 rad std; gripper logged normally
+  - duplicate (within): HuaihaiLyu/hamburger0509 ep84 = ep91 (max difference 0.000000, frames identical); a 7-episode block saved twice
+  - duplicate (cross-contributor): Dangvi/soarm100_data ep0 = s20000s/soarm100_data ep0 (max difference 0.000000)
+  - timestamp_error: kevin510/so-100-draw-smiley ep0, 415 non-increasing timestamps
+  - length_mismatch: 1lyz123576/so101_test-1 ep10, video 11.3 s vs motion 18.6 s
+- Logs: `evidence/logs/E020_*`

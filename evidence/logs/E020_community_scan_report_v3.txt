@@ -1,0 +1,65 @@
+======================================================================
+DATASETS scanned OK: 1754   skipped/errors: 1
+EPISODES: 72,356   FRAMES: 38,123,262   ROBOT DATA: 364.6 hours
+Contributors: 488   total scan time (sum over datasets): 0 min   model spend: $0
+Robot types: {'so100': 899, 'so101': 312, 'so101_follower': 121, 'so100_follower': 120, 'so100MovellaDot': 75, 'arx5': 43}
+Error types: {'KeyError': 1}
+
+======================================================================
+HARD ISSUES BY TYPE (deterministic checks)
+                   episodes  datasets  contributors
+type                                               
+empty_episode           338       111            74
+no_motion               219        96            68
+duplicate_episode       138         8             5
+length_mismatch          71        34            24
+dead_sensor              56        11             9
+timestamp_error          15         4             3
+
+Episodes with >=1 hard issue: 763 of 72,356 (1.05%)
+Datasets with >=1 hard issue: 209 of 1754 (11.9%)
+
+Worst datasets:
+                                                hard_issues                                                           types  episodes
+dataset                                                                                                                              
+HuaihaiLyu/hamburger_heti                                60                                       {'duplicate_episode': 60}       598
+hamidkaloorazi/so100_bi_5s_gab_green_t                   57  {'no_motion': 40, 'empty_episode': 3, 'duplicate_episode': 14}       995
+hamidkaloorazi/so100_bi_hadi_midfold                     55                                           {'empty_episode': 55}       323
+HuaihaiLyu/hamburger0509                                 40                                       {'duplicate_episode': 40}       546
+masato-ka/so100_nlact_block_instruct_v3                  33                      {'duplicate_episode': 13, 'no_motion': 20}       113
+LeRobot-worldwide-hackathon/189-GMI-AI-GMISET1           26                           {'empty_episode': 25, 'no_motion': 1}        52
+Hale-Sage/merge_data                                     24     {'length_mismatch': 3, 'no_motion': 17, 'empty_episode': 4}       700
+kevin510/so-100-draw-smiley                              22                  {'timestamp_error': 11, 'length_mismatch': 11}        42
+pbvr/so101_test002                                       22                           {'empty_episode': 17, 'no_motion': 5}       201
+kaiserbuffle/hanoi                                       15                           {'empty_episode': 10, 'no_motion': 5}        50
+
+======================================================================
+DUPLICATE DEMOS ACROSS DATASETS
+Recordings appearing in 2+ datasets: 4,585 (extra copies: 5,125)
+  ...of which across DIFFERENT contributors: 777
+Dataset pairs that are >=80% the same recordings (re-uploads): 97
+   Anas0711/Gr00t_lerobot_state_action_all_bottom_boxes_22april_12pm  ==  Anas0711/all_data   (899 shared episodes)
+   samanthalhy/so100_herding_2  ==  samanthalhy/so100_herding_3   (366 shared episodes)
+   Chojins/chess_game_001_blue_stereo  ==  Chojins/chess_game_001_blue_stereo_flip   (306 shared episodes)
+   shylee/pengripE  ==  shylee/so100_pengripC   (300 shared episodes)
+   Anas0711/all_data  ==  Anas0711/orange_bobo_pose_action_state_june3_1130am   (180 shared episodes)
+   Dangvi/soarm100_data  ==  s20000s/soarm100_data   (125 shared episodes)
+   AndrejOrsula/lerobot_triple_ball_stacking  ==  roboticshack/team13-three-balls-stacking   (101 shared episodes)
+   kumarhans/ethernetGrab01234  ==  kumarhans/ethernetGrab01234567   (101 shared episodes)
+
+======================================================================
+VERIFY THESE BY EYE (copy-paste):
+uv run python -m scripts.11_inspect_episode lerobot/community_dataset_v3 Arururu12/UR5e_Gello_Cube_bin_v3 1   # dead_sensor
+uv run python -m scripts.11_inspect_episode lerobot/community_dataset_v3 Arururu12/UR5e_Gello_Cube_bin_v3 2   # dead_sensor
+uv run python -m scripts.11_inspect_episode lerobot/community_dataset_v3 HuaihaiLyu/hamburger0509 84   # duplicate_episode
+uv run python -m scripts.11_inspect_episode lerobot/community_dataset_v3 HuaihaiLyu/hamburger0509 85   # duplicate_episode
+uv run python -m scripts.11_inspect_episode lerobot/community_dataset_v3 00ri/so100_battery_bin_center 3   # empty_episode
+uv run python -m scripts.11_inspect_episode lerobot/community_dataset_v3 7jep7/rook_to_d4_v5 4   # empty_episode
+uv run python -m scripts.11_inspect_episode lerobot/community_dataset_v3 1lyz123576/so101_test-1 10   # length_mismatch
+uv run python -m scripts.11_inspect_episode lerobot/community_dataset_v3 Arururu12/UR5e_Gello_Cube_bin_v2 0   # length_mismatch
+uv run python -m scripts.11_inspect_episode lerobot/community_dataset_v3 1g0rrr/demo2_frames_grab 11   # no_motion
+uv run python -m scripts.11_inspect_episode lerobot/community_dataset_v3 Aadhavan/so101_test1 25   # no_motion
+uv run python -m scripts.11_inspect_episode lerobot/community_dataset_v3 LeRobot-worldwide-hackathon/91-AM-PM-pouring-liquid 59   # timestamp_error
+uv run python -m scripts.11_inspect_episode lerobot/community_dataset_v3 kevin510/so-100-draw-smiley 0   # timestamp_error
+
+Saved: evidence/scan_summary.json, evidence/scan_hard_issues.csv

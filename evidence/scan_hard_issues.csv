@@ -2,8 +2,6 @@ dataset,contributor,episode,type,hard,detail
 00ri/so100_battery_bin_center,00ri,3,empty_episode,True,only 1 frames (0.0s)
 1g0rrr/demo2_frames_grab,1g0rrr,11,no_motion,True,robot never moves: every joint is constant for the whole episode
 1lyz123576/so101_test-1,1lyz123576,10,length_mismatch,True,observation.images.top video is 11.3s but motion is 18.6s
-1lyz123576/so101_test,1lyz123576,91,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-1lyz123576/so101_test,1lyz123576,92,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
 7jep7/rook_to_d4_v5,7jep7,4,empty_episode,True,only 1 frames (0.0s)
 7jep7/rook_to_d4_v6,7jep7,13,empty_episode,True,only 1 frames (0.0s)
 Aadhavan/so101_bio_final,Aadhavan,19,empty_episode,True,only 1 frames (0.0s)
@@ -19,8 +17,8 @@ Aoxi29/cookie_v2,Aoxi29,9,no_motion,True,robot never moves: every joint is const
 Aoxi29/cookie_v2,Aoxi29,18,no_motion,True,robot never moves: every joint is constant for the whole episode
 Arururu12/UR5e_Gello_Cube_bin_v2,Arururu12,0,length_mismatch,True,observation.images.side video is 57.8s but motion is 59.5s
 Arururu12/UR5e_Gello_Cube_bin_v2,Arururu12,10,no_motion,True,robot never moves: every joint is constant for the whole episode
-Arururu12/UR5e_Gello_Cube_bin_v3,Arururu12,1,dead_sensor,True,"main_motor_0, main_motor_1, main_motor_2, main_motor_3, main_motor_4, main_motor_5 reading never changes although the robot was commanded to move it"
-Arururu12/UR5e_Gello_Cube_bin_v3,Arururu12,2,dead_sensor,True,"main_motor_0, main_motor_1, main_motor_2, main_motor_3, main_motor_4, main_motor_5 reading never changes although the robot was commanded to move it"
+Arururu12/UR5e_Gello_Cube_bin_v3,Arururu12,1,dead_sensor,True,"main_motor_0, main_motor_1, main_motor_2, main_motor_3, main_motor_4, main_motor_5 reading never changes although the robot was commanded through a real movement"
+Arururu12/UR5e_Gello_Cube_bin_v3,Arururu12,2,dead_sensor,True,"main_motor_0, main_motor_1, main_motor_2, main_motor_3, main_motor_4, main_motor_5 reading never changes although the robot was commanded through a real movement"
 Bapt120/so101_cup3,Bapt120,1,no_motion,True,robot never moves: every joint is constant for the whole episode
 Bartm3/dice4,Bartm3,107,empty_episode,True,only 29 frames (1.0s)
 Bartm3/tape_to_bin,Bartm3,11,empty_episode,True,only 19 frames (0.6s)
@@ -198,10 +196,9 @@ HuaihaiLyu/hamburger_heti,HuaihaiLyu,594,duplicate_episode,True,"motion identica
 HuaihaiLyu/hamburger_heti,HuaihaiLyu,595,duplicate_episode,True,"motion identical to episode(s) [583, 589]"
 HuaihaiLyu/hamburger_heti,HuaihaiLyu,596,duplicate_episode,True,"motion identical to episode(s) [584, 590]"
 HuaihaiLyu/hamburger_heti,HuaihaiLyu,597,duplicate_episode,True,"motion identical to episode(s) [585, 591]"
-Jinheng0130/Push,Jinheng0130,4,dead_sensor,True,main_shoulder_pan reading never changes although the robot was commanded to move it
-Jinheng0130/Push,Jinheng0130,5,dead_sensor,True,main_shoulder_pan reading never changes although the robot was commanded to move it
-Jinheng0130/Push,Jinheng0130,16,dead_sensor,True,main_shoulder_pan reading never changes although the robot was commanded to move it
-Jinheng0130/Push,Jinheng0130,24,dead_sensor,True,main_shoulder_pan reading never changes although the robot was commanded to move it
+Jinheng0130/Push,Jinheng0130,4,dead_sensor,True,main_shoulder_pan reading never changes although the robot was commanded through a real movement
+Jinheng0130/Push,Jinheng0130,5,dead_sensor,True,main_shoulder_pan reading never changes although the robot was commanded through a real movement
+Jinheng0130/Push,Jinheng0130,24,dead_sensor,True,main_shoulder_pan reading never changes although the robot was commanded through a real movement
 LT1212/so100_three_cameras_dataset,LT1212,0,no_motion,True,robot never moves: every joint is constant for the whole episode
 LT1212/so100_three_cameras_dataset,LT1212,1,empty_episode,True,only 1 frames (0.0s)
 LeRobot-worldwide-hackathon/141-Electrify-battery_placing,LeRobot-worldwide-hackathon,0,length_mismatch,True,observation.images.side video is 54.2s but motion is 30.1s
@@ -246,10 +243,6 @@ LeRobot-worldwide-hackathon/241-Sushi_Shinkansen_So101-pick_sushi,LeRobot-worldw
 LeRobot-worldwide-hackathon/241-Sushi_Shinkansen_So101-pick_sushi,LeRobot-worldwide-hackathon,149,empty_episode,True,only 4 frames (0.1s)
 LeRobot-worldwide-hackathon/292-AlorsCent-cube_and_arc_put_into_respective_shaped_holes,LeRobot-worldwide-hackathon,30,empty_episode,True,only 1 frames (0.0s)
 LeRobot-worldwide-hackathon/300-Mad_Robots-remove_orange_object,LeRobot-worldwide-hackathon,37,no_motion,True,robot never moves: every joint is constant for the whole episode
-LeRobot-worldwide-hackathon/356-DuctTapeEngineers-MarkTableWhileUnmarked,LeRobot-worldwide-hackathon,4,dead_sensor,True,gripper.pos reading never changes although the robot was commanded to move it
-LeRobot-worldwide-hackathon/356-DuctTapeEngineers-MarkTableWhileUnmarked,LeRobot-worldwide-hackathon,7,dead_sensor,True,gripper.pos reading never changes although the robot was commanded to move it
-LeRobot-worldwide-hackathon/356-DuctTapeEngineers-MarkTableWhileUnmarked,LeRobot-worldwide-hackathon,8,dead_sensor,True,gripper.pos reading never changes although the robot was commanded to move it
-LeRobot-worldwide-hackathon/356-DuctTapeEngineers-MarkTableWhileUnmarked,LeRobot-worldwide-hackathon,9,dead_sensor,True,gripper.pos reading never changes although the robot was commanded to move it
 LeRobot-worldwide-hackathon/91-AM-PM-pouring-liquid,LeRobot-worldwide-hackathon,40,length_mismatch,True,observation.images.top video is 24.6s but motion is 20.1s
 LeRobot-worldwide-hackathon/91-AM-PM-pouring-liquid,LeRobot-worldwide-hackathon,54,length_mismatch,True,observation.images.top video is 15.5s but motion is 14.0s
 LeRobot-worldwide-hackathon/91-AM-PM-pouring-liquid,LeRobot-worldwide-hackathon,55,length_mismatch,True,observation.images.top video is 11.8s but motion is 15.5s
@@ -295,8 +288,6 @@ RaulSaya/so101_test3,RaulSaya,1,empty_episode,True,only 1 frames (0.0s)
 ReubenLim/so101_ball_in_cup,ReubenLim,22,no_motion,True,robot never moves: every joint is constant for the whole episode
 ReubenLim/so101_ball_in_cup,ReubenLim,45,empty_episode,True,only 18 frames (0.6s)
 ReubenLim/so101_ball_in_cup,ReubenLim,45,no_motion,True,robot never moves: every joint is constant for the whole episode
-ReubenLim/so101_lerobot_hackathon,ReubenLim,15,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-ReubenLim/so101_lerobot_hackathon,ReubenLim,21,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
 ReubenLim/so101_tape_in_square,ReubenLim,52,no_motion,True,robot never moves: every joint is constant for the whole episode
 ReubenLim/so101_tape_in_square,ReubenLim,59,empty_episode,True,only 14 frames (0.5s)
 ReubenLim/so101_tape_in_square,ReubenLim,59,no_motion,True,robot never moves: every joint is constant for the whole episode
@@ -306,15 +297,6 @@ Ryosei2/greenblock0613_0-50,Ryosei2,17,empty_episode,True,only 1 frames (0.0s)
 Ryosei2/greenblock0613_0-50,Ryosei2,18,no_motion,True,robot never moves: every joint is constant for the whole episode
 SahilChande/so100_pick_carrot,SahilChande,1,empty_episode,True,only 1 frames (0.0s)
 ThomasGossard/grab_box_h3,ThomasGossard,9,empty_episode,True,only 15 frames (0.5s)
-Thorns07/so100_test,Thorns07,0,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-Thorns07/so100_test,Thorns07,5,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-Thorns07/so100_test,Thorns07,6,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-Thorns07/so100_test,Thorns07,10,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-Thorns07/so100_test,Thorns07,14,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-Thorns07/so100_test,Thorns07,15,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-Thorns07/so100_test,Thorns07,20,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-Thorns07/so100_test,Thorns07,21,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-Thorns07/so100_test,Thorns07,22,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
 Trelis/so100_test2,Trelis,23,no_motion,True,robot never moves: every joint is constant for the whole episode
 Vertax/act_koch_pick_place_rgb_lego,Vertax,10,empty_episode,True,only 1 frames (0.0s)
 VoicAndrei/so100_cubes_noaptea_companiilor_2,VoicAndrei,4,no_motion,True,robot never moves: every joint is constant for the whole episode
@@ -340,7 +322,6 @@ andlyu/newiii_many_y_3d,andlyu,39,empty_episode,True,only 1 frames (0.0s)
 andlyu/newiii_many_y_3d,andlyu,74,empty_episode,True,only 13 frames (0.4s)
 andlyu/newiii_many_y_3d,andlyu,74,no_motion,True,robot never moves: every joint is constant for the whole episode
 andlyu/newiii_salad,andlyu,20,empty_episode,True,only 2 frames (0.1s)
-andlyu/newiii_salad_val,andlyu,11,dead_sensor,True,main_wrist_flex reading never changes although the robot was commanded to move it
 andy309/so100_0311_1152,andy309,26,length_mismatch,True,observation.images.side video is 31.7s but motion is 20.2s
 andy309/so100_0313_no_wrist_camera,andy309,1,empty_episode,True,only 1 frames (0.0s)
 apayan/so100_ball2,apayan,4,no_motion,True,robot never moves: every joint is constant for the whole episode
@@ -360,258 +341,62 @@ bjb7/so101_berm_build_test_1,bjb7,40,empty_episode,True,only 1 frames (0.0s)
 bjb7/so101_berm_build_test_1,bjb7,43,empty_episode,True,only 1 frames (0.0s)
 bjb7/so101_pen_mug_10_5,bjb7,8,empty_episode,True,only 1 frames (0.0s)
 bjb7/so101_pen_mug_10_5,bjb7,9,empty_episode,True,only 1 frames (0.0s)
-bjb7/so101_pen_touch_test_1,bjb7,0,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-bjb7/so101_pen_touch_test_1,bjb7,23,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-bjb7/so101_pen_touch_test_1,bjb7,36,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
+bjb7/so101_pen_touch_test_1,bjb7,0,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+bjb7/so101_pen_touch_test_1,bjb7,23,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+bjb7/so101_pen_touch_test_1,bjb7,36,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
 bjb7/so101_pen_touch_test_1,bjb7,66,empty_episode,True,only 1 frames (0.0s)
 bjb7/so101_pen_touch_test_1,bjb7,67,empty_episode,True,only 1 frames (0.0s)
 bjb7/so101_pen_touch_test_1,bjb7,68,empty_episode,True,only 22 frames (0.7s)
 bjb7/so101_pen_touch_test_1,bjb7,68,no_motion,True,robot never moves: every joint is constant for the whole episode
-bjb7/so101_pen_touch_test_1,bjb7,71,dead_sensor,True,main_elbow_flex reading never changes although the robot was commanded to move it
-bjb7/so101_pen_touch_test_2,bjb7,0,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-bjb7/so101_pen_touch_test_2,bjb7,56,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-bjb7/so101_pen_touch_test_2,bjb7,57,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-bjb7/so101_pen_touch_test_2,bjb7,58,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-bjb7/so101_pen_touch_test_2,bjb7,76,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
 boyangs235/so100-Put_square_into_area,boyangs235,55,empty_episode,True,only 1 frames (0.0s)
 burgalon/so100_test,burgalon,4,empty_episode,True,only 1 frames (0.0s)
 bursomi/so101_test,bursomi,6,empty_episode,True,only 1 frames (0.0s)
 chenxing1234567890/Test5,chenxing1234567890,59,length_mismatch,True,observation.images.wrist video is 8.5s but motion is 7.0s
 damienD13/return_filled_cup_to_rest_area_002,damienD13,1,no_motion,True,robot never moves: every joint is constant for the whole episode
 danielkorth/green-marker4am,danielkorth,51,no_motion,True,robot never moves: every joint is constant for the whole episode
-djkesu/so100_test,djkesu,18,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
+djkesu/so100_test,djkesu,18,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
 drjaisree25/carrot_data_0,drjaisree25,24,no_motion,True,robot never moves: every joint is constant for the whole episode
 duthvik/sputnik_100_66_kitchen_tasks,duthvik,14,no_motion,True,robot never moves: every joint is constant for the whole episode
 ethanCSL/box_test,ethanCSL,49,empty_episode,True,only 8 frames (0.3s)
-fil1021/so100_test_0419,fil1021,3,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-fil1021/so100_test_0419,fil1021,10,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-fil1021/so100_test_0419,fil1021,14,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-fil1021/so100_test_0419,fil1021,15,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-fil1021/so100_test_0419,fil1021,17,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-fil1021/so100_test_0419,fil1021,18,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-fil1021/so100_test_0419,fil1021,19,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-fil1021/so100_test_0419,fil1021,23,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
+fil1021/so100_test_0419,fil1021,3,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+fil1021/so100_test_0419,fil1021,10,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+fil1021/so100_test_0419,fil1021,14,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+fil1021/so100_test_0419,fil1021,15,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+fil1021/so100_test_0419,fil1021,17,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+fil1021/so100_test_0419,fil1021,18,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+fil1021/so100_test_0419,fil1021,19,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+fil1021/so100_test_0419,fil1021,23,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
 gxy1111/so100_soft,gxy1111,34,empty_episode,True,only 1 frames (0.0s)
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,0,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,7,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,8,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,9,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,12,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,13,dead_sensor,True,right_wrist_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,15,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,18,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,19,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,21,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,25,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,32,dead_sensor,True,right_wrist_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,37,dead_sensor,True,"left_shoulder_lift, left_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,38,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,40,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,44,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,46,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,49,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,50,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,52,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,60,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,63,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,72,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,74,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,84,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,89,empty_episode,True,only 15 frames (0.8s)
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,96,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,107,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,109,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,110,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,114,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,121,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,127,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,133,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,139,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,141,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,145,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,147,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,151,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,153,dead_sensor,True,"right_shoulder_pan, right_shoulder_lift, right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,156,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,158,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,160,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,167,dead_sensor,True,"right_shoulder_pan, right_shoulder_lift reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,179,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,193,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,201,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,205,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,206,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,207,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,209,duplicate_episode,True,motion identical to episode(s) [210]
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,209,no_motion,True,robot never moves: every joint is constant for the whole episode
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,210,duplicate_episode,True,motion identical to episode(s) [209]
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,210,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,214,dead_sensor,True,right_gripper reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,218,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,220,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,224,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,237,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,239,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,249,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,250,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,251,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,255,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,260,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,263,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,267,empty_episode,True,only 7 frames (0.3s)
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,275,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,278,dead_sensor,True,right_wrist_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,281,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,282,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,284,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,289,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,294,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,295,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,299,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,302,dead_sensor,True,"right_shoulder_pan, right_shoulder_lift, right_wrist_flex reading never changes although the robot was commanded to move it"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,304,empty_episode,True,only 17 frames (0.8s)
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,305,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,307,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,308,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,309,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,320,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,322,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,327,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,328,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,329,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,333,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,335,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,339,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,341,dead_sensor,True,right_wrist_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,345,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,350,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,352,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,353,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,354,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,359,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,360,dead_sensor,True,right_shoulder_pan reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,364,dead_sensor,True,"right_shoulder_pan, right_shoulder_lift, right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,366,dead_sensor,True,right_wrist_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,370,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,376,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,377,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,378,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,384,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,388,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,390,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,393,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,399,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,402,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,405,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,406,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,407,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,408,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,413,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,414,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,416,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,422,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,424,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,426,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,428,dead_sensor,True,"right_shoulder_lift, right_wrist_roll reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,431,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,434,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,438,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,444,dead_sensor,True,"right_shoulder_pan, right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,446,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,454,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,459,dead_sensor,True,"right_shoulder_lift, right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,465,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,473,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,474,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,480,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,483,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,492,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,494,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,497,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,500,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,503,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,504,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,506,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,508,dead_sensor,True,"right_shoulder_lift, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,510,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,515,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,516,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,522,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,529,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,530,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,531,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,543,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,547,no_motion,True,robot never moves: every joint is constant for the whole episode
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,549,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,552,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,553,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,555,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,563,dead_sensor,True,"right_shoulder_lift, right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,567,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,569,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,571,dead_sensor,True,right_wrist_flex reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,573,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,577,dead_sensor,True,"right_shoulder_pan, right_shoulder_lift reading never changes although the robot was commanded to move it"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,579,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,580,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,581,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,583,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,584,dead_sensor,True,"right_shoulder_lift, right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,588,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,593,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,600,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,602,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,624,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,626,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,629,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,632,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,633,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,636,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,638,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,640,dead_sensor,True,"right_shoulder_lift, right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,643,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,645,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,647,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,651,dead_sensor,True,right_wrist_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,657,dead_sensor,True,"right_shoulder_pan, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,659,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,662,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,665,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,667,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,670,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,673,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,679,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,680,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,683,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,685,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,687,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,689,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,695,dead_sensor,True,"right_shoulder_lift, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,699,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,700,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,701,dead_sensor,True,right_wrist_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,703,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,705,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,708,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,709,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,710,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,713,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,716,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,725,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,729,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,732,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,733,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,735,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,738,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,741,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,742,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,743,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,745,duplicate_episode,True,motion identical to episode(s) [746]
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,745,no_motion,True,robot never moves: every joint is constant for the whole episode
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,746,duplicate_episode,True,motion identical to episode(s) [745]
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,746,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,750,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,752,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,759,duplicate_episode,True,"motion identical to episode(s) [760, 761, 762, 763]"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,759,no_motion,True,robot never moves: every joint is constant for the whole episode
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,760,duplicate_episode,True,"motion identical to episode(s) [759, 761, 762, 763]"
@@ -622,98 +407,25 @@ hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,762,duplicate_episode,True
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,762,no_motion,True,robot never moves: every joint is constant for the whole episode
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,763,duplicate_episode,True,"motion identical to episode(s) [759, 760, 761, 762]"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,763,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,767,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,768,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,772,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,773,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,774,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,781,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,787,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,788,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,791,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,792,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,793,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,795,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,798,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,799,dead_sensor,True,"right_shoulder_lift, right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,800,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,805,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,807,dead_sensor,True,"left_shoulder_lift, left_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,808,dead_sensor,True,right_gripper reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,809,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,810,duplicate_episode,True,motion identical to episode(s) [811]
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,810,no_motion,True,robot never moves: every joint is constant for the whole episode
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,811,duplicate_episode,True,motion identical to episode(s) [810]
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,811,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,824,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,826,duplicate_episode,True,"motion identical to episode(s) [827, 828]"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,826,no_motion,True,robot never moves: every joint is constant for the whole episode
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,827,duplicate_episode,True,"motion identical to episode(s) [826, 828]"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,827,no_motion,True,robot never moves: every joint is constant for the whole episode
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,828,duplicate_episode,True,"motion identical to episode(s) [826, 827]"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,828,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,831,dead_sensor,True,right_wrist_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,833,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,837,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,839,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,842,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,843,dead_sensor,True,"left_shoulder_lift, left_wrist_roll reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,845,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,854,dead_sensor,True,right_wrist_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,858,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,864,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,866,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,871,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,881,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,883,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,886,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,887,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,890,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,893,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,895,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,898,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,902,no_motion,True,robot never moves: every joint is constant for the whole episode
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,903,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,904,dead_sensor,True,"left_elbow_flex, right_shoulder_lift reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,906,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,908,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,910,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,912,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,914,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,918,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,919,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,922,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,924,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,925,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,927,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,933,dead_sensor,True,right_wrist_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,936,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,938,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,939,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,943,no_motion,True,robot never moves: every joint is constant for the whole episode
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,945,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,946,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,947,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,950,dead_sensor,True,"left_shoulder_lift, left_elbow_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,952,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,953,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,956,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,959,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,961,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,964,dead_sensor,True,left_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,965,dead_sensor,True,"right_elbow_flex, right_wrist_roll reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,967,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,972,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,978,dead_sensor,True,left_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,981,dead_sensor,True,right_elbow_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,985,dead_sensor,True,"right_elbow_flex, right_wrist_flex reading never changes although the robot was commanded to move it"
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,986,dead_sensor,True,left_wrist_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,987,dead_sensor,True,right_shoulder_lift reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,991,dead_sensor,True,right_wrist_flex reading never changes although the robot was commanded to move it
-hamidkaloorazi/so100_bi_5s_gab_green_t,hamidkaloorazi,993,dead_sensor,True,"right_shoulder_lift, right_elbow_flex reading never changes although the robot was commanded to move it"
 hamidkaloorazi/so100_bi_5s_gab_green_t2,hamidkaloorazi,35,empty_episode,True,only 11 frames (0.6s)
 hamidkaloorazi/so100_bi_5s_gab_green_t2,hamidkaloorazi,57,empty_episode,True,only 19 frames (0.9s)
-hamidkaloorazi/so100_bi_5s_gab_green_t2,hamidkaloorazi,264,dead_sensor,True,right_gripper reading never changes although the robot was commanded to move it
 hamidkaloorazi/so100_bi_5s_gab_green_t2,hamidkaloorazi,425,no_motion,True,robot never moves: every joint is constant for the whole episode
 hamidkaloorazi/so100_bi_5s_gab_green_t2,hamidkaloorazi,858,no_motion,True,robot never moves: every joint is constant for the whole episode
 hamidkaloorazi/so100_bi_gui,hamidkaloorazi,121,empty_episode,True,only 12 frames (0.8s)
@@ -805,14 +517,10 @@ jccj/shape_matching_u,jccj,30,empty_episode,True,only 1 frames (0.0s)
 jchun/so100_cleaning_20250525_132814,jchun,5,empty_episode,True,only 1 frames (0.0s)
 jchun/so100_cleaning_20250525_154019,jchun,36,empty_episode,True,only 23 frames (0.8s)
 jchun/so100_cleaning_20250525_154019,jchun,36,no_motion,True,robot never moves: every joint is constant for the whole episode
-jclinton1/smol_start_toaster_3_low_qual,jclinton1,1,dead_sensor,True,gripper.pos reading never changes although the robot was commanded to move it
-jclinton1/smol_start_toaster_3_low_qual,jclinton1,2,dead_sensor,True,gripper.pos reading never changes although the robot was commanded to move it
-jclinton1/smol_start_toaster_3_low_qual,jclinton1,4,dead_sensor,True,gripper.pos reading never changes although the robot was commanded to move it
-jclinton1/smol_start_toaster_3_low_qual,jclinton1,6,dead_sensor,True,gripper.pos reading never changes although the robot was commanded to move it
-jclinton1/smol_start_toaster_3_low_qual,jclinton1,8,dead_sensor,True,gripper.pos reading never changes although the robot was commanded to move it
-jclinton1/smol_start_toaster_3_low_qual,jclinton1,15,dead_sensor,True,gripper.pos reading never changes although the robot was commanded to move it
-jclinton1/smol_start_toaster_3_low_qual,jclinton1,20,dead_sensor,True,gripper.pos reading never changes although the robot was commanded to move it
-jclinton1/smol_start_toaster_3_low_qual,jclinton1,22,dead_sensor,True,gripper.pos reading never changes although the robot was commanded to move it
+jclinton1/smol_start_toaster_3_low_qual,jclinton1,2,dead_sensor,True,gripper.pos reading never changes although the robot was commanded through a real movement
+jclinton1/smol_start_toaster_3_low_qual,jclinton1,4,dead_sensor,True,gripper.pos reading never changes although the robot was commanded through a real movement
+jclinton1/smol_start_toaster_3_low_qual,jclinton1,8,dead_sensor,True,gripper.pos reading never changes although the robot was commanded through a real movement
+jclinton1/smol_start_toaster_3_low_qual,jclinton1,20,dead_sensor,True,gripper.pos reading never changes although the robot was commanded through a real movement
 jclinton1/smol_start_toaster_3_low_qual,jclinton1,25,empty_episode,True,only 1 frames (0.0s)
 jclinton1/wedgit_stack_single_dual_cam,jclinton1,13,length_mismatch,True,observation.images.top video is 14.3s but motion is 11.3s
 jclinton1/wedgit_stack_single_dual_cam,jclinton1,18,empty_episode,True,only 1 frames (0.0s)
@@ -853,14 +561,14 @@ kaiserbuffle/hanoiv6,kaiserbuffle,5,no_motion,True,robot never moves: every join
 kaiserbuffle/hanoiv6,kaiserbuffle,10,no_motion,True,robot never moves: every joint is constant for the whole episode
 kami-LightYagami/so100_test,kami-LightYagami,1,no_motion,True,robot never moves: every joint is constant for the whole episode
 kami-LightYagami/so100_test_6.13,kami-LightYagami,1,empty_episode,True,only 1 frames (0.0s)
-kantine/flip_A2,kantine,0,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-kantine/flip_A2,kantine,1,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-kantine/flip_A2,kantine,2,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-kantine/flip_A2,kantine,3,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-kantine/flip_A2,kantine,4,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-kantine/flip_A3,kantine,0,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-kantine/flip_A3,kantine,1,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-kantine/flip_A3,kantine,4,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
+kantine/flip_A2,kantine,0,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+kantine/flip_A2,kantine,1,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+kantine/flip_A2,kantine,2,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+kantine/flip_A2,kantine,3,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+kantine/flip_A2,kantine,4,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+kantine/flip_A3,kantine,0,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+kantine/flip_A3,kantine,1,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
+kantine/flip_A3,kantine,4,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
 kevin510/so-100-draw-smiley,kevin510,0,timestamp_error,True,415 non-increasing timestamps
 kevin510/so-100-draw-smiley,kevin510,0,length_mismatch,True,observation.images.wrist video is 13.8s but motion is 36.7s
 kevin510/so-100-draw-smiley,kevin510,1,timestamp_error,True,423 non-increasing timestamps
@@ -904,34 +612,34 @@ lerobot/svla_so100_stacking,lerobot,37,no_motion,True,robot never moves: every j
 lerobot/svla_so100_stacking,lerobot,38,empty_episode,True,only 28 frames (0.9s)
 lerobot/svla_so100_stacking,lerobot,38,no_motion,True,robot never moves: every joint is constant for the whole episode
 lerobot/svla_so100_stacking,lerobot,55,no_motion,True,robot never moves: every joint is constant for the whole episode
-lirislab/clear_square,lirislab,0,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square,lirislab,3,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square,lirislab,7,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square,lirislab,10,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square,lirislab,14,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square,lirislab,23,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square,lirislab,27,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square,lirislab,29,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square,lirislab,30,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square,lirislab,31,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square,lirislab,32,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
+lirislab/clear_square,lirislab,0,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square,lirislab,3,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square,lirislab,7,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square,lirislab,10,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square,lirislab,14,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square,lirislab,23,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square,lirislab,27,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square,lirislab,29,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square,lirislab,30,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square,lirislab,31,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square,lirislab,32,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
 lirislab/clear_square,lirislab,35,empty_episode,True,only 1 frames (0.0s)
-lirislab/clear_square,lirislab,47,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square,lirislab,49,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square_orig,lirislab,0,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square_orig,lirislab,3,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square_orig,lirislab,7,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square_orig,lirislab,10,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square_orig,lirislab,14,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square_orig,lirislab,23,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square_orig,lirislab,27,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square_orig,lirislab,29,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square_orig,lirislab,30,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square_orig,lirislab,31,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square_orig,lirislab,32,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
+lirislab/clear_square,lirislab,47,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square,lirislab,49,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square_orig,lirislab,0,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square_orig,lirislab,3,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square_orig,lirislab,7,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square_orig,lirislab,10,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square_orig,lirislab,14,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square_orig,lirislab,23,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square_orig,lirislab,27,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square_orig,lirislab,29,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square_orig,lirislab,30,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square_orig,lirislab,31,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square_orig,lirislab,32,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
 lirislab/clear_square_orig,lirislab,35,empty_episode,True,only 1 frames (0.0s)
-lirislab/clear_square_orig,lirislab,47,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-lirislab/clear_square_orig,lirislab,49,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
+lirislab/clear_square_orig,lirislab,47,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
+lirislab/clear_square_orig,lirislab,49,dead_sensor,True,main_gripper reading never changes although the robot was commanded through a real movement
 lorasad/so100_three_cameras_dataset,lorasad,0,no_motion,True,robot never moves: every joint is constant for the whole episode
 love3165303/so100_pick_ball_colors2,love3165303,64,length_mismatch,True,observation.images.side video is 12.3s but motion is 8.6s
 luriss/so100_pick_and_place_box_task_0430,luriss,25,no_motion,True,robot never moves: every joint is constant for the whole episode
@@ -988,18 +696,6 @@ masato-ka/so100_nlact_block_instruct_v3,masato-ka,111,no_motion,True,robot never
 masato-ka/so100_nlact_block_instruct_v3,masato-ka,112,no_motion,True,robot never moves: every joint is constant for the whole episode
 mathieutk/so100_goba,mathieutk,1,empty_episode,True,only 1 frames (0.0s)
 mathieutk/so100_gobc,mathieutk,11,no_motion,True,robot never moves: every joint is constant for the whole episode
-maujim/TraveltoJam4,maujim,21,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-maujim/TraveltoJam4,maujim,23,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-maujim/TraveltoJam4,maujim,26,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-maujim/TraveltoJam4,maujim,28,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-maujim/TraveltoJam4,maujim,32,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-maujim/TraveltoJam4,maujim,36,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-maujim/TraveltoJam4,maujim,37,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-maujim/TraveltoJam4,maujim,38,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-maujim/TraveltoJam4,maujim,39,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-maujim/TraveltoJam4,maujim,42,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-maujim/TraveltoJam4,maujim,43,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
-maujim/TraveltoJam4,maujim,48,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
 mfyu/so101_white_box_nums_20,mfyu,9,empty_episode,True,only 1 frames (0.0s)
 mfyu/so101_white_box_nums_20,mfyu,13,empty_episode,True,only 1 frames (0.0s)
 nduque/robustness_e7_2,nduque,44,empty_episode,True,only 1 frames (0.0s)
@@ -1050,7 +746,6 @@ psg777/glue3,psg777,7,empty_episode,True,only 2 frames (0.1s)
 psg777/glue3,psg777,19,empty_episode,True,only 8 frames (0.3s)
 psg777/redtape1,psg777,19,empty_episode,True,only 19 frames (0.6s)
 psg777/redtape1,psg777,19,no_motion,True,robot never moves: every joint is constant for the whole episode
-psg777/redtape2,psg777,3,dead_sensor,True,wrist_roll.pos reading never changes although the robot was commanded to move it
 psg777/redtapepickup1,psg777,14,no_motion,True,robot never moves: every joint is constant for the whole episode
 qiujun/so101_test,qiujun,11,no_motion,True,robot never moves: every joint is constant for the whole episode
 raghav-katta-1/lerobot2,raghav-katta-1,0,duplicate_episode,True,"motion identical to episode(s) [2, 5]"
@@ -1072,161 +767,8 @@ rbo-corematic/strawberries,rbo-corematic,40,empty_episode,True,only 1 frames (0.
 roboflavia/pen_dual0,roboflavia,8,no_motion,True,robot never moves: every joint is constant for the whole episode
 rocach94/so101_data2,rocach94,25,length_mismatch,True,observation.images.side video is 24.7s but motion is 14.7s
 rocach94/so101_data2,rocach94,50,length_mismatch,True,observation.images.side video is 16.0s but motion is 14.2s
-romanovvv1987/so100_start_test_2,romanovvv1987,0,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded to move it
+romanovvv1987/so100_start_test_2,romanovvv1987,0,dead_sensor,True,main_wrist_roll reading never changes although the robot was commanded through a real movement
 rs545837/so100_test,rs545837,17,no_motion,True,robot never moves: every joint is constant for the whole episode
-samanthalhy/so100_herding_2,samanthalhy,51,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,52,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,53,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,54,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,61,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,62,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,63,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,64,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,65,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,71,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,72,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,74,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,75,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,76,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,77,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,86,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,88,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,91,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,93,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,95,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,96,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,97,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,99,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,100,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,101,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,102,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,104,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,118,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,119,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,120,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,146,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,151,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,156,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,161,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,166,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,167,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,168,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,170,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,171,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,176,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,188,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,191,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,206,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,216,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,226,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,228,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,229,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,246,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,247,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,248,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,261,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,262,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,263,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,281,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,296,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,311,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,312,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,316,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,327,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,329,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,330,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,331,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,332,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,337,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,338,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,339,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,340,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,341,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,342,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,351,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,352,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,353,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,361,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,362,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,363,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_2,samanthalhy,364,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,51,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,52,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,53,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,54,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,61,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,62,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,63,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,64,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,65,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,71,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,72,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,74,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,75,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,76,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,77,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,86,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,88,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,91,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,93,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,95,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,96,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,97,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,99,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,100,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,101,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,102,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,104,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,118,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,119,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,120,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,146,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,151,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,156,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,161,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,166,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,167,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,168,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,170,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,171,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,176,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,188,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,191,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,206,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,216,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,226,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,228,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,229,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,246,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,247,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,248,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,261,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,262,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,263,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,281,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,296,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,311,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,312,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,316,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,327,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,329,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,330,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,331,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,332,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,337,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,338,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,339,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,340,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,341,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,342,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,351,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,352,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,353,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,361,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,362,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,363,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,364,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
-samanthalhy/so100_herding_3,samanthalhy,366,dead_sensor,True,main_gripper reading never changes although the robot was commanded to move it
 samanthalhy/so100_test_2,samanthalhy,3,empty_episode,True,only 26 frames (0.9s)
 samsitol/so100_peg01,samsitol,19,no_motion,True,robot never moves: every joint is constant for the whole episode
 samsitol/so101_cube,samsitol,82,no_motion,True,robot never moves: every joint is constant for the whole episode
