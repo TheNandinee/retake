@@ -140,6 +140,20 @@ uv run python -m scripts.13_integrity_scan
 uv run python -m scripts.14_scan_report results/scan/integrity_scan.jsonl
 ```
 
+## Built on NVIDIA Nemotron and Nebius Token Factory
+
+| Model (via Nebius Token Factory) | Role in Retake | Why this variant |
+|---|---|---|
+| `nvidia/Nemotron-3.5-Super-VL` | Vision layer: judges whether each demo succeeded from 2 reference frames + 6 episode frames, returning a JSON verdict with failure type, timestamp and reason | Needs multi-image vision; with thinking off it costs about $0.0007 per 8-frame call |
+| `nvidia/Nemotron-3-Ultra-550b-a55b` | Report summaries (code checks every claim) and fix guidance from Tavily sources (code verifies every quote) | Strongest instruction-following for tightly constrained, cited writing; used only a few times per audit, so cost stays low |
+| Nemotron 3.5 Lightning, Nemotron Nano | Evaluated as a middle tier | Not needed in the final pipeline |
+
+**Where Token Factory accelerated the work:**
+- **No GPUs to manage.** A 550B-parameter model and a vision-language model behind one OpenAI-compatible API, so all effort went into the auditing logic.
+- **Parallel audits.** Independent calls run with 8 workers; 50 episodes are audited in about 6.5 minutes from a laptop.
+- **Cost control.** Per-token prices from the models endpoint (`?verbose=true`) feed Retake's cost ledger and budget guard (`RETAKE_BUDGET_USD`). Every experiment in this repo cost **$0.46** in total.
+- **Cheap, fast vision.** Setting `enable_thinking=False` on Super VL cut tokens about 9× for vision calls, which is what makes auditing about $1.10 per 1,000 episodes.
+
 ## Limitations
 
 - The retake list favors certainty over coverage: on the test set it caught about half of all real failures; the review list brings that to 72%.
