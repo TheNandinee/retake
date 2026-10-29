@@ -9,6 +9,7 @@ authors = [
 requires-python = ">=3.11"
 dependencies = [
     "huggingface-hub>=2.3.0",
+    "markdown>=3.11.2",
     "numpy>=2.4.6",
     "openai>=3.40.0",
     "pandas>=3.1.0",
