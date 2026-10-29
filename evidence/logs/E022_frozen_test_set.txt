@@ -1,0 +1,17 @@
+[1/4] Motion + integrity layers...
+      323 episodes | auditing 50 across 10 task groups | 1 motion-flagged | 0 integrity-flagged
+[2/4] Vision layer (nvidia/Nemotron-3.5-Super-VL, 8 parallel, reference=first, remote)...
+      1/50 episodes checked      2/50 episodes checked      3/50 episodes checked      4/50 episodes checked      5/50 episodes checked      6/50 episodes checked      7/50 episodes checked      8/50 episodes checked      9/50 episodes checked      10/50 episodes checked      11/50 episodes checked      12/50 episodes checked      13/50 episodes checked      14/50 episodes checked      15/50 episodes checked      16/50 episodes checked      17/50 episodes checked      18/50 episodes checked      19/50 episodes checked      20/50 episodes checked      21/50 episodes checked      22/50 episodes checked      23/50 episodes checked      24/50 episodes checked      25/50 episodes checked      26/50 episodes checked      27/50 episodes checked      28/50 episodes checked      29/50 episodes checked      30/50 episodes checked      31/50 episodes checked      32/50 episodes checked      33/50 episodes checked      34/50 episodes checked      35/50 episodes checked      36/50 episodes checked      37/50 episodes checked      38/50 episodes checked      39/50 episodes checked      40/50 episodes checked      41/50 episodes checked      42/50 episodes checked      43/50 episodes checked      44/50 episodes checked      45/50 episodes checked      46/50 episodes checked      47/50 episodes checked      48/50 episodes checked      49/50 episodes checked      50/50 episodes checked
+[3/4] Verdicts...
+[4/4] Summary (nvidia/Nemotron-3-Ultra-550b-a55b)...
+
+=== Retake audit: kantine/BotFails ===
+Health score: 56.0%  |  clean 28  review 9  retake 13
+Retake issues: {'wrong_placement': 5, 'spill': 5, 'dropped_object': 2, 'human_intervention': 1}
+Review issues: {'incomplete': 9}
+Summary rule violations left after retry: 0
+Model cost: $0.0546  ($1.09 per 1,000 episodes)  |  389s
+Report: reports/botfails_TEST/summary.md
+50 audited episodes with labels | 25 real failures
+  RETAKE list    precision 100% | caught 13/25 | false alarms 0/25
+  RETAKE+REVIEW  precision  82% | caught 18/25 | false alarms 4/25

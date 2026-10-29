@@ -1,0 +1,9 @@
+BotFails/normal_train/domotic_dishTidyUp_expert	16
+BotFails/normal_train/industrial_robothon_hatchAndProbe_expert	6
+BotFails/normal_train/industrial_screws_sorting_expert	11
+BotFails/test/domotic_dishTidyUp_anomaly	10
+BotFails/test/domotic_makingCoffee_anomaly	3
+BotFails/test/industrial_robothon_buttons_anomaly	4
+BotFails/test/industrial_robothon_hatchAndProbe_anomaly	0
+BotFails/test/industrial_robothon_hatchAndProbe_anomaly	3
+BotFails/test/industrial_robothon_hatchAndProbe_anomaly	8

@@ -183,3 +183,13 @@ Human review of the contact sheets from E006:
 - **Insight: extra prompt text degrades the vision model even when accurate; the reference frames already carry the task context.**
 - **Decision: freeze at the E012 configuration.** `--checklist` remains available, off by default. No further tuning on the dev set (overfitting risk).
 - Cost $0.057 · Log: `evidence/logs/E021b_constrained_checklists_dev.txt`
+
+## E022 — FROZEN TEST SET (run once, pipeline tagged v1.0-frozen beforehand) · 2026-10-29
+- 50 BotFails episodes (25 real failures, 25 good), frozen in `evidence/splits/botfails_TEST_frozen.csv` before any tuning; never used in development
+- Configuration: vision v2 (Nemotron 3.5 Super VL, 8 frames: 2 reference + 6 episode), reference = lowest-index expert demo from the dev split, two-tier verdicts, integrity layer, remote frames
+- **RETAKE list: precision 100% (13/13; Wilson 95% lower bound ≈ 77%), caught 13/25, false alarms 0/25**
+- **RETAKE + REVIEW: precision 82% (18/22), caught 18/25 (72%), false alarms 4/25**
+- Retake flags by type: wrong_placement 5, spill 5, dropped_object 2, human_intervention 1
+- Cost $0.0546 → **$1.09 per 1,000 episodes** · runtime 389 s for 50 episodes (8 workers, remote)
+- No re-runs; no changes after seeing results.
+- Log: `evidence/logs/E022_frozen_test_set.txt` · Report: `reports/botfails_TEST/`

@@ -1,0 +1,13 @@
+BotFails/test/domotic_groceriesSorting_anomaly	8
+BotFails/test/domotic_makingCoffee_anomaly	6
+BotFails/test/domotic_makingCoffee_anomaly	10
+BotFails/test/domotic_makingCoffee_anomaly	13
+BotFails/test/domotic_pouringCoffee_anomaly	3
+BotFails/test/domotic_pouringCoffee_anomaly	7
+BotFails/test/domotic_pouringCoffee_anomaly	12
+BotFails/test/domotic_setTheTable_anomaly	11
+BotFails/test/domotic_setTheTable_anomaly	12
+BotFails/test/domotic_setTheTable_anomaly	14
+BotFails/test/domotic_vegetablesAndFruitsSorting_anomaly	11
+BotFails/test/industrial_screws_sorting_anomaly	3
+BotFails/test/industrial_soldering_anomaly	10
