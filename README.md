@@ -29,7 +29,7 @@ We scanned **all 1,754 sub-datasets of [`lerobot/community_dataset_v3`](https://
 
 Every one of these comes from a deterministic check, with no AI judgment, and every issue type was verified by hand. See [`EXPERIMENTS.md`](EXPERIMENTS.md) E018–E020 and [`evidence/HEADLINE.md`](evidence/HEADLINE.md).
 
-![Frozen arm sensor: six UR5e joints read constant for 52 s while commanded to move](docs/assets/examples/inspect_Arururu12_UR5e_Gello_Cube_bin_v3_ep1.jpg)
+![Frozen arm sensor: six UR5e joints read constant for 52 s while commanded to move](docs/assets/examples/inspect_1g0rrr_demo2_frames_grab_ep11.jpg)
 
 ## Proof: a frozen test set, run once
 
