@@ -76,12 +76,16 @@ def _img(content, label, im):
                 {"type": "image_url", "image_url": {"url": img_url(im.resize(SIZE))}}]
 
 def audit_episode(video, duration, task, ref_video, ref_duration, tag="", prompt=None, times=None,
-                  video_offset=0.0, ref_offset=0.0):
+                  video_offset=0.0, ref_offset=0.0, checklist=None):
     """Timestamps shown to the model are relative to each episode's start.
     Offsets let us seek inside v3 video files that hold many episodes."""
     prompt = prompt or PROMPT_V2
     times = times or [duration * f for f in EPISODE_FRACS]
-    content = [{"type": "text", "text": prompt.format(task=task)}]
+    text = prompt.format(task=task)
+    if checklist:
+        text += ("\n\nTASK-SPECIFIC CHECKLIST (written by a planner from the task description; use it to judge "
+                 "success, especially when the result is not visible in the final frame):\n" + checklist)
+    content = [{"type": "text", "text": text}]
     for label, t in [("REFERENCE start:", 0.02 * ref_duration), ("REFERENCE end:", 0.98 * ref_duration)]:
         im = grab_frame(ref_video, ref_offset + t)
         if im is not None: _img(content, label, im)

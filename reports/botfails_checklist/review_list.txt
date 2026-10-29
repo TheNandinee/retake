@@ -1,0 +1,17 @@
+BotFails/normal_train/domotic_makingCoffee_expert	2
+BotFails/test/industrial_robothon_hatchAndProbe_anomaly	13
+BotFails/test/domotic_dishTidyUp_anomaly	13
+BotFails/test/domotic_groceriesSorting_anomaly	3
+BotFails/test/domotic_setTheTable_anomaly	9
+BotFails/normal_train/industrial_robothon_buttons_expert	10
+BotFails/normal_train/industrial_robothon_hatchAndProbe_expert	1
+BotFails/normal_train/industrial_soldering_expert	2
+BotFails/normal_train/domotic_makingCoffee_expert	13
+BotFails/test/industrial_robothon_hatchAndProbe_anomaly	14
+BotFails/test/industrial_screws_sorting_anomaly	4
+BotFails/test/industrial_soldering_anomaly	8
+BotFails/normal_train/domotic_makingCoffee_expert	10
+BotFails/normal_train/industrial_robothon_buttons_expert	14
+BotFails/normal_train/industrial_robothon_hatchAndProbe_expert	9
+BotFails/normal_train/industrial_screws_sorting_expert	19
+BotFails/test/industrial_soldering_anomaly	4

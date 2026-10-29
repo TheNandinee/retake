@@ -1,0 +1,5 @@
+BotFails/test/domotic_pouringCoffee_anomaly	5
+BotFails/test/domotic_pouringCoffee_anomaly	10
+BotFails/normal_train/domotic_setTheTable_expert	16
+BotFails/test/domotic_pouringCoffee_anomaly	1
+BotFails/test/domotic_setTheTable_anomaly	1

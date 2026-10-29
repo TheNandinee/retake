@@ -175,3 +175,11 @@ Human review of the contact sheets from E006:
   - timestamp_error: kevin510/so-100-draw-smiley ep0, 415 non-increasing timestamps
   - length_mismatch: 1lyz123576/so101_test-1 ep10, video 11.3 s vs motion 18.6 s
 - Logs: `evidence/logs/E020_*`
+
+## E021b — Constrained Ultra checklists (single change vs E012), dev 40 · 2026-10-29 · ❌ REGRESSION
+- Same as E021, but the checklist may only restate requirements literally written in the task text, plus "not a problem" guidance. Verified in output: e.g. "Dishes are placed in a dish rack".
+- **Retake precision 60% (E012: 80%), caught 3/12 (4/12), false alarms 2/28 (1/28); retake+review false alarms 11/28 (9/28)**
+- Fails the pre-set rule (precision ≥ 80% AND an improvement). Differences on 40 episodes are small, but none favor the checklist.
+- **Insight: extra prompt text degrades the vision model even when accurate; the reference frames already carry the task context.**
+- **Decision: freeze at the E012 configuration.** `--checklist` remains available, off by default. No further tuning on the dev set (overfitting risk).
+- Cost $0.057 · Log: `evidence/logs/E021b_constrained_checklists_dev.txt`

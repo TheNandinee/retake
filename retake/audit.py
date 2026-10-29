@@ -2,7 +2,7 @@
 
 Usage:
   uv run python -m retake.audit kantine/BotFails --limit 40 --exclude evidence/splits/botfails_TEST_frozen.csv
-  uv run python -m retake.audit lerobot/community_dataset_v3 --subset 00ri/so100_battery --limit 10 --out reports/community_test
+  uv run python -m retake.audit lerobot/community_dataset_v3 --subset 00ri/so100_battery --limit 10 --remote --out reports/x
 """
 import os, re, json, time, argparse, datetime
 from pathlib import Path
@@ -15,6 +15,7 @@ from retake.signals import episode_signals, gripper_indices
 from retake.vision import audit_episode, VISION_MODEL
 from retake.llm import chat, spent, STATS
 from retake.integrity import check_dataset, check_frames
+from retake.checklist import make_checklist
 
 JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "nvidia/Nemotron-3-Ultra-550b-a55b")
 LEAK = re.compile(r"\d+\s*[:\-]\s*\d+|anomal|normal test|wrong", re.I)
@@ -41,9 +42,10 @@ Audience: the robotics team that collected the data. Be concrete, brief, and car
 AUDIT STATS (JSON):
 {stats}
 
-FLAGGED EPISODES (JSON). status "retake" = visible evidence of a problem in the frames; "review" = unconfirmed, needs a human look.
-Each episode has an "id" - refer to episodes ONLY by that exact id. Failure types frozen_video, black_frames, dropped_frames, duplicate_episode, dead_sensor, no_motion, empty_episode, 
+FLAGGED EPISODES (JSON). status "retake" = visible evidence of a problem in the frames, or a failed data-integrity check; "review" = unconfirmed, needs a human look.
+Failure types frozen_video, black_frames, dropped_frames, duplicate_episode, dead_sensor, no_motion, empty_episode,
 nan_values, length_mismatch and timestamp_error come from deterministic code checks: they are certain facts, not AI judgments.
+Each episode has an "id" - refer to episodes ONLY by that exact id.
 {findings}
 
 Write Markdown with exactly these four sections, under 400 words in total:
@@ -69,8 +71,7 @@ def norm_name(name):
     return PAIRED.sub("", name)
 
 def group_name(rel, root):
-    """Paired expert/anomaly folders (BotFails style) share a task group; otherwise use the full path,
-    because different contributors can use the same dataset name."""
+    """Paired expert/anomaly folders (BotFails style) share a task group; otherwise use the full path."""
     return norm_name(root.name) if PAIRED.search(root.name) else rel
 
 def read_tasks(root):
@@ -119,6 +120,8 @@ def motion_table(path, only=None):
                      integrity=integ.get(int(ep_idx), []))
             rows.append(r)
     m = pd.DataFrame(rows)
+    if m.empty:
+        return m, roots
     for f in FEATS:
         g = m.groupby("task_key")[f]
         m[f + "_z"] = ((m[f] - g.transform("mean")) / (g.transform("std") + 1e-9)).fillna(0)
@@ -201,7 +204,7 @@ def hotspots_md(hs):
     return "\n".join(lines) + "\n\n"
 
 def write_summary(stats, findings_json):
-    msgs = [{"role": "user", "content": SUMMARY_PROMPT.format(stats=json.dumps(stats, indent=1),
+    msgs = [{"role": "user", "content": SUMMARY_PROMPT.format(stats=json.dumps(stats, indent=1, default=str),
                                                               findings=findings_json)}]
     text = chat(JUDGE_MODEL, msgs, max_tokens=3000, think=False, tag="audit:summary")
     if not text:
@@ -225,7 +228,7 @@ def main():
                     help="comma-separated sub-dataset paths inside the repo (e.g. 00ri/so100_battery)")
     ap.add_argument("--limit", type=int, default=0, help="max episodes to audit (0 = all)")
     ap.add_argument("--exclude", default=None, help="CSV of dataset,episode_index to skip (e.g. a frozen test split)")
-    ap.add_argument("--cam", default=None, help="camera key (default: prefer top/front/side/high, else first)")
+    ap.add_argument("--cam", default=None, help="camera key (default: prefer top/front/high/side, else first)")
     ap.add_argument("--vision", choices=["all", "flagged", "none"], default="all")
     ap.add_argument("--reference", choices=["first", "typical"], default="first")
     ap.add_argument("--workers", type=int, default=4)
@@ -233,6 +236,10 @@ def main():
     ap.add_argument("--save-all-frames", action="store_true", help="save frame sheets for clean episodes too")
     ap.add_argument("--remote", action="store_true",
                     help="read video frames directly from Hugging Face instead of downloading files")
+    ap.add_argument("--checklist", action="store_true",
+                    help="Nemotron Ultra writes a per-task inspection checklist for the vision layer")
+    ap.add_argument("--only", default=None,
+                    help="CSV of dataset,episode_index to audit exactly; references are never drawn from this set")
     a = ap.parse_args()
 
     path = DATA / a.repo.replace("/", "__")
@@ -246,7 +253,7 @@ def main():
         fetch(a.repo, ["*.md", "meta/**", "**/meta/**", "data/**", "**/data/**"])
     start_spend, t0 = spent(), time.time()
 
-    print("[1/4] Motion layer...")
+    print("[1/4] Motion + integrity layers...")
     m, roots = motion_table(path, only)
     if m.empty:
         raise SystemExit("No episodes found - check --subset paths.")
@@ -254,21 +261,36 @@ def main():
     if a.exclude:
         e = pd.read_csv(a.exclude)
         exclude = set(e.dataset + ":" + e.episode_index.astype(str))
-    sel = select(m, a.limit, exclude)
+    if a.only:
+        o = pd.read_csv(a.only)
+        only_keys = set(o.dataset + ":" + o.episode_index.astype(str))
+        sel = m[m.key.isin(only_keys)]
+        exclude = exclude | only_keys          # references never come from the audited set
+    else:
+        sel = select(m, a.limit, exclude)
     print(f"      {len(m)} episodes | auditing {len(sel)} across {sel.task_key.nunique()} task groups "
-          f"| {sum(len(f) > 0 for f in sel.motion_flags)} motion-flagged")
+          f"| {sum(len(f) > 0 for f in sel.motion_flags)} motion-flagged "
+          f"| {sum(any(i[2] for i in x) for x in sel.integrity)} integrity-flagged")
 
     def camera_for(info):
         cams = [k for k, v in info["features"].items() if v.get("dtype") == "video"]
         if a.cam and a.cam in cams:
             return a.cam
-        for pref in ("top", "front", "high", "side"):     # third-person views show the scene best
+        for pref in ("top", "front", "high", "side"):
             for c in cams:
                 if pref in c.split(".")[-1]:
                     return c
         return cams[0] if cams else None
     cams = {rel: camera_for(info) for rel, (_, info, _) in roots.items()}
+
     tasks = {k: task_text_for(k, m, roots) for k in sel.task_key.unique()}
+
+    checklists = {}
+    if a.checklist:
+        print(f"[1b] Ultra task checklists for {len(tasks)} task groups...")
+        checklists = {k: make_checklist(t) for k, t in tasks.items()}
+        for k, c in list(checklists.items())[:2]:
+            print(f"      {k}:\n        " + (c or "(none)").replace("\n", "\n        "))
 
     def job(r):
         try:
@@ -285,14 +307,16 @@ def main():
                                                    cams.get(ref.dataset, cam), remote=a.remote)
             v = audit_episode(video, r.duration_s, tasks[r.task_key], ref_video, ref.duration_s,
                               tag=f"audit:{r.dataset}:{r.episode_index}",
-                              video_offset=off, ref_offset=ref_off)
+                              video_offset=off, ref_offset=ref_off,
+                              checklist=checklists.get(r.task_key))
             return r.key, {"vision": v, "ref": ref.key}
         except Exception as ex:
             return r.key, {"error": f"{type(ex).__name__}: {str(ex)[:200]}"}
 
     results = {}
     if a.vision != "none":
-        print(f"[2/4] Vision layer ({VISION_MODEL}, {a.workers} parallel, reference={a.reference})...")
+        print(f"[2/4] Vision layer ({VISION_MODEL}, {a.workers} parallel, reference={a.reference}"
+              f"{', remote' if a.remote else ''}{', checklist' if a.checklist else ''})...")
         with ThreadPoolExecutor(a.workers) as ex:
             futs = [ex.submit(job, r) for _, r in sel.iterrows()]
             for i, f in enumerate(as_completed(futs), 1):
@@ -375,6 +399,7 @@ def main():
                  cost_per_1000_episodes_usd=(round(1000 * cost / n, 2) if n and STATS["cache_hits"] == 0 else None),
                  fresh_model_calls=STATS["fresh_calls"], cached_model_calls=STATS["cache_hits"],
                  runtime_s=round(time.time() - t0), reference_mode=a.reference,
+                 checklists=checklists,
                  summary_rule_violations_removed=len(leftover),
                  models={"vision": VISION_MODEL, "summary": JUDGE_MODEL},
                  generated_at=datetime.datetime.now().isoformat(timespec="seconds"))
