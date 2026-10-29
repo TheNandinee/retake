@@ -221,3 +221,18 @@ Human review of the contact sheets from E006:
 - Also surfaced: `lerobot-doctor` (LeRobot's own metadata validator), adjacent tooling
 - Logs: `evidence/logs/E024b_*`, `E024c_*`, `E024d_*`
 - **Final (d) result:** 10 points kept, 14 removed. dead_sensor and human_intervention → "no verifiable guidance". Timestamp guidance now cites only LeRobot #2158 (non-monotonic DTS, single-shot v3 write, monotonic re-encode). empty_episode guidance (episode_time_s, official docs) is the weakest surviving item; kept, labeled as a lead.
+
+## E025 — Post-hoc diagnosis of the frozen test set (no pipeline changes) · 2026-10-29
+- Purpose: understand the 7 missed failures and 4 false alarms from E022. **Diagnosis only; nothing was tuned on these episodes.** Labels from `results/signals_BotFails.csv`, same as E022.
+- Confirmed counts: 25 failures → 13 retake, 5 review, **7 missed**; 25 good → 21 clean, **4 false alarms (all review, all "incomplete")**
+- **Missed failures, by eye (6 saved frames each):**
+  - 2 visible sorting errors (vegetablesAndFruitsSorting ep6, ep9): items in the wrong box. The model checked that objects were sorted, not which box each went into.
+  - 1 likely visible (soldering ep5): iron ends on the table rather than in its holder
+  - 3 not judgeable from the camera used (robothon_buttons ep6, hatchAndProbe ep6, screws_sorting ep1): side view hides the relevant state
+  - 1 unclear (dishTidyUp ep5)
+- **Every miss gives the same reason, "matches the reference end state":** the vision layer mostly judges end-state similarity, so fine-grained rule violations pass. E021/E021b showed that adding the rules to the prompt does not fix this.
+- **Model confidence does not separate misses (mean 0.93) from correct flags (0.95):** it cannot be used for triage.
+- **All 4 false alarms are "incomplete" verdicts**, independently supporting E011 (incomplete → review, not retake).
+- **Possible label noise:** 2 episodes from "_anomaly" folders are labeled good but look like failures (setTheTable ep2: knife and fork appear swapped; makingCoffee ep3: powder reportedly never poured). Scores keep BotFails' labels unchanged.
+- Roadmap implications (to test on new data, not this test set): focused per-rule questions, camera choice / multiple cameras, denser frames.
+- Log: `evidence/logs/E025_missed_failures.txt` · Frames: `reports/botfails_TEST_misses/`

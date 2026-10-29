@@ -1,0 +1,34 @@
+status   clean  retake  review  All
+failure                            
+False       21       0       4   25
+True         7      13       5   25
+All         28      13       9   50 
+
+'_anomaly' folder but labeled GOOD: 3
+- domotic_groceriesSorting_anomaly ep1 -> clean
+- domotic_makingCoffee_anomaly ep3 -> review
+- domotic_setTheTable_anomaly ep2 -> clean
+
+=== MISSED (real failure -> clean): 7 ===
+- domotic_dishTidyUp_anomaly ep5 | none | conf 1.0 | The robot successfully stored all items in the rack with no spills, drops, or human interference, and the final state matches the reference.
+- domotic_vegetablesAndFruitsSorting_anomaly ep6 | none | conf 0.95 | The final sorted arrangement matches the reference end state, no objects were dropped or spilled, and no human intervention is visible.
+- domotic_vegetablesAndFruitsSorting_anomaly ep9 | none | conf 0.9 | The episode completes the sorting task matching the reference end state with no safety or placement issues.
+- industrial_robothon_buttons_anomaly ep6 | none | conf 0.9 | The episode matches the reference end state with no anomalies.
+- industrial_robothon_hatchAndProbe_anomaly ep6 | none | conf 0.9 | The episode starts and ends in the same state as the reference, with no humans, drops, spills, or wrong objects visible.
+- industrial_screws_sorting_anomaly ep1 | none | conf 0.9 | The episode ends with screws correctly sorted into the left bowl, consistent with the reference end state, and no anomalies are visible.
+- industrial_soldering_anomaly ep5 | none | conf 0.95 | The final arrangement matches the reference end state and no unsafe conditions appear.
+
+=== CAUGHT ONLY IN REVIEW: 5 ===
+- domotic_dishTidyUp_anomaly ep10 | incomplete | conf 0.9 | The final state leaves two green plates on the table rather than storing them in the rack as shown in the reference end.
+- industrial_robothon_buttons_anomaly ep4 | incomplete | conf 0.85 | The episode ends with the slider still at the start position, so the required task of pushing the red button, moving the slider to the top, and pushin
+- industrial_robothon_hatchAndProbe_anomaly ep0 | incomplete | conf 0.9 | The laptop remains open and the hatch is not closed, indicating the task is unfinished compared to the reference end state.
+- industrial_robothon_hatchAndProbe_anomaly ep3 | incomplete | conf 0.85 | The episode ends with the robot arm retracted and the task unfinished; the probe and black plug are not placed as required by the reference end state.
+- industrial_robothon_hatchAndProbe_anomaly ep8 | incomplete | conf 0.85 | The task is unfinished because the probe is not placed in the black plug and the hatch is not closed as shown in the reference end.
+
+=== FALSE ALARMS (good -> review/retake): 4 ===
+- domotic_dishTidyUp_expert ep16 | incomplete | conf 0.9 | One green plate remains on the table instead of being stored in the rack, so the task is unfinished.
+- industrial_robothon_hatchAndProbe_expert ep6 | incomplete | conf 0.95 | The episode ends with the robot idle and the probe not inserted into the black plug, so the task is unfinished.
+- industrial_screws_sorting_expert ep11 | incomplete | conf 0.9 | The task is unfinished as screws remain in the yellow bowl and on the table, unlike the reference end state where all screws are sorted.
+- domotic_makingCoffee_anomaly ep3 | incomplete | conf 1.0 | The task is unfinished because the coffee powder was never transferred from the spoon into the filter.
+
+Mean confidence  missed: 0.93 | caught retake: 0.95

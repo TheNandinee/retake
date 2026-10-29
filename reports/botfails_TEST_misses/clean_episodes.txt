@@ -1,0 +1,9 @@
+BotFails/test/domotic_dishTidyUp_anomaly	5
+BotFails/test/domotic_groceriesSorting_anomaly	1
+BotFails/test/domotic_setTheTable_anomaly	2
+BotFails/test/domotic_vegetablesAndFruitsSorting_anomaly	6
+BotFails/test/domotic_vegetablesAndFruitsSorting_anomaly	9
+BotFails/test/industrial_robothon_buttons_anomaly	6
+BotFails/test/industrial_robothon_hatchAndProbe_anomaly	6
+BotFails/test/industrial_screws_sorting_anomaly	1
+BotFails/test/industrial_soldering_anomaly	5

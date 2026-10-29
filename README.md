@@ -86,7 +86,7 @@ The cheapest tier is deterministic code: integrity and motion checks run on ever
 - **Per-token prices from `/v1/models?verbose=true`** power Retake's built-in cost ledger and hard budget cap. Every call is cached, logged, and priced.
 - **`enable_thinking=False`** on Super VL gave the same answers with ~9× fewer output tokens and 2.5× lower latency (E000).
 - **Multi-image prompts (up to 8)** made the reference-plus-episode design possible in a single call.
-- **Total model spend across all 23 experiments: $0.46.**
+- **Total model spend across all experiments (E000–E025): $0.46.**
 
 ## Quick start
 
@@ -172,7 +172,7 @@ EXPERIMENTS.md    every experiment, including the ones that failed
 
 ## Acknowledgements
 
-- [BotFails](https://huggingface.co/datasets/kantine/BotFails) (labeled robot failures) and [ViFailback](https://huggingface.co/datasets/sii-rhos-ai/vifailback-dataset-lerobot), used for evaluation
+- [BotFails](https://huggingface.co/datasets/kantine/BotFails) (labeled robot failures) and [ViFailback](https://huggingface.co/datasets/sii-rhos-ai/vifailback-dataset-lerobot): BotFails for the vision and frozen test-set evaluation, ViFailback for the motion-signal experiments (E002, E004)
 - [`lerobot/community_dataset_v3`](https://huggingface.co/datasets/lerobot/community_dataset_v3) and its 488 contributors
 - NVIDIA Nemotron models served on Nebius Token Factory; search by Tavily
 
