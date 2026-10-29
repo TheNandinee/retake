@@ -220,3 +220,4 @@ Human review of the contact sheets from E006:
 - Positioned in reports as **leads, not certainties**; "no verifiable guidance" is shown when nothing survives
 - Also surfaced: `lerobot-doctor` (LeRobot's own metadata validator), adjacent tooling
 - Logs: `evidence/logs/E024b_*`, `E024c_*`, `E024d_*`
+- **Final (d) result:** 10 points kept, 14 removed. dead_sensor and human_intervention → "no verifiable guidance". Timestamp guidance now cites only LeRobot #2158 (non-monotonic DTS, single-shot v3 write, monotonic re-encode). empty_episode guidance (episode_time_s, official docs) is the weakest surviving item; kept, labeled as a lead.
