@@ -1,0 +1,16 @@
+00ri/so100_battery_bin_center	3
+1g0rrr/demo2_frames_grab	11
+1lyz123576/so101_test-1	10
+7jep7/rook_to_d4_v5	4
+Aadhavan/so101_test1	25
+Arururu12/UR5e_Gello_Cube_bin_v2	0
+Arururu12/UR5e_Gello_Cube_bin_v3	1
+HuaihaiLyu/hamburger0509	84
+HuaihaiLyu/hamburger_heti	119
+Jinheng0130/Push	4
+LeRobot-worldwide-hackathon/91-AM-PM-pouring-liquid	59
+campa-rabb/so100_50ep	6
+jclinton1/smol_start_toaster_3	8
+kevin-nd/so100_test_2	8
+kevin-nd/so100_test_2	19
+kevin510/so-100-draw-smiley	0

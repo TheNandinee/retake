@@ -18,6 +18,9 @@ def _gripper_closes(g):
 
 def episode_signals(ep, fps, grip_idx):
     ep = ep.sort_values("frame_index")
+    if len(ep) < 3:
+        return {"duration_s": len(ep) / fps, "idle_ratio": 1.0, "longest_idle_s": 0.0,
+                "grip_closes": 0, "jerk": 0.0, "track_err": 0.0}
     s = to_mat(ep["observation.state"])
     a = to_mat(ep["action"]) if "action" in ep else s
     gi = [i % s.shape[1] for i in grip_idx]

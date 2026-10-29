@@ -193,3 +193,13 @@ Human review of the contact sheets from E006:
 - Cost $0.0546 → **$1.09 per 1,000 episodes** · runtime 389 s for 50 episodes (8 workers, remote)
 - No re-runs; no changes after seeing results.
 - Log: `evidence/logs/E022_frozen_test_set.txt` · Report: `reports/botfails_TEST/`
+
+## E023 — Full pipeline on a community sample (integrity + motion + vision) · 2026-10-29
+- 52 episodes from 22 sub-datasets of `lerobot/community_dataset_v3`: 12 integrity-flagged (2 per issue type, from the scan) + 40 random episodes from 10 random datasets with no integrity issues
+- `--remote --workers 8`: **280 s, $0.0572 → $1.10 per 1,000 episodes**
+- **All 12 integrity-flagged episodes → retake** with code-check reasons
+- 40 random episodes: 31 clean, 5 review, **4 retake (vision: human_intervention)**
+- **Visual verification: 4/4 human-intervention flags confirmed** (hand/arm in the workspace)
+  - campa-rabb/so100_50ep ep6 (mid-task, t=11.9 s) · jclinton1/smol_start_toaster_3 ep8 (start) · kevin-nd/so100_test_2 ep19 (start) · kevin-nd/so100_test_2 ep8 (final frame)
+- Small sample; reported as verified examples, not as a rate
+- Logs: `evidence/logs/E023_*` · Report: `reports/community_sample/`

@@ -1,0 +1,5 @@
+campa-rabb/so100_50ep	21
+campa-rabb/so100_50ep	22
+campa-rabb/so100_50ep	30
+julyfun/so100_pick_and_place_v2_50	8
+kevin-nd/so100_test_2	3
