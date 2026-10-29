@@ -203,3 +203,20 @@ Human review of the contact sheets from E006:
   - campa-rabb/so100_50ep ep6 (mid-task, t=11.9 s) · jclinton1/smol_start_toaster_3 ep8 (start) · kevin-nd/so100_test_2 ep19 (start) · kevin-nd/so100_test_2 ep8 (final frame)
 - Small sample; reported as verified examples, not as a rate
 - Logs: `evidence/logs/E023_*` · Report: `reports/community_sample/`
+
+## E024 — Tavily + Ultra fix guidance, v1 (runtime, inside `retake audit`) · 2026-10-29
+- For each issue type in a report: Tavily web search → Nemotron 3 Ultra writes ≤3 causes/fixes citing only returned sources → code drops items citing non-existent sources
+- Community sample: 7 issue types, 32 cited points, 7 fresh Tavily calls (runtime), cost $0.012
+- **Manual review of relevance:** good for empty_episode, duplicate_episode, timestamp_error (LeRobot docs + GitHub issues #533, #1875, #2163); mixed for length_mismatch and no_motion; **wrong for dead_sensor** (UR5 MoveL forum post) and **human_intervention** (dexterous hand-tracking teleop papers)
+- Diagnosis: generic queries; no rule against off-system sources; citation check verified source *numbers*, not *support*
+- Side finding: Voxel51 publishes LeRobot curation metrics (incl. video_window_mismatch), an adjacent competitor
+- Next (one tightening pass, as pre-set): LeRobot-specific queries + domain filter, off-system sources ignored, and **each point must carry a verbatim quote that code verifies exists in the cited source**
+
+## E024b–d — Tightening fix guidance (three passes, then locked) · 2026-10-29
+- **b:** LeRobot-specific queries + domain filter; off-system sources ignored; **each point must carry a 6–30-word verbatim quote that code verifies is in the cited source** → 17 kept, 4 removed. dead_sensor still off-topic (UMI blog); human_intervention correctly "no verifiable guidance"
+- **c:** the cited source must itself describe the symptom (code keyword check) → 13 kept, 9 removed. dead_sensor now cited another dataset's README (timing offsets): keywords matched, topic didn't
+- **d:** for LeRobot issue types, only official/maintained LeRobot sources count (LeRobot GitHub, official docs, phospho docs, DeepWiki LeRobot); deterministic robot choice for queries. **Locked here, no further passes.**
+- Strongest surviving guidance: timestamp errors (LeRobot #2163, #2158), duplicates (#4982), length mismatch (#3177 from_timestamp vs video PTS drift, #2547), no motion (#2000 actions recorded as zero)
+- Positioned in reports as **leads, not certainties**; "no verifiable guidance" is shown when nothing survives
+- Also surfaced: `lerobot-doctor` (LeRobot's own metadata validator), adjacent tooling
+- Logs: `evidence/logs/E024b_*`, `E024c_*`, `E024d_*`

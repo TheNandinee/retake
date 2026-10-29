@@ -68,7 +68,7 @@ summary{cursor:pointer;font-weight:600}.muted{color:var(--muted);font-weight:400
 .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
 .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}.step b{display:block;margin-bottom:4px}
 .big{font-size:20px;max-width:820px}a{color:var(--code)}
-footer{padding:32px 24px;color:var(--muted);font-size:14px;text-align:center}
+footer{padding:32px 24px;color:var(--muted);font-size:14px;text-align:center}.quote{color:var(--muted);font-size:13px;font-style:italic}.card ul{padding-left:18px;margin:8px 0 0}.card li{margin-bottom:10px;font-size:14px}
 """
 
 def esc(x):
@@ -98,6 +98,26 @@ def card(e, img_base):
             f'<div class="{cls}">{esc(e["failure_type"].replace("_", " "))}{esc(tstr)}</div>'
             f'<p>{esc(e.get("reason"))}</p>{img}</div>')
 
+def fix_html(guide):
+    if not guide:
+        return ""
+    blocks = ""
+    for t, g in guide.items():
+        url = {x["n"]: x["url"] for x in g.get("sources", [])}
+        items = ""
+        for label, key in (("Likely cause", "causes"), ("Fix", "fixes")):
+            for it in g.get(key, []):
+                items += (f'<li><b>{label}:</b> {esc(it["text"])} '
+                          f'<a href="{esc(url.get(it["source"], "#"))}">[{it["source"]}]</a>'
+                          f'<br><span class="quote">"{esc(it["quote"])}"</span></li>')
+        if not items:
+            items = '<li class="muted">No public source with verifiable guidance was found.</li>'
+        blocks += (f'<div class="card"><b style="text-transform:capitalize">{esc(t.replace("_", " "))}</b>'
+                   f'<ul>{items}</ul></div>')
+    return ('<h3>How to fix it <span class="muted">(sources found at audit time by Tavily, summarized by '
+            'Nemotron 3 Ultra; every point carries a quote that code verified is in an official source)</span></h3>'
+            f'<div class="grid">{blocks}</div>')
+
 def report_section(report_dir, tag, heading, blurb, sid):
     report_dir = Path(report_dir)
     rep = json.loads((report_dir / "report.json").read_text())
@@ -122,7 +142,8 @@ def report_section(report_dir, tag, heading, blurb, sid):
             f'<details><summary>Review list ({len(review)}): unconfirmed, needs a human look</summary>'
             f'<div class="grid" style="margin-top:12px">{rcards}</div></details>'
             f'<details><summary>Audit summary (facts computed by code, prose written by Nemotron 3 Ultra)</summary>'
-            f'<div class="md">{markdown.markdown(md)}</div></details></div></section>')
+            f'<div class="md">{markdown.markdown(md.split("## How to fix it")[0])}</div></details>'
+            f'{fix_html(s.get("fix_guidance"))}</div></section>')
 
 def build():
     if DOCS.exists():
@@ -134,7 +155,7 @@ def build():
             f'<h1>Every robot demo needs an alibi.</h1>'
             f'<p>Robot companies pay for hours of demonstrations and train on them blind. Retake audits robot datasets '
             f'episode by episode and returns a trustworthy re-record list with evidence for every flag.</p>'
-            f'<p style="font-size:15px;color:#a9a59b">Built with NVIDIA Nemotron 3.5 Super VL and Nemotron 3 Ultra on Nebius Token Factory · Physical AI track</p>'
+            f'<p style="font-size:15px;color:#a9a59b">Built with NVIDIA Nemotron 3.5 Super VL and Nemotron 3 Ultra on Nebius Token Factory, with Tavily search · Physical AI track</p>'
             f'<div class="tiles">{tile(SCAN["datasets"], "datasets scanned")}{tile(SCAN["episodes"], "episodes")}'
             f'{tile(SCAN["hours"] + " h", "of robot data")}{tile(SCAN["dup_pct"], "of episodes are exact motion duplicates")}'
             f'{tile(SCAN["broken"], "objectively broken episodes")}{tile("$0", "model spend for the scan")}{tile("100%", "retake precision on a frozen test set (13/13)")}</div>'
@@ -191,7 +212,8 @@ def build():
            f'<div class="step"><b>3 · Vision (Nemotron 3.5 Super VL)</b>Two frames of a known-good reference demo plus six '
            f'frames of the episode, via Nebius Token Factory. Only visible evidence reaches the retake list.</div>'
            f'<div class="step"><b>4 · Report (Nemotron 3 Ultra)</b>Ultra writes the summary; code computes every number '
-           f'and hotspot, and a validator removes any claim the data does not support.</div></div>'
+           f'and hotspot, and a validator removes any claim the data does not support.</div>'
+           f'<div class="step"><b>5 · Fix guidance (Tavily + Nemotron 3 Ultra)</b>At audit time, Tavily searches LeRobot docs and issues for each problem found. Ultra summarizes only what the sources say, and code keeps a point only if its quote is verified in an official source.</div></div>'
            f'<p class="lead" style="margin-top:20px">Cost: <b>about $1.10 per 1,000 episodes</b>. Reads LeRobot v2 and v3 '
            f'datasets straight from Hugging Face without downloading the videos. One command: '
            f'<code>retake audit &lt;dataset&gt;</code>.</p></div></section>')

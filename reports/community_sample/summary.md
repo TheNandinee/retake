@@ -40,3 +40,42 @@ This is an automated audit; on a labeled benchmark the vision layer agreed with 
 
 ## Recommended actions
 Check retake episodes first: the six integrity failures (`empty_episode`, `no_motion`, `length_mismatch`, `dead_sensor`, `duplicate_episode`, `timestamp_error`) are deterministic; the four `human_intervention` episodes show a hand in frame. Then check review episodes: `campa-rabb/so100_50ep ep22` may be truncated; the other three `motion_only` episodes have anomalous motion statistics but appear to reach the goal.
+
+## How to fix it
+_Public sources found at audit time by **Tavily**, summarized by **Nemotron 3 Ultra**. Every point carries a verbatim quote that code verified exists in the cited source; anything unsupported was removed. Treat these as leads._
+
+### empty episode
+- **Likely cause:** Episode timer expires immediately if episode_time_s is set to very low value [[2]](https://github.com/huggingface/lerobot/blob/main/docs/source/il_robots.mdx)  
+  > "Duration of each data recording episode default: 60 seconds"
+- **Fix:** Increase episode_time_s parameter to allow sufficient recording duration [[2]](https://github.com/huggingface/lerobot/blob/main/docs/source/il_robots.mdx)  
+  > "episode_time_s=60 Duration of each data recording episode"
+
+### no motion
+- **Likely cause:** Recorded actions incorrectly saved as all zeros. [[2]](https://github.com/huggingface/lerobot/issues/2000)  
+  > "the action recorded are all set to zero"
+
+### length mismatch
+- **Fix:** Ensure from_timestamp matches actual video PTS to eliminate drift [[5]](https://github.com/huggingface/lerobot/issues/3177)  
+  > "This ensures from_timestamp always matches the actual video PTS eliminating drift regardless of episode count"
+- **Fix:** Increase tolerance_s to mask underlying inaccuracy [[5]](https://github.com/huggingface/lerobot/issues/3177)  
+  > "Increase tolerance_s e.g. 0.04 for 30fps or 0.06 for 15fps"
+
+### dead sensor
+- No public source with verifiable guidance was found.
+
+### duplicate episode
+- **Likely cause:** Duplicate episode indices cause data loss during split [[2]](https://github.com/huggingface/lerobot/issues/4982)  
+  > "the second occurrence of 0 overwrites the first dictionary entry"
+- **Fix:** Remove duplicate episode IDs before splitting datasets [[2]](https://github.com/huggingface/lerobot/issues/4982)  
+  > "Removing duplicate IDs from the input avoids the issue"
+
+### timestamp error
+- **Likely cause:** Video muxer receives non-monotonic DTS values [[3]](https://github.com/huggingface/lerobot/issues/2158)  
+  > "Application provided invalid, non monotonically increasing dts"
+- **Fix:** Write v3 dataset in single shot avoiding cache re-entry [[3]](https://github.com/huggingface/lerobot/issues/2158)  
+  > "embodied-data convert writes v3 in a single shot rather"
+- **Fix:** Re-encode video with monotonic PTS to satisfy muxer [[3]](https://github.com/huggingface/lerobot/issues/2158)  
+  > "re-encodes video with bf=0 g=2 monotonic PTS"
+
+### human intervention
+- No public source with verifiable guidance was found.

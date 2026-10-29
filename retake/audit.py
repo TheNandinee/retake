@@ -16,6 +16,7 @@ from retake.vision import audit_episode, VISION_MODEL
 from retake.llm import chat, spent, STATS
 from retake.integrity import check_dataset, check_frames
 from retake.checklist import make_checklist
+from retake.fixes import fix_guidance, fixes_md, TAVILY_CALLS, FIXABLE
 
 JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "nvidia/Nemotron-3-Ultra-550b-a55b")
 LEAK = re.compile(r"\d+\s*[:\-]\s*\d+|anomal|normal test|wrong", re.I)
@@ -240,6 +241,8 @@ def main():
                     help="Nemotron Ultra writes a per-task inspection checklist for the vision layer")
     ap.add_argument("--only", default=None,
                     help="CSV of dataset,episode_index to audit exactly; references are never drawn from this set")
+    ap.add_argument("--no-fixes", action="store_true",
+                    help="skip Tavily + Nemotron Ultra fix guidance")
     a = ap.parse_args()
 
     path = DATA / a.repo.replace("/", "__")
@@ -382,6 +385,18 @@ def main():
         "hotspots": hs,
     }
 
+    fix_guide = {}
+    if not a.no_fixes and os.getenv("TAVILY_API_KEY"):
+        flagged = ep[ep.status != "clean"]
+        types = [t for t in flagged.failure_type.unique() if t in FIXABLE]
+        if types:
+            print(f"[3b] Fix guidance: Tavily search + {JUDGE_MODEL} for {len(types)} issue types...")
+        for t in types:
+            d = flagged[flagged.failure_type == t]
+            robots = [roots[x][1].get("robot_type") for x in d.dataset if x in roots]
+            robot = max(sorted(set(map(str, robots))), key=robots.count) if robots else None
+            fix_guide[t] = fix_guidance(t, robot, d.reason.dropna().astype(str).head(2).tolist())
+
     print(f"[4/4] Summary ({JUDGE_MODEL})...")
     findings = ep[ep.status != "clean"].head(40)[
         ["id", "status", "failure_type", "reason", "integrity", "motion_flags", "evidence_time_s"]]
@@ -394,12 +409,15 @@ def main():
     else:
         body = "_summary not generated (dry run?)_\n\n" + hotspots_md(hs)
 
+    if fix_guide:
+        body += "\n\n" + fixes_md(fix_guide)
     cost = spent() - start_spend
     stats.update(model_cost_usd=round(cost, 4),
                  cost_per_1000_episodes_usd=(round(1000 * cost / n, 2) if n and STATS["cache_hits"] == 0 else None),
                  fresh_model_calls=STATS["fresh_calls"], cached_model_calls=STATS["cache_hits"],
                  runtime_s=round(time.time() - t0), reference_mode=a.reference,
                  checklists=checklists,
+                 fix_guidance=fix_guide, tavily_calls=dict(TAVILY_CALLS),
                  summary_rule_violations_removed=len(leftover),
                  models={"vision": VISION_MODEL, "summary": JUDGE_MODEL},
                  generated_at=datetime.datetime.now().isoformat(timespec="seconds"))
@@ -422,6 +440,11 @@ def main():
               f"so no per-1,000 figure; full-run cost measured in E012: $1.12 per 1,000 episodes)  |  {stats['runtime_s']}s")
     else:
         print(f"Model cost: ${cost:.4f}  (${stats['cost_per_1000_episodes_usd']} per 1,000 episodes)  |  {stats['runtime_s']}s")
+    if fix_guide:
+        kept = sum(len(g["causes"]) + len(g["fixes"]) for g in fix_guide.values())
+        removed = sum(g.get("removed_unsupported", 0) for g in fix_guide.values())
+        print(f"Fix guidance: {len(fix_guide)} issue types | {kept} cited points kept, {removed} unsupported removed | "
+              f"Tavily calls: {TAVILY_CALLS['fresh']} fresh, {TAVILY_CALLS['cached']} cached")
     print(f"Report: {out_dir}/summary.md")
 
 if __name__ == "__main__":

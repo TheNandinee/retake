@@ -17,6 +17,7 @@ dependencies = [
     "pyarrow>=26.0.0",
     "python-dotenv>=1.2.4",
     "scikit-learn>=1.9.1",
+    "tavily-python>=0.8.5",
 ]
 
 [project.scripts]

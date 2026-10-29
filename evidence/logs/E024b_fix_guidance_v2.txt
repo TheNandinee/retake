@@ -1,0 +1,38 @@
+Fetching metadata + motion data for 00ri/so100_battery_bin_center ...
+Fetching metadata + motion data for 1g0rrr/demo2_frames_grab ...
+Fetching metadata + motion data for 1lyz123576/so101_test-1 ...
+Fetching metadata + motion data for 7jep7/rook_to_d4_v5 ...
+Fetching metadata + motion data for Aadhavan/so101_test1 ...
+Fetching metadata + motion data for Arururu12/UR5e_Gello_Cube_bin_v2 ...
+Fetching metadata + motion data for Arururu12/UR5e_Gello_Cube_bin_v3 ...
+Fetching metadata + motion data for Beegbrain/moss_open_drawer_teabox ...
+Fetching metadata + motion data for HuaihaiLyu/hamburger0509 ...
+Fetching metadata + motion data for HuaihaiLyu/hamburger_heti ...
+Fetching metadata + motion data for Jinheng0130/Push ...
+Fetching metadata + motion data for LeRobot-worldwide-hackathon/91-AM-PM-pouring-liquid ...
+Fetching metadata + motion data for campa-rabb/so100_50ep ...
+Fetching metadata + motion data for deepinsand/so100_test2 ...
+Fetching metadata + motion data for gxy1111/so100_close_drawer ...
+Fetching metadata + motion data for jclinton1/smol_start_toaster_3 ...
+Fetching metadata + motion data for julyfun/so100_pick_and_place_v2_50 ...
+Fetching metadata + motion data for kevin-nd/so100_test_2 ...
+Fetching metadata + motion data for kevin510/so-100-draw-smiley ...
+Fetching metadata + motion data for lt-s/rsj2025_train_lift_the_stacked_red_dish_and_set_it_down_on_the_table_flip ...
+Fetching metadata + motion data for lt-s/rsj2025_train_relocate_any_blue_block_in_the_red_dish_to_the_blue_dish ...
+Fetching metadata + motion data for masato-ka/so100_lego_sort ...
+[1/4] Motion + integrity layers...
+      1868 episodes | auditing 52 across 22 task groups | 13 motion-flagged | 12 integrity-flagged
+[2/4] Vision layer (nvidia/Nemotron-3.5-Super-VL, 8 parallel, reference=first, remote)...
+      1/52 episodes checked      2/52 episodes checked      3/52 episodes checked      4/52 episodes checked      5/52 episodes checked      6/52 episodes checked      7/52 episodes checked      8/52 episodes checked      9/52 episodes checked      10/52 episodes checked      11/52 episodes checked      12/52 episodes checked      13/52 episodes checked      14/52 episodes checked      15/52 episodes checked      16/52 episodes checked      17/52 episodes checked      18/52 episodes checked      19/52 episodes checked      20/52 episodes checked      21/52 episodes checked      22/52 episodes checked      23/52 episodes checked      24/52 episodes checked      25/52 episodes checked      26/52 episodes checked      27/52 episodes checked      28/52 episodes checked      29/52 episodes checked      30/52 episodes checked      31/52 episodes checked      32/52 episodes checked      33/52 episodes checked      34/52 episodes checked      35/52 episodes checked      36/52 episodes checked      37/52 episodes checked      38/52 episodes checked      39/52 episodes checked      40/52 episodes checked      41/52 episodes checked      42/52 episodes checked      43/52 episodes checked      44/52 episodes checked      45/52 episodes checked      46/52 episodes checked      47/52 episodes checked      48/52 episodes checked      49/52 episodes checked      50/52 episodes checked      51/52 episodes checked      52/52 episodes checked
+[3/4] Verdicts...
+[3b] Fix guidance: Tavily search + nvidia/Nemotron-3-Ultra-550b-a55b for 7 issue types...
+[4/4] Summary (nvidia/Nemotron-3-Ultra-550b-a55b)...
+
+=== Retake audit: lerobot/community_dataset_v3 [00ri/so100_battery_bin_center,1g0rrr/demo2_frames_grab,1lyz123576/so101_test-1,7jep7/rook_to_d4_v5,Aadhavan/so101_test1,Arururu12/UR5e_Gello_Cube_bin_v2,Arururu12/UR5e_Gello_Cube_bin_v3,Beegbrain/moss_open_drawer_teabox,HuaihaiLyu/hamburger0509,HuaihaiLyu/hamburger_heti,Jinheng0130/Push,LeRobot-worldwide-hackathon/91-AM-PM-pouring-liquid,campa-rabb/so100_50ep,deepinsand/so100_test2,gxy1111/so100_close_drawer,jclinton1/smol_start_toaster_3,julyfun/so100_pick_and_place_v2_50,kevin-nd/so100_test_2,kevin510/so-100-draw-smiley,lt-s/rsj2025_train_lift_the_stacked_red_dish_and_set_it_down_on_the_table_flip,lt-s/rsj2025_train_relocate_any_blue_block_in_the_red_dish_to_the_blue_dish,masato-ka/so100_lego_sort] ===
+Health score: 59.6%  |  clean 31  review 5  retake 16
+Retake issues: {'human_intervention': 4, 'empty_episode': 2, 'no_motion': 2, 'length_mismatch': 2, 'dead_sensor': 2, 'duplicate_episode': 2, 'timestamp_error': 2}
+Review issues: {'motion_only': 4, 'incomplete': 1}
+Summary rule violations left after retry: 0
+Model cost this run: $0.0179  (53 answers reused from cache, so no per-1,000 figure; full-run cost measured in E012: $1.12 per 1,000 episodes)  |  272s
+Fix guidance: 7 issue types | 17 cited points kept, 4 unsupported removed | Tavily calls: 7 fresh, 0 cached
+Report: reports/community_sample/summary.md

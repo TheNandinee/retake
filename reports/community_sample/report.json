@@ -181,19 +181,328 @@
     "possible_systematic_issue": null
    }
   ],
-  "model_cost_usd": 0.0572,
-  "cost_per_1000_episodes_usd": 1.1,
-  "fresh_model_calls": 53,
-  "cached_model_calls": 0,
-  "runtime_s": 280,
+  "model_cost_usd": 0.0025,
+  "cost_per_1000_episodes_usd": null,
+  "fresh_model_calls": 1,
+  "cached_model_calls": 59,
+  "runtime_s": 233,
   "reference_mode": "first",
   "checklists": {},
+  "fix_guidance": {
+   "empty_episode": {
+    "issue": "empty_episode",
+    "query": "LeRobot record empty or very short episode saved re-record",
+    "restricted_to_lerobot_domains": true,
+    "causes": [
+     {
+      "text": "Episode timer expires immediately if episode_time_s is set to very low value",
+      "source": 2,
+      "quote": "Duration of each data recording episode default: 60 seconds"
+     }
+    ],
+    "fixes": [
+     {
+      "text": "Increase episode_time_s parameter to allow sufficient recording duration",
+      "source": 2,
+      "quote": "episode_time_s=60 Duration of each data recording episode"
+     }
+    ],
+    "sources": [
+     {
+      "n": 1,
+      "title": "Data recording takes very long (30-40s processing per 15s episode) \u00b7 Issue #1434 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/1434"
+     },
+     {
+      "n": 2,
+      "title": "lerobot/docs/source/il_robots.mdx at main \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/blob/main/docs/source/il_robots.mdx"
+     },
+     {
+      "n": 3,
+      "title": "trossen_arm/docs/tutorials/lerobot/record_episode.rst at main",
+      "url": "https://github.com/TrossenRobotics/libtrossen_arm/blob/main/docs/tutorials/lerobot/record_episode.rst"
+     },
+     {
+      "n": 4,
+      "title": "Incorrect Number of Recorded Episodes when Rerecording \u00b7 Issue #1372 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/1372"
+     },
+     {
+      "n": 5,
+      "title": "Imitation Learning on Real-World Robots \u00b7 Hugging Face",
+      "url": "https://huggingface.co/docs/lerobot/il_robots"
+     }
+    ],
+    "removed_unsupported": 2
+   },
+   "no_motion": {
+    "issue": "no_motion",
+    "query": "LeRobot record teleoperation follower arm does not move during recording",
+    "restricted_to_lerobot_domains": true,
+    "causes": [
+     {
+      "text": "Recorded actions incorrectly saved as all zeros.",
+      "source": 2,
+      "quote": "the action recorded are all set to zero"
+     }
+    ],
+    "fixes": [],
+    "sources": [
+     {
+      "n": 1,
+      "title": "Lagging and Shaking in Follower Arms with Camera Input at 50-60 fps Control \u00b7 Issue #652 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/652"
+     },
+     {
+      "n": 2,
+      "title": "bug when recording the gymhil dataset #2000 - lerobot",
+      "url": "https://github.com/huggingface/lerobot/issues/2000"
+     },
+     {
+      "n": 3,
+      "title": "SO-101 follower disconnects during teleoperation \u00b7 Issue #3131 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/3131"
+     },
+     {
+      "n": 4,
+      "title": "Do I need two SO 100 arms to get started? \u00b7 Issue #568 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/568"
+     },
+     {
+      "n": 5,
+      "title": "read pinned LeRobot demonstrations and replay cameras ...",
+      "url": "https://github.com/OpenAgentsInc/openagents/issues/11605"
+     }
+    ],
+    "removed_unsupported": 3
+   },
+   "length_mismatch": {
+    "issue": "length_mismatch",
+    "query": "LeRobot dataset video frames do not match number of episode frames",
+    "restricted_to_lerobot_domains": true,
+    "causes": [],
+    "fixes": [
+     {
+      "text": "Ensure from_timestamp matches actual video PTS to eliminate drift",
+      "source": 5,
+      "quote": "This ensures from_timestamp always matches the actual video PTS eliminating drift regardless of episode count"
+     },
+     {
+      "text": "Increase tolerance_s to mask underlying inaccuracy",
+      "source": 5,
+      "quote": "Increase tolerance_s e.g. 0.04 for 30fps or 0.06 for 15fps"
+     }
+    ],
+    "sources": [
+     {
+      "n": 1,
+      "title": "Dataset split sometimes fails to split video frames due to float precision \u00b7 Issue #2547 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/2547"
+     },
+     {
+      "n": 2,
+      "title": "glory-hyeok/actionnet-3k-og-lerobot \u00b7 Datasets at Hugging Face",
+      "url": "https://huggingface.co/datasets/glory-hyeok/actionnet-3k-og-lerobot"
+     },
+     {
+      "n": 3,
+      "title": "[Dataset v3] Invalid episode offsets and bounds silently return wrong frames and cross-episode actions \u00b7 Issue #4976 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/4976"
+     },
+     {
+      "n": 4,
+      "title": "Supports reading LeRobot dataset design \u00b7 Eventual-Inc/Daft \u00b7 Discussion #6313 \u00b7 GitHub",
+      "url": "https://github.com/Eventual-Inc/Daft/discussions/6313"
+     },
+     {
+      "n": 5,
+      "title": "Cumulative floating-point drift in from_timestamp causes FrameTimestampError on concatenated videos \u00b7 Issue #3177 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/3177"
+     }
+    ],
+    "removed_unsupported": 2
+   },
+   "dead_sensor": {
+    "issue": "dead_sensor",
+    "query": "LeRobot so100 observation.state joint position not updating while action changes",
+    "restricted_to_lerobot_domains": true,
+    "causes": [],
+    "fixes": [],
+    "sources": [
+     {
+      "n": 1,
+      "title": "phospho starter pack documentation",
+      "url": "https://docs.phospho.ai/learn/lerobot-dataset"
+     },
+     {
+      "n": 2,
+      "title": "Train Robot Policy using LeRobot Framework with UMI Data",
+      "url": "https://huggingface.co/blog/zfff/umi-lerobot"
+     },
+     {
+      "n": 3,
+      "title": "Question about so100_to_so100_EE: should I re-calibrate to let my real robot looks same to so101.urdf? \u00b7 Issue #2413 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/2413"
+     },
+     {
+      "n": 4,
+      "title": "GitHub - ajinkyagorad/Lerobot-SO100-Arm \u00b7 GitHub",
+      "url": "https://github.com/ajinkyagorad/Lerobot-SO100-Arm"
+     },
+     {
+      "n": 5,
+      "title": "So100 follower's 2nd motor moves the opposite direction of the leader \u00b7 Issue #930 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/930"
+     }
+    ],
+    "removed_unsupported": 4
+   },
+   "duplicate_episode": {
+    "issue": "duplicate_episode",
+    "query": "LeRobot dataset duplicate episodes after merging or re-uploading",
+    "restricted_to_lerobot_domains": true,
+    "causes": [
+     {
+      "text": "Duplicate episode indices cause data loss during split",
+      "source": 2,
+      "quote": "the second occurrence of 0 overwrites the first dictionary entry"
+     }
+    ],
+    "fixes": [
+     {
+      "text": "Remove duplicate episode IDs before splitting datasets",
+      "source": 2,
+      "quote": "Removing duplicate IDs from the input avoids the issue"
+     }
+    ],
+    "sources": [
+     {
+      "n": 1,
+      "title": "max value of the episodes after merge dataset is incorrect \u00b7 Issue #3508 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/3508"
+     },
+     {
+      "n": 2,
+      "title": "split_dataset accepts duplicate episode indices within one split and writes invalid episode IDs \u00b7 Issue #4982 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/4982"
+     },
+     {
+      "n": 3,
+      "title": "LeRobotDataset May Eagerly Load Images, Making It Unusable for Large Datasets \u00b7 Issue #1346 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/1346"
+     },
+     {
+      "n": 4,
+      "title": "phospho starter pack documentation",
+      "url": "https://docs.phospho.ai/learn/lerobot-dataset"
+     },
+     {
+      "n": 5,
+      "title": "Is there a way Merge | Convert | Edit datasets function or a way how we can train model using different datasets ? \u00b7 Issue #847 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/847"
+     }
+    ],
+    "removed_unsupported": 2
+   },
+   "timestamp_error": {
+    "issue": "timestamp_error",
+    "query": "LeRobot dataset timestamps not monotonically increasing error",
+    "restricted_to_lerobot_domains": true,
+    "causes": [
+     {
+      "text": "Video muxer receives non-monotonic DTS values",
+      "source": 3,
+      "quote": "Application provided invalid, non monotonically increasing dts"
+     }
+    ],
+    "fixes": [
+     {
+      "text": "Write v3 dataset in single shot avoiding cache re-entry",
+      "source": 3,
+      "quote": "embodied-data convert writes v3 in a single shot rather"
+     },
+     {
+      "text": "Re-encode video with monotonic PTS to satisfy muxer",
+      "source": 3,
+      "quote": "re-encodes video with bf=0 g=2 monotonic PTS"
+     }
+    ],
+    "sources": [
+     {
+      "n": 1,
+      "title": "lerobot-record error: DTS out of order, non monotonically increasing \u00b7 Issue #2163 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/2163"
+     },
+     {
+      "n": 2,
+      "title": "Incremental parquet writing by michel-aractingi \u00b7 Pull Request #1903 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/pull/1903"
+     },
+     {
+      "n": 3,
+      "title": "Convert local dataset to LeRobot format error based on Dataset v3 \u00b7 Issue #2158 \u00b7 huggingface/lerobot \u00b7 GitHub",
+      "url": "https://github.com/huggingface/lerobot/issues/2158"
+     },
+     {
+      "n": 4,
+      "title": "lerobot_smolvla_fix.md \u00b7 John6666/forum1 at ...",
+      "url": "https://huggingface.co/datasets/John6666/forum1/blame/69c9f0c89507d749ecc894721659b3f865f4c914/lerobot_smolvla_fix.md"
+     },
+     {
+      "n": 5,
+      "title": "lerobot_smolvla_fix.md \u00b7 John6666/forum1 at ...",
+      "url": "https://huggingface.co/datasets/John6666/forum1/blob/ab89949e37878959d169e40a403fdaf3191bdced/lerobot_smolvla_fix.md"
+     }
+    ],
+    "removed_unsupported": 1
+   },
+   "human_intervention": {
+    "issue": "human_intervention",
+    "query": "robot teleoperation data collection operator hands visible in camera frame imitation learning dataset quality",
+    "restricted_to_lerobot_domains": false,
+    "causes": [],
+    "fixes": [],
+    "sources": [
+     {
+      "n": 1,
+      "title": "From One Hand to Multiple Hands: Imitation Learning for Dexterous Manipulation from Single-Camera Teleoperation",
+      "url": "https://yzqin.github.io/dex-teleop-imitation"
+     },
+     {
+      "n": 2,
+      "title": "From One Hand to Multiple Hands: Imitation Learning for Dexterous Manipulation from Single-Camera Teleoperation",
+      "url": "https://arxiv.org/html/2204.12490v2"
+     },
+     {
+      "n": 3,
+      "title": "Robot Teleoperation for Physical AI Data Collection",
+      "url": "https://www.trossenrobotics.com/post/robot-teleoperation-physical-ai-data-collection"
+     },
+     {
+      "n": 4,
+      "title": "Robot Data Collection Best Practices for Imitation Learning",
+      "url": "https://www.trossenrobotics.com/post/robot-data-collection-best-practices-imitation-learning"
+     },
+     {
+      "n": 5,
+      "title": "Teleoperation Data Collection for Robotics | Claru",
+      "url": "https://claru.ai/solutions/teleoperation-data"
+     }
+    ],
+    "removed_unsupported": 0
+   }
+  },
+  "tavily_calls": {
+   "fresh": 0,
+   "cached": 7
+  },
   "summary_rule_violations_removed": 0,
   "models": {
    "vision": "nvidia/Nemotron-3.5-Super-VL",
    "summary": "nvidia/Nemotron-3-Ultra-550b-a55b"
   },
-  "generated_at": "2026-10-29T11:54:51"
+  "generated_at": "2026-10-29T12:39:30"
  },
  "episodes": [
   {
