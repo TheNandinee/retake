@@ -6,3 +6,4 @@ __pycache__/
 *.pyc
 .DS_Store
 evidence/OUTREACH.md
+reports/lerobot__community_dataset_v3/
